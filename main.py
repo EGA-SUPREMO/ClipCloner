@@ -17,19 +17,17 @@ class Actor(object):
         Actor.currentId +=1
         self.id = Actor.currentId
         
-
-hey1=Actor("Shirakami Fubuki", "https://youtube.com/chennel/ceohurc", "Fubu Ch.")
-hey2=Actor("Sakura Miko","hey","Miko Ch.")
 members=[Actor("Shirakami Fubuki", "https://youtube.com/chennel/ceohurc", "Fubu Ch."), Actor("Sakura Miko","hey","Miko Ch.")]
-print(hey1.id)
-print(hey2.id)
+
 def getNames(title):
     words = title.split()
     for word in words:
         for member in members:
-            if word.lower() in member.name:
-                print("yes")
-                print(word)
+            for memberName in member.name:
+                if " " + word.lower() + " " in " " + memberName.lower() + " ":
+                    print(word)
+                    print(memberName)
+                    print(member.id)
 
 
-getNames("Fubuki se cae xd y mata a Miko")
+getNames("Fubuki se cae xd y mata a Miko Fubu")
