@@ -4,4 +4,4 @@ gettitle() {
     python3 main.py $TITLE
 }
 
-gettitle hey
+gettitle "link de youtubu uwu"
