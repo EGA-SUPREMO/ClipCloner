@@ -14,14 +14,24 @@ class Actor(object):
 members=[Actor("Tokino Sora","linku","Sora Ch."),
 Actor("Shirakami Fubuki", "https://youtube.com/chennel/ceohurc", "Fubu Ch."),
 Actor("Hoshimachi Suisei","linku","Suisei Ch."),
-Actor("Sakura Miko","linku","Miko Ch.")]
+Actor("Sakura Miko","linku","Miko Ch."),
+Actor("Omaru Polka","linku omeru","Polka Ch.")]
 
-def getNames(title):
-    words = title.split()
+def addMatch(words):
+    global membersInClip
     for word in words:
         for member in members:
             for memberName in member.name:
                 if " " + word.lower() + " " in " " + memberName.lower() + " ":
                     membersInClip.append(member.id)
+    membersInClip = list(dict.fromkeys(membersInClip))
 
+def getNames(title):
+    words = title.split()
+    addMatch(words)
+
+def getNamesByFile(file):
+    f = open(file, "r")
+    words = f.read().split()
+    addMatch(words)
 

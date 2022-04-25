@@ -11,6 +11,7 @@ tags=["#hololive", "#vtuber"]
 fullDescr = ""
 
 getmembers.getNames(sys.argv[1:][0])
+getmembers.getNamesByFile("description.description")
 
 def setDescrClip():
     global descrClip
@@ -46,5 +47,5 @@ def setTags():
 setTags()
 
 
-
+print(getmembers.membersInClip)
 print(fullDescr)
