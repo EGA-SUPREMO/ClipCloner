@@ -1,6 +1,6 @@
 import sys
 import getmembers
-
+#WRITE ONLY CODE
 
 
 descrClip = "- Clip original: "
@@ -20,13 +20,17 @@ def setDescrClip():
 
 setDescrClip()
 
+def setStream():
+    pass
+setStream()
+
 def setChannels():
     fulldescrChannel = ""
     global fullDescr
 
     for i in range(len(getmembers.membersInClip)):
         fullName = getmembers.members[getmembers.membersInClip[i]].name[0] + " " + getmembers.members[getmembers.membersInClip[i]].name[1]
-        fulldescrChannel += "\n" + descrChannel + fullName + ": " + getmembers.members[getmembers.membersInClip[i]].link
+        fulldescrChannel += "\n" + descrChannel + fullName + " / @" + getmembers.members[getmembers.membersInClip[i]].arroba + ": " + getmembers.members[getmembers.membersInClip[i]].link
     fullDescr +=  fulldescrChannel
 
 setChannels()
@@ -40,5 +44,7 @@ def setTags():
     for tag in tags:
         fullDescr += tag + " "
 setTags()
+
+
 
 print(fullDescr)
