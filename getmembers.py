@@ -1,7 +1,7 @@
 membersInClip=[]
 
 class Actor(object):
-    currentId = 0
+    currentId = -1
     """docstring for Actor"""
     def __init__(self, name, link, arroba):
         super(Actor, self).__init__()

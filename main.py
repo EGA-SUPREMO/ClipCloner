@@ -25,8 +25,8 @@ def setChannels():
     global fullDescr
 
     for i in range(len(getmembers.membersInClip)):
-        fullName = getmembers.members[i].name[0] + " " + getmembers.members[i].name[1]
-        fulldescrChannel += "\n" + descrChannel + fullName + ": " + getmembers.members[i].link
+        fullName = getmembers.members[getmembers.membersInClip[i]].name[0] + " " + getmembers.members[getmembers.membersInClip[i]].name[1]
+        fulldescrChannel += "\n" + descrChannel + fullName + ": " + getmembers.members[getmembers.membersInClip[i]].link
     fullDescr +=  fulldescrChannel
 
 setChannels()
@@ -34,7 +34,8 @@ setChannels()
 def setTags():
     global tags, fullDescr
     for i in range(len(getmembers.membersInClip)):
-        tags.insert(i + 1, "#" + getmembers.members[i].name[1].lower())
+        tags.insert(i + 1, "#" + getmembers.members[getmembers.membersInClip[i]].name[1].lower())
+    fullDescr += "\n"
     fullDescr += "\n"
     for tag in tags:
         fullDescr += tag + " "
