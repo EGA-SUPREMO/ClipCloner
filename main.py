@@ -22,7 +22,7 @@ def setDescrClip():
 setDescrClip()
 
 def setStream():
-    pass
+    pass#\n.*\s.*
 setStream()
 
 def setChannels():
