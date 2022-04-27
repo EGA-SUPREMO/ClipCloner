@@ -1,4 +1,6 @@
 import sys
+import re
+
 import getmembers
 #WRITE ONLY CODE
 
@@ -10,8 +12,9 @@ tags=["#hololive", "#vtuber"]
 
 fullDescr = ""
 
+fileName = "desc.description"
 getmembers.getNames(sys.argv[1:][0])
-getmembers.getNamesByFile("description.description")
+getmembers.getNamesByFile(fileName)
 
 def setDescrClip():
     global descrClip
@@ -21,9 +24,23 @@ def setDescrClip():
 
 setDescrClip()
 
-def setStream():
-    pass#\n.*\s.*
-setStream()
+def setStream(file):
+    global fullDescr
+    global descrStream
+    
+    if len(sys.argv[1:])>=3:
+        descrStream += sys.argv[1:][2]
+        fullDescr += "\n" + descrStream
+        return
+
+    f = open(file, "r")
+    text = f.read()
+    matchs = re.findall("\n.*\s.*", text)
+
+    descrStream += matchs[0]
+    fullDescr += "\n" + descrStream
+
+setStream(fileName)
 
 def setChannels():
     fulldescrChannel = ""
@@ -47,5 +64,4 @@ def setTags():
 setTags()
 
 
-print(getmembers.membersInClip)
 print(fullDescr)
