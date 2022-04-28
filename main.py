@@ -37,8 +37,9 @@ def setStream(file):
     text = f.read()
     matchs = re.findall("\n.*\s.*", text)
 
-    descrStream += matchs[0]
-    fullDescr += "\n" + descrStream
+    if len(matchs)>=1:
+        descrStream += matchs[0]
+    fullDescr += "\n" + descrStream + "\n"
 
 setStream(fileName)
 
