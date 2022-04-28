@@ -12,7 +12,7 @@ tags=["#hololive", "#vtuber"]
 
 fullDescr = ""
 
-fileName = "desc.description"
+fileName = "../Clips/desc.description"
 getmembers.getNames(sys.argv[1:][0])
 getmembers.getNamesByFile(fileName)
 
