@@ -36,6 +36,13 @@ def setStream(file):
     f = open(file, "r")
     text = f.read()
     matchs = re.findall("\n.*\s.*", text)
+    matchLinks = re.findall("https://.*", text)
+    fileMatch = open("../Clips/streams.txt", "w")
+    for match in matchLinks:
+        if len(re.findall(".*channel.*", match))==1 or len(re.findall(".*twitter.*", match))==1 or len(re.findall(".*dova-s.jp.*", match))==1:#checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
+            pass
+        else:
+            fileMatch.write(match + "\n")
 
     if len(matchs)>=1:
         descrStream += matchs[0]
@@ -64,5 +71,5 @@ def setTags():
         fullDescr += tag + " "
 setTags()
 
-
-print(fullDescr)
+f = open('../Clips/descr.txt', 'w')
+f.write(fullDescr)
