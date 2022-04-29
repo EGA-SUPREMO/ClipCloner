@@ -38,6 +38,8 @@ def setStream(file):
     matchs = re.findall("\n.*\s.*", text)
     matchLinks = re.findall("https://.*", text)
     fileMatch = open("../Clips/streams.txt", "w")
+
+    #this for is only for writing all the streams linked to the description, in case the first one was wrong
     for match in matchLinks:
         if len(re.findall(".*channel.*", match))==1 or len(re.findall(".*twitter.*", match))==1 or len(re.findall(".*dova-s.jp.*", match))==1:#checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
             pass
