@@ -2,6 +2,9 @@ membersInClip=[]
 
 members=[]
 
+class GetOutOfLoop( Exception ):
+    pass
+
 class Actor(object):
     currentId = -1
     """docstring for Actor"""
@@ -15,9 +18,9 @@ class Actor(object):
 
 def setMembers():
     global members
-    fileMembersName = open("membersName.txt" , "r");
-    fileMembersLink = open("membersLink.txt" , "r");
-    fileMembersChannelName = open("membersChannelName.txt" , "r");
+    fileMembersName = open("membersName.txt" , "r", encoding="utf8");
+    fileMembersLink = open("membersLink.txt" , "r", encoding="utf8");
+    fileMembersChannelName = open("membersChannelName.txt" , "r", encoding="utf8");
     
     names = fileMembersName.read().split("\n")
     channelNames = fileMembersChannelName.read().split("\n")
@@ -39,19 +42,26 @@ setMembers()
 
 def addMatch(words):
     global membersInClip
-    for word in words:
-        for member in members:
-            for memberName in member.name:
-                if " " + word.lower() + " " in " " + memberName.lower() + " ":
-                    membersInClip.append(member.id)
-    membersInClip = list(dict.fromkeys(membersInClip))
+    try:
+        for i in range(len(words)):
+            for member in members:
+                for memberName in member.name:
+                    nexti = i+1
+                    if "related" in words[i].lower() and "video" in words[nexti].lower():
+                        raise GetOutOfLoop
+                    if " " + words[i].lower() + " " in " " + memberName.lower() + " ":
+                        membersInClip.append(member.id)
+    except GetOutOfLoop:
+        pass
+    finally:
+        membersInClip = list(dict.fromkeys(membersInClip))
 
 def getNames(title):
     words = title.split()
     addMatch(words)
 
 def getNamesByFile(file):
-    f = open(file, "r")
+    f = open(file, "r", encoding="utf8")
     words = f.read().split()
     addMatch(words)
 
