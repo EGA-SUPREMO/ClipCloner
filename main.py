@@ -1,6 +1,5 @@
 import os
 import sys
-import main
 import subprocess
 import descript.maini
 
