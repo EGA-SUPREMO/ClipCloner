@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 desc.description
-
+*.mp4
 
 # Distribution / packaging
 .Python
