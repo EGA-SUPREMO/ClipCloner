@@ -8,7 +8,7 @@ def removeVideo():
 	os.system("ffmpeg -y -i clip.mp4 -vn clip_audio.mp4")
 
 def cutAudioIntoOneSecondParts():
-	os.system("ffmpeg -y -i clip_audio.mp4  -segment_time 00:00:01 -f segment -strict -2  -map 0 -c:a aac "+ dirAudioParts +"clip_audio%03d.mp4")
+	os.system("ffmpeg -y -i clip_audio.mp4  -segment_time 00:00:01 -f segment -strict -2  -map 0 -c:a aac "+ dirAudioParts +"clip_audio%01d.mp4")
 
 
 def fixAudioParts():
