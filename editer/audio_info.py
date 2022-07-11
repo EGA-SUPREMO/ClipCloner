@@ -4,7 +4,7 @@ from align_videos_by_soundtrack.utils import *
 import time
 
 dirFixedAudioParts = "fixed_audio_parts/"## REMOVE THISISISISI THIS IS DUPLICATED, IF AN ERROR HAPPENS IS BECAUSE OF THIS AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-infos = []
+infos=list()
 
 def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
@@ -17,14 +17,19 @@ def get_alignment_info(fps: list):
 
 def set_audio_infos(fromAudio, toAudio):
     for x in range(fromAudio, toAudio+1):
-        infos.extend(get_alignment_info([dirFixedAudioParts + "clip_audio"+ str(x) +".mp4", "stream.mkv"]))
+        infos.append(get_alignment_info([dirFixedAudioParts + "clip_audio"+ str(x) +".mp4", "stream.mkv"]))
 
-set_audio_infos(6, 10)
-print(infos)
+
+set_audio_infos(0, 62)
 for info in infos:
-    print(info[0][1]['trim'])
+    #print(info[0][1]['trim'])
     print(info[0][1]['pad'])
-    print(info[0][1]['trim_post'])
+    #print(info[0][1]['trim_post'])
+    #print(info[0][1]['pad_post'])
+for info in infos:
+    #print(info[0][1]['trim'])
+    #print(info[0][1]['pad'])
+    #print(info[0][1]['trim_post'])
     print(info[0][1]['pad_post'])
 
 
