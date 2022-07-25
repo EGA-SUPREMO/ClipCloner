@@ -13,8 +13,10 @@ def cutAudioIntoXSecondsParts(x):
 
 # Input: Int/String: length of cutted audio from the last seconds
 def cutLastSecondsAudio(seconds):
-	seconds = str(seconds)
-	os.system("ffmpeg -y -sseof -"+ seconds +" -i clip_audio.mp4 -c copy "+ dirAudioParts +"last_S"+ seconds +"_clip_audio.mp4")
+	cutted_seconds = str(seconds+1)
+	real_seconds = str(seconds)
+	os.system("ffmpeg -y -sseof -"+ cutted_seconds +" -i clip_audio.mp4 -c copy "+ dirAudioParts +"temp_last_S"+ real_seconds +"_clip_audio.mp4")
+	os.system("ffmpeg -y -ss 0 -to 00:00:03 -i "+ dirAudioParts +"temp_last_S"+ real_seconds +"_clip_audio.mp4 -c copy "+ dirAudioParts +"last_S"+ real_seconds +"_clip_audio.mp4")
 
 def fixAudioParts():
 	filenames = next(os.walk(dirAudioParts), (None, None, []))[2]

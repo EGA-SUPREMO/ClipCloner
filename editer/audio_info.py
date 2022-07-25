@@ -11,7 +11,7 @@ def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
     # defauflt max_misalignment=1800. But this produced inaccurate results for some videos.
     # changing it to 6000 improved results although seems to make it run slower.
-    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=6000)
+    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=7000)
     with SyncDetector(params=summarizer_params, clear_cache=False) as det:
         result = det.align(file_specs, known_delay_map={})
     return list(zip(file_specs, result))
@@ -22,8 +22,8 @@ def set_audio_infos_edit(seconds, fromAudio, toAudio):
 
 def set_audio_infos_trim(seconds):
     seconds = str(seconds)
-    infosTrim.append(get_alignment_info([dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", "stream.mkv"]))
     infosTrim.append(get_alignment_info([dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", "stream.mkv"]))
+    infosTrim.append(get_alignment_info([dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", "stream.mkv"]))
 
 
 def print_infos_edit():
