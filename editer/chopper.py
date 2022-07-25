@@ -7,9 +7,14 @@ dirFixedAudioParts = "fixed_audio_parts/"
 def removeVideo():
 	os.system("ffmpeg -y -i clip.mp4 -vn clip_audio.mp4")
 
-def cutAudioIntoOneSecondParts():
-	os.system("ffmpeg -y -i clip_audio.mp4  -segment_time 00:00:01 -f segment -strict -2  -map 0 -c:a aac "+ dirAudioParts +"clip_audio%01d.mp4")
+# Input: String: seconds in %01d
+def cutAudioIntoXSecondsParts(x):
+	os.system("ffmpeg -y -i clip_audio.mp4  -segment_time 00:00:" + x + " -f segment -strict -2  -map 0 -c:a aac "+ dirAudioParts + "S" + x + "_clip_audio%01d.mp4")
 
+# Input: Int/String: length of cutted audio from the last seconds
+def cutLastSecondsAudio(seconds):
+	seconds = str(seconds)
+	os.system("ffmpeg -y -sseof -"+ seconds +" -i clip_audio.mp4 -c copy "+ dirAudioParts +"last_S"+ seconds +"_clip_audio.mp4")
 
 def fixAudioParts():
 	filenames = next(os.walk(dirAudioParts), (None, None, []))[2]
@@ -20,5 +25,5 @@ def fixAudioParts():
 
 
 #removeVideo()
-#cutAudioIntoOneSecondParts()
+#cutAudioIntoXSecondsParts("01")
 #fixAudioParts()
