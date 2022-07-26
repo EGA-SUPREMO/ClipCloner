@@ -2,6 +2,7 @@ from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
 from align_videos_by_soundtrack.utils import *
 import time
+import subprocess
 
 dirFixedAudioParts = "fixed_audio_parts/"## REMOVE THISISISISI THIS IS DUPLICATED, IF AN ERROR HAPPENS IS BECAUSE OF THIS AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 infosEdit=list()
@@ -25,6 +26,11 @@ def set_audio_infos_trim(seconds):
     infosTrim.append(get_alignment_info([dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", "stream.mkv"]))
     infosTrim.append(get_alignment_info([dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", "stream.mkv"]))
 
+def last_seconds_to_argument_to(file, seconds):
+    seconds = seconds-1# chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
+    lengthFile = subprocess.run(['ffprobe', '-v', '0', '-show_entries','format=duration', '-of', 'compact=p=0:nk=1', file], capture_output=True, text=True).stdout
+    
+    return float(lengthFile) - seconds
 
 def print_infos_edit():
     for info in infosEdit:
