@@ -1,22 +1,18 @@
+import os
+
 import chopper
 import audio_info
 
-chopper.cutAudioIntoXSecondsParts("03")
-chopper.cutLastSecondsAudio(3)
-chopper.fixAudioParts()
+
+#chopper.cutAudioIntoXSecondsParts("03")
+#chopper.cutLastSecondsAudio(3)
+#chopper.fixAudioParts()
 
 audio_info.set_audio_infos_trim(3)
-audio_info.print_infos_trim()
+#audio_info.print_infos_trim()
 
-#10.048
-#109.696
-#106.952
-#6.304000000000002
+def trim():
+	to_second = audio_info.last_seconds_to_argument_to("stream_audio.mp4", audio_info.infosTrim[1][0][1]['pad_post'])
+	os.system("ffmpeg -y -ss "+str(audio_info.infosTrim[0][0][1]['pad'])+" -to "+ str(to_second) + " -i stream.mkv pls.mkv ")
 
-#10.048
-#109.696
-#106.952
-#7.323999999999998
-
-#ss 10
-#sseof 7
+trim()
