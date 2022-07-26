@@ -6,7 +6,7 @@ dirAudioParts = "audio_parts/"
 dirFixedAudioParts = "fixed_audio_parts/"
 
 def removeVideo():
-	os.system("ffmpeg -y -i clip.mp4 -vn clip_audio.mp4")
+	os.system("ffmpeg -y -i ../../Clips/clip.mkv -vn clip_audio.mp4")
 
 # Input: String: seconds in %01d
 def cutAudioIntoXSecondsParts(x):
@@ -23,9 +23,3 @@ def fixAudioParts():
 	filenames = next(os.walk(dirAudioParts), (None, None, []))[2]
 	for filename in filenames:
 		os.system("ffmpeg -y -ss 00:00:00 -i " + dirAudioParts + filename + " " + dirFixedAudioParts + filename)
-
-
-
-#removeVideo()
-#cutAudioIntoXSecondsParts("01")
-#fixAudioParts()
