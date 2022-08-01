@@ -1,8 +1,18 @@
-import os
+import editter.chopper as chopper
+import editter.audio_info as audio_info
 
-import chopper
-import audio_info
+#For auto edit
+#removeVideo()
+#cutAudioIntoXSecondsParts("01")
+#fixAudioParts()
 
-def trim():
-	to_second = audio_info.last_seconds_to_argument_to("../../Clips/stream.mkv", audio_info.infosTrim[1][0][1]['pad_post'])
-	os.system("ffmpeg -y -ss "+str(audio_info.infosTrim[0][0][1]['pad'])+" -to "+ str(to_second) + " -i ../../Clips/stream.mkv ../../Clips/trimmed_stream.mkv")
+def trim_to_clip():
+	chopper.removeVideo()
+	chopper.cutAudioIntoXSecondsParts("03")
+	chopper.cutLastSecondsAudio(3)
+	chopper.fixAudioParts()
+
+	audio_info.set_audio_infos_trim(3)
+	#audio_info.print_infos_trim()
+
+	chopper.chop()
