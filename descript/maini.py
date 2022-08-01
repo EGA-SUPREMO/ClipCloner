@@ -2,18 +2,20 @@ import sys
 import re
 import os
 import subprocess
+from pathlib import Path
 
 import descript.getmembers as getmembers
 #WRITE ONLY CODE
 
-#clip_path = os.path.join('..', '..')
-#clip_path = os.path.join(clip_path, 'Clips')
-#clip_path = os.path.join(os.getcwd(), clip_path)
-#print(clip_path)
-
-os.system("youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o ../Clips/thumb" + " " + sys.argv[1:][0])
-os.system("youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + sys.argv[1:][0])
 title=subprocess.run(['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', sys.argv[1:][0]], stdout=subprocess.PIPE).stdout.decode('utf-8')
+
+title_without_special_chars = re.sub('[^A-Za-z0-9 ]+', '', title)
+dirClips = f"../Clips/{title_without_special_chars}/"
+
+Path(dirClips).mkdir(parents=True, exist_ok=True)
+
+os.system("youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + sys.argv[1:][0])
+os.system("youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + sys.argv[1:][0])
 
 descrClip = "- Clip original: "
 descrStream = "- Stream original: "
@@ -58,7 +60,7 @@ def setStream(file):
     matchs = re.findall("\n.*\s.*", text)
     matchLinks = re.findall("https://.*", text)
     realMatchs = []
-    fileMatch = open("../Clips/streams.txt", "w")
+    fileMatch = open(f"{dirClips}streams.txt", "w")
 
     #this for is only for writing all the streams linked to the description, in case the first one was wrong
     for match in matchLinks:
@@ -102,5 +104,5 @@ def setTags():
 setTags()
 
 
-f = open('../Clips/descr.txt', 'w', encoding="utf8")
+f = open(f"{dirClips}descr.txt", 'w', encoding="utf8")
 f.write(fullDescr)
