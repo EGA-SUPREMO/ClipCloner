@@ -9,6 +9,7 @@ __pycache__/
 desc.description
 *.mp4
 *.mkv
+*.webm
 
 # Distribution / packaging
 .Python
