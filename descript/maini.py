@@ -93,6 +93,14 @@ def setChannels():
 
 setChannels()
 
+def setRecruitmentAd():
+    global fullDescr
+    fullDescr += "\n\n" + """Editor y traductor: 
+Te interesa formar parte del equipo? Escribenos en: usadatranslations@gmail.com
+Discord: ElNo Studió # 5137"""
+
+setRecruitmentAd()
+
 def setTags():
     global tags, fullDescr
     for i in range(len(getmembers.membersInClip)):
