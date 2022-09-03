@@ -1,6 +1,7 @@
 from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
 from align_videos_by_soundtrack.utils import *
+
 import time
 import subprocess
 

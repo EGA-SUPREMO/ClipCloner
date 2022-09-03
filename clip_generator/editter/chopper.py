@@ -1,18 +1,20 @@
 import os
 import sys
 
-import editter.audio_info as audio_info
+import clip_generator.editter.audio_info as audio_info
 
 
-dirAudioParts = "editter/audio_parts/"
+dirAudioParts = "clip_generator/editter/audio_parts/"
 dirFixedAudioParts = "editter/fixed_audio_parts/"
+dir_clip = "../Clips/clip.mkv"
+dir_audio_clip = "clip_generator/editter/clip_audio.mp4"
 
 def removeVideo():
-	os.system("ffmpeg -y -i ../Clips/clip.mkv -vn editter/clip_audio.mp4")
+	os.system(f"ffmpeg -y -i {dir_clip} -vn {dir_audio_clip}")
 
 # Input: String: seconds in %01d
 def cutAudioIntoXSecondsParts(x):
-	os.system("ffmpeg -y -i editter/clip_audio.mp4  -segment_time 00:00:" + x + " -f segment -strict -2  -map 0 -c:a aac "+ dirAudioParts + "S" + x + "_clip_audio%01d.mp4")
+	os.system(f"ffmpeg -y -i {dir_audio_clip}  -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac {dirAudioParts}S{x}_clip_audio%01d.mp4")
 
 # Input: Int/String: length of cutted audio from the last seconds
 def cutLastSecondsAudio(seconds):

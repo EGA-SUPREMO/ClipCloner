@@ -4,7 +4,7 @@ import os
 import subprocess
 from pathlib import Path
 
-import descript.getmembers as getmembers
+import clip_generator.descript.getmembers as getmembers
 #WRITE ONLY CODE
 
 title=subprocess.run(['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', sys.argv[1:][0]], stdout=subprocess.PIPE).stdout.decode('utf-8')

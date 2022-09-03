@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-#import editter.trimmer
+#import clip_generator.editter.trimmer
 
 urlsText=subprocess.run(['youtube-dl', '-g', '--no-warnings', '--youtube-skip-dash-manifest', sys.argv[1:][0]], stdout=subprocess.PIPE).stdout.decode('utf-8')
 urls = urlsText.split()

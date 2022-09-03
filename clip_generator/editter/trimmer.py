@@ -1,5 +1,5 @@
-import editter.chopper as chopper
-import editter.audio_info as audio_info
+import clip_generator.editter.chopper as chopper
+import clip_generator.editter.audio_info as audio_info
 
 def teste():
 	#chopper.removeVideo()
