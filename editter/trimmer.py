@@ -1,10 +1,25 @@
 import editter.chopper as chopper
 import editter.audio_info as audio_info
 
-#For auto edit
-#removeVideo()
-#cutAudioIntoXSecondsParts("01")
-#fixAudioParts()
+def teste():
+	#chopper.removeVideo()
+	chopper.cutAudioIntoXSecondsParts("1")
+	#chopper.cutAudioIntoXSecondsParts("3")
+	chopper.fixAudioParts()
+
+	#audio_info.set_audio_infos_edit("0.5", 0, 2)
+	#audio_info.print_infos_edit()
+
+#To copy clip's edittion
+def auto_edit():
+		#chopper.removeVideo()
+	chopper.cutAudioIntoXSecondsParts("1")
+	#chopper.cutAudioIntoXSecondsParts("3")
+	chopper.fixAudioParts()
+
+	#audio_info.set_audio_infos_edit("0.5", 0, 2)
+	#audio_info.print_infos_edit()
+
 
 def trim_to_clip():
 	chopper.removeVideo()
@@ -13,6 +28,6 @@ def trim_to_clip():
 	chopper.fixAudioParts()
 
 	audio_info.set_audio_infos_trim(3)
-	#audio_info.print_infos_trim()
+	audio_info.print_infos_trim()
 
 	chopper.chop()
