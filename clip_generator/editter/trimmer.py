@@ -12,7 +12,7 @@ def teste():
 
 #To copy clip's edittion
 def auto_edit():
-		#chopper.removeVideo()
+	chopper.removeVideo()
 	chopper.cutAudioIntoXSecondsParts("1")
 	#chopper.cutAudioIntoXSecondsParts("3")
 	chopper.fixAudioParts()
