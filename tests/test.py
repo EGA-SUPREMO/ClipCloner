@@ -1,28 +1,33 @@
-from pathlib import Path
 import os
+import unittest
 from pathlib import Path
 from shutil import rmtree
-import unittest
 
 from clip_generator.editter import chopper
+from tests.order_tests import load_ordered_tests
 
 class TestChopperGeneratesFiles(unittest.TestCase):
 
     def setUp(self):
         chopper.dir_audio_clip = "tests/Clips/audio_clip.mp4"
-        chopper.dir_clip = "tests/Clips/clip.mkv"
-        chopper.dirAudioParts = "tests/audio_parts/"
-        chopper.dirFixedAudioParts = "tests/fixed_audio_parts/"
-        chopper.dir_stream = "tests/Clips/stream.mkv"
+        chopper.dir_clip = "tests/Examples/clip.mkv"
+        chopper.dirAudioParts = "tests/Clips/audio_parts/"
+        chopper.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
+        chopper.dir_stream = "tests/Examples/stream.mkv"
         chopper.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(cls):
         for path in Path("tests/Clips").glob("**/*"):
             if path.is_file():
                 path.unlink()
             elif path.is_dir():
                 rmtree(path)
-  
+
+        os.makedirs("tests/Clips/audio_parts")
+        os.makedirs("tests/Clips/fixed_audio_parts")
+
+
     def test_remove_video_from_file_file_is_being_generated(self):
         chopper.removeVideo()
   
@@ -60,4 +65,7 @@ class TestChopperGeneratesFiles(unittest.TestCase):
 # TODO borrar lo que esta en el audioparts con el teardwon creo
 # El orden de los test no es el quiero
 if __name__ == '__main__':
-    unittest.main() 
+# This orders the tests to be run in the order they were declared.
+# It uses the unittest load_tests protocol.
+    load_tests = load_ordered_tests
+    unittest.main()
