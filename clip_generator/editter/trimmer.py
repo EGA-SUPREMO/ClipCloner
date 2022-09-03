@@ -30,4 +30,6 @@ def trim_to_clip():
 	audio_info.set_audio_infos_trim(3)
 	audio_info.print_infos_trim()
 
+	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
+	to_second = str(audio_info.last_seconds_to_argument_to("../Clips/stream.mkv", audio_info.infosTrim[1][0][1]['pad_post']))
 	chopper.chop()
