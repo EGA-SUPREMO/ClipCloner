@@ -7,6 +7,8 @@ import subprocess
 from clip_generator.editter import chopper
 from tests.order_tests import load_ordered_tests
 
+import clip_generator.editter.dirs as dirs
+
 def getDuration(filename):
     duration=subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', filename], stdout=subprocess.PIPE).stdout.decode('utf-8')
     return float(duration)
@@ -14,12 +16,12 @@ def getDuration(filename):
 class TestChopperGeneratesFiles(unittest.TestCase):
 
     def setUp(self):
-        chopper.dir_audio_clip = "tests/Clips/audio_clip.mp4"
-        chopper.dir_clip = "tests/Examples/clip.mkv"
-        chopper.dirAudioParts = "tests/Clips/audio_parts/"
-        chopper.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
-        chopper.dir_stream = "tests/Examples/stream.mkv"
-        chopper.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
+        dirs.dir_audio_clip = "tests/Clips/audio_clip.mp4"
+        dirs.dir_clip = "tests/Examples/clip.mkv"
+        dirs.dirAudioParts = "tests/Clips/audio_parts/"
+        dirs.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
+        dirs.dir_stream = "tests/Examples/stream.mkv"
+        dirs.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
 
     @classmethod
     def tearDownClass(cls):
@@ -36,7 +38,7 @@ class TestChopperGeneratesFiles(unittest.TestCase):
     def test_remove_video_from_file_file_is_being_generated(self):
         chopper.removeVideo()
   
-        clip_audio = Path(chopper.dir_audio_clip)
+        clip_audio = Path(dirs.dir_audio_clip)
 
         self.assertTrue(clip_audio.is_file(), f'File clip_audio.mp4 doesnt exist')
 
@@ -44,32 +46,32 @@ class TestChopperGeneratesFiles(unittest.TestCase):
         chopper.cutAudioIntoXSecondsParts("01")
   
         for x in range(62):
-            clip_audio = Path(f"{chopper.dirAudioParts}S01_clip_audio{x}.mp4")
+            clip_audio = Path(f"{dirs.dirAudioParts}S01_clip_audio{x}.mp4")
             self.assertTrue(clip_audio.is_file(), f'Files in audio_parts dont exist')
 
     def test_cut_last_seconds_audio_file_is_being_generated(self):
         chopper.cutLastSecondsAudio(3)
   
-        clip_audio = Path(f"{chopper.dirAudioParts}last_S3_clip_audio.mp4")
+        clip_audio = Path(f"{dirs.dirAudioParts}last_S3_clip_audio.mp4")
         self.assertTrue(clip_audio.is_file(), f'File last_S3_clip_audio in audio_parts doesnt exist')
 
     def test_fix_audio_parts_files_is_being_generated(self):
         chopper.fixAudioParts()
   
-        filenames = next(os.walk(chopper.dirAudioParts), (None, None, []))[2]
-        filenamesFixed = next(os.walk(chopper.dirFixedAudioParts), (None, None, []))[2]
+        filenames = next(os.walk(dirs.dirAudioParts), (None, None, []))[2]
+        filenamesFixed = next(os.walk(dirs.dirFixedAudioParts), (None, None, []))[2]
 
         self.assertCountEqual(filenames, filenamesFixed, f'Files in audio_parts and fixed audio_parts arent the same')
 
     def test_cut_audio_into_x_seconds_fixed_file_is_right_duration(self):
         for x in range(62):
-            filename = Path(f"{chopper.dirFixedAudioParts}S01_clip_audio{x}.mp4")
+            filename = Path(f"{dirs.dirFixedAudioParts}S01_clip_audio{x}.mp4")
             duration=getDuration(filename)
 
             self.assertEqual(round(1.0, 1), round(float(duration), 1), msg="Files in fixed audio dont match duration"+str(filename))
 
     def test_cut_last_seconds_audio_file_is_right_duration(self):
-        filename = Path(f"{chopper.dirFixedAudioParts}last_S3_clip_audio.mp4")
+        filename = Path(f"{dirs.dirFixedAudioParts}last_S3_clip_audio.mp4")
         duration=getDuration(filename)
 
         self.assertEqual(round(3.0, 1), round(float(duration), 1), msg="Last 3 sec audio clip doesnt match duration: "+str(filename))
@@ -77,11 +79,11 @@ class TestChopperGeneratesFiles(unittest.TestCase):
     def test_chop_generates_video(self):
         chopper.chop("3", "3.8")
 
-        trimmed_stream = Path(chopper.dir_trimmed_stream)
+        trimmed_stream = Path(dirs.dir_trimmed_stream)
         self.assertTrue(trimmed_stream.is_file(), f'Trimmed stream doesnt exist')
 
     def test_chop_right_duration(self):
-        filename = Path(chopper.dir_trimmed_stream)
+        filename = Path(dirs.dir_trimmed_stream)
         duration=getDuration(filename)
 
         self.assertEqual(round(0.8, 1), round(float(duration), 1), msg="Trimmed stream doesnt match duration: "+str(filename))

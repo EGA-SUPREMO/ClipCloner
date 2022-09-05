@@ -1,12 +1,13 @@
+import time
+import subprocess
+
 from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
 from align_videos_by_soundtrack.utils import *
 
-import time
-import subprocess
+from clip_generator.editter.dirs import dirFixedAudioParts
+from clip_generator.editter.dirs import dir_stream
 
-dirFixedAudioParts = "editter/fixed_audio_parts/"## REMOVE THISISISISI THIS IS DUPLICATED, IF AN ERROR HAPPENS IS BECAUSE OF THIS AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-stream_filename = "../Clips/stream.mkv"
 infosEdit=list()
 infosTrim=list()
 
@@ -21,12 +22,12 @@ def get_alignment_info(fps: list):
 
 def set_audio_infos_edit(seconds, fromAudio, toAudio):
     for x in range(fromAudio, toAudio+1):
-        infosEdit.append(get_alignment_info([dirFixedAudioParts + "S"+ seconds +"_clip_audio"+ str(x) +".mp4", stream_filename]))
+        infosEdit.append(get_alignment_info([dirFixedAudioParts + "S"+ seconds +"_clip_audio"+ str(x) +".mp4", dir_stream]))
 
 def set_audio_infos_trim(seconds):
     seconds = str(seconds)
-    infosTrim.append(get_alignment_info([dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", stream_filename]))
-    infosTrim.append(get_alignment_info([dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", stream_filename]))
+    infosTrim.append(get_alignment_info([dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", dir_stream]))
+    infosTrim.append(get_alignment_info([dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", dir_stream]))
 
 def last_seconds_to_argument_to(file, seconds):
     seconds = seconds-1# chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
