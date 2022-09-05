@@ -2,9 +2,14 @@ import os
 import unittest
 from pathlib import Path
 from shutil import rmtree
+import subprocess
 
 from clip_generator.editter import chopper
 from tests.order_tests import load_ordered_tests
+
+def getDuration(filename):
+    duration=subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', filename], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return float(duration)
 
 class TestChopperGeneratesFiles(unittest.TestCase):
 
@@ -56,14 +61,31 @@ class TestChopperGeneratesFiles(unittest.TestCase):
 
         self.assertCountEqual(filenames, filenamesFixed, f'Files in audio_parts and fixed audio_parts arent the same')
 
+    def test_cut_audio_into_x_seconds_fixed_file_is_right_duration(self):
+        for x in range(62):
+            filename = Path(f"{chopper.dirFixedAudioParts}S01_clip_audio{x}.mp4")
+            duration=getDuration(filename)
+
+            self.assertEqual(round(1.0, 1), round(float(duration), 1), msg="Files in fixed audio dont match duration"+str(filename))
+
+    def test_cut_last_seconds_audio_file_is_right_duration(self):
+        filename = Path(f"{chopper.dirFixedAudioParts}last_S3_clip_audio.mp4")
+        duration=getDuration(filename)
+
+        self.assertEqual(round(3.0, 1), round(float(duration), 1), msg="Last 3 sec audio clip doesnt match duration: "+str(filename))
+
     def test_chop_generates_video(self):
-        chopper.chop("3", "5")
+        chopper.chop("3", "3.8")
 
         trimmed_stream = Path(chopper.dir_trimmed_stream)
         self.assertTrue(trimmed_stream.is_file(), f'Trimmed stream doesnt exist')
 
-# TODO borrar lo que esta en el audioparts con el teardwon creo
-# El orden de los test no es el quiero
+    def test_chop_right_duration(self):
+        filename = Path(chopper.dir_trimmed_stream)
+        duration=getDuration(filename)
+
+        self.assertEqual(round(0.8, 1), round(float(duration), 1), msg="Trimmed stream doesnt match duration: "+str(filename))
+
 if __name__ == '__main__':
 # This orders the tests to be run in the order they were declared.
 # It uses the unittest load_tests protocol.
