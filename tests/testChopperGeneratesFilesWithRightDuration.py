@@ -10,15 +10,15 @@ from tests.order_tests import load_ordered_tests
 import clip_generator.editter.dirs as dirs
 from tests.common_functions import getDuration
 
-class TestChopperGeneratesFiles(unittest.TestCase):
-
-    def setUp(self):
+def setUpModule():
         dirs.dir_audio_clip = "tests/Clips/audio_clip.mp4"
         dirs.dir_clip = "tests/Examples/clip.mkv"
         dirs.dirAudioParts = "tests/Clips/audio_parts/"
         dirs.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
         dirs.dir_stream = "tests/Examples/stream.mkv"
         dirs.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
+
+class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
@@ -88,5 +88,6 @@ class TestChopperGeneratesFiles(unittest.TestCase):
 if __name__ == '__main__':
 # This orders the tests to be run in the order they were declared.
 # It uses the unittest load_tests protocol.
+# This is bad practice and could be avoided, but I dont care enough, and I dont think this is gonna cause a real problem in the future
     load_tests = load_ordered_tests
     unittest.main()
