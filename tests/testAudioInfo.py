@@ -1,12 +1,12 @@
 import unittest
 
-import clip_generator.editter.trimmer as trimmer
+import clip_generator.editter.audio_info as audio_info
 import clip_generator.editter.dirs as dirs
 
-class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
+class TestAudioInfo(unittest.TestCase):
 
     def test_trim_to_clip(self):
-    	trimmer.trim_to_clip()
+    	#audio_info()
 
     	self.assertTrue(True)
 

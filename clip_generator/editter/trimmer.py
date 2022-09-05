@@ -34,4 +34,4 @@ def trim_to_clip():
 
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(audio_info.last_seconds_to_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
-	chopper.chop()
+	chopper.chop(from_second, to_second)

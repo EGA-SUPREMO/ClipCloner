@@ -5,13 +5,13 @@ from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
 from align_videos_by_soundtrack.utils import *
 
-from clip_generator.editter.dirs import dirFixedAudioParts
-from clip_generator.editter.dirs import dir_stream
+import clip_generator.editter.dirs as dirs
 
 infosEdit=list()
 infosTrim=list()
 
 def get_alignment_info(fps: list):
+    print(fps)
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
     # defauflt max_misalignment=1800. But this produced inaccurate results for some videos.
     # changing it to 6000 improved results although seems to make it run slower.
@@ -22,12 +22,12 @@ def get_alignment_info(fps: list):
 
 def set_audio_infos_edit(seconds, fromAudio, toAudio):
     for x in range(fromAudio, toAudio+1):
-        infosEdit.append(get_alignment_info([dirFixedAudioParts + "S"+ seconds +"_clip_audio"+ str(x) +".mp4", dir_stream]))
+        infosEdit.append(get_alignment_info([dirs.dirFixedAudioParts + "S"+ seconds +"_clip_audio"+ str(x) +".mp4", dirs.dir_stream]))
 
 def set_audio_infos_trim(seconds):
     seconds = str(seconds)
-    infosTrim.append(get_alignment_info([dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", dir_stream]))
-    infosTrim.append(get_alignment_info([dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", dir_stream]))
+    infosTrim.append(get_alignment_info([dirs.dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", dirs.dir_stream]))
+    infosTrim.append(get_alignment_info([dirs.dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", dirs.dir_stream]))
 
 def last_seconds_to_argument_to(file, seconds):
     seconds = seconds-1# chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
