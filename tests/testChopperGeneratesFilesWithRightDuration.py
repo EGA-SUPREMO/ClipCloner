@@ -8,10 +8,7 @@ from clip_generator.editter import chopper
 from tests.order_tests import load_ordered_tests
 
 import clip_generator.editter.dirs as dirs
-
-def getDuration(filename):
-    duration=subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', filename], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    return float(duration)
+from tests.common_functions import getDuration
 
 class TestChopperGeneratesFiles(unittest.TestCase):
 

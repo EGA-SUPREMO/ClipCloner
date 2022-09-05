@@ -1,6 +1,8 @@
 import clip_generator.editter.chopper as chopper
 import clip_generator.editter.audio_info as audio_info
 
+import clip_generator.editter.dirs as dirs
+
 def teste():
 	#chopper.removeVideo()
 	chopper.cutAudioIntoXSecondsParts("1")
@@ -31,5 +33,5 @@ def trim_to_clip():
 	audio_info.print_infos_trim()
 
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
-	to_second = str(audio_info.last_seconds_to_argument_to("../Clips/stream.mkv", audio_info.infosTrim[1][0][1]['pad_post']))
+	to_second = str(audio_info.last_seconds_to_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
 	chopper.chop()
