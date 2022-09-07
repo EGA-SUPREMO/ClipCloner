@@ -24,7 +24,7 @@ tags=["#hololive", "#vtuber"]
 
 fullDescr = ""
 
-fileName = "../desc.description"
+fileName = "../../desc.description"
 dir = os.path.dirname(__file__)
 realdir = os.path.join(dir, fileName)
 

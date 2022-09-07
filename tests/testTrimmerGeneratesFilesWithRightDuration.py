@@ -7,7 +7,7 @@ class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
 
     def test_trim_to_clip(self):
     	trimmer.trim_to_clip()
-
+00:01:43
     	self.assertTrue(True)
 
 if __name__ == '__main__':
