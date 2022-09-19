@@ -104,8 +104,7 @@ def writeDescr(dirClips):
     f = open(f"{dirClips}descr.txt", 'w', encoding="utf8")
     f.write(fullDescr)
 
-def run(link):
-
+def run(link): # Write only code, but dont ever dare to change function's order
     title = getTitle(link)
     title_without_special_chars = getTitleWithoutSpecialChars(title)
 
@@ -115,10 +114,11 @@ def run(link):
     dir = os.path.dirname(__file__)
     realdir = os.path.join(dir, fileName)
 
+    downloadSmallFiles(dirClips, link)
+
     getmembers.getNames(title)
     getmembers.getNamesByFile(realdir)
 
-    downloadSmallFiles(dirClips, link)
     setTitle(title)
     setDescrClip()
     setStream(realdir, dirClips)
