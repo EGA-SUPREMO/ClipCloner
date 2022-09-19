@@ -7,15 +7,17 @@ from pathlib import Path
 import clip_generator.descript.getmembers as getmembers
 #WRITE ONLY CODE
 
-title=subprocess.run(['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', sys.argv[1:][0]], stdout=subprocess.PIPE).stdout.decode('utf-8')
+def getTitle(link):
+    return subprocess.run(['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', link], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
-title_without_special_chars = re.sub('[^A-Za-z0-9 ]+', '', title)
-dirClips = f"../Clips/{title_without_special_chars}/"
+def getTitleWithoutSpecialChars(title):
+    return re.sub('[^A-Za-z0-9 ]+', '', title)
 
-Path(dirClips).mkdir(parents=True, exist_ok=True)
+def downloadSmallFiles(dirClips, link):
+    Path(dirClips).mkdir(parents=True, exist_ok=True)
 
-os.system("youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + sys.argv[1:][0])
-os.system("youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + sys.argv[1:][0])
+    os.system("youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + link)
+    os.system("youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + link)
 
 descrClip = "- Clip original: "
 descrStream = "- Stream original: "
@@ -24,19 +26,10 @@ tags=["#hololive", "#vtuber"]
 
 fullDescr = ""
 
-fileName = "../../desc.description"
-dir = os.path.dirname(__file__)
-realdir = os.path.join(dir, fileName)
-
-getmembers.getNames(title)
-getmembers.getNamesByFile(realdir)
-
-def setTitle():
+def setTitle(title):
     global fullDescr
-    global title
     fullDescr += title + '\n'
 
-setTitle()
 
 def setDescrClip():
     global descrClip
@@ -44,9 +37,8 @@ def setDescrClip():
     descrClip += sys.argv[1:][0]
     fullDescr += descrClip
 
-setDescrClip()
 
-def setStream(file):
+def setStream(file, dirClips):
     global fullDescr
     global descrStream
     
@@ -80,7 +72,6 @@ def setStream(file):
         descrStream += realMatchs[0]
     fullDescr += "\n" + descrStream + "\n"
 
-setStream(realdir)
 
 def setChannels():
     fulldescrChannel = ""
@@ -91,7 +82,6 @@ def setChannels():
         fulldescrChannel += "\n" + descrChannel + fullName + " / @" + getmembers.members[getmembers.membersInClip[i]].arroba + ": " + getmembers.members[getmembers.membersInClip[i]].link
     fullDescr +=  fulldescrChannel
 
-setChannels()
 
 def setRecruitmentAd():
     global fullDescr
@@ -99,7 +89,6 @@ def setRecruitmentAd():
 Te interesa formar parte del equipo? Escribenos en: usadatranslations@gmail.com
 Discord: ElNo Studió # 5137"""
 
-setRecruitmentAd()
 
 def setTags():
     global tags, fullDescr
@@ -109,8 +98,32 @@ def setTags():
     fullDescr += "\n"
     for tag in tags:
         fullDescr += tag + " "
-setTags()
 
 
-f = open(f"{dirClips}descr.txt", 'w', encoding="utf8")
-f.write(fullDescr)
+def writeDescr(dirClips):
+    f = open(f"{dirClips}descr.txt", 'w', encoding="utf8")
+    f.write(fullDescr)
+
+def run(link):
+
+    title = getTitle(link)
+    title_without_special_chars = getTitleWithoutSpecialChars(title)
+
+    dirClips = f"../Clips/{title_without_special_chars}/"
+
+    fileName = "../../desc.description"
+    dir = os.path.dirname(__file__)
+    realdir = os.path.join(dir, fileName)
+
+    getmembers.getNames(title)
+    getmembers.getNamesByFile(realdir)
+
+    downloadSmallFiles(dirClips, link)
+    setTitle(title)
+    setDescrClip()
+    setStream(realdir, dirClips)
+    setChannels()
+    setRecruitmentAd()
+    setTags()
+
+    writeDescr(dirClips)

@@ -64,4 +64,3 @@ def getNamesByFile(file):
     f = open(file, "r", encoding="utf8")
     words = f.read().split()
     addMatch(words)
-
