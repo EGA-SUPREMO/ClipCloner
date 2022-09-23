@@ -56,6 +56,10 @@ def addMatch(words):
     finally:
         membersInClip = list(dict.fromkeys(membersInClip))
 
+def removeMatchs():
+    global membersInClip
+    membersInClip = []
+
 def getNames(title):
     words = title.split()
     addMatch(words)
@@ -64,3 +68,4 @@ def getNamesByFile(file):
     f = open(file, "r", encoding="utf8")
     words = f.read().split()
     addMatch(words)
+    f.close()

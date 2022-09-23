@@ -24,17 +24,32 @@ descrStream = "- Stream original: "
 descrChannel = "- "
 tags=["#hololive", "#vtuber"]
 
+title = ""
+
+dirClips = "../Clips/"
+fileName = "../../desc.description"
+
 fullDescr = ""
+
+def resetVars():
+    global fullDescr, title, descrClip, descrStream, descrChannel, tags, title
+    descrClip = "- Clip original: "
+    descrStream = "- Stream original: "
+    descrChannel = "- "
+    tags=["#hololive", "#vtuber"]
+
+    fullDescr = ""
+    getmembers.removeMatchs()
 
 def setTitle(title):
     global fullDescr
     fullDescr += title + '\n'
 
 
-def setDescrClip():
+def setDescrClip(link):
     global descrClip
     global fullDescr
-    descrClip += sys.argv[1:][0]
+    descrClip += link
     fullDescr += descrClip
 
 
@@ -68,6 +83,8 @@ def setStream(file, dirClips):
             realMatchs.append(match+"")
 
 
+    fileMatch.close()
+    f.close()
     if len(realMatchs)>=1:
         descrStream += realMatchs[0]
     fullDescr += "\n" + descrStream + "\n"
@@ -86,6 +103,7 @@ def setChannels():
 def setRecruitmentAd():
     global fullDescr
     fullDescr += "\n\n" + """Editor y traductor: 
+Grupo de facebook: https://www.facebook.com/groups/468481235166359/
 Te interesa formar parte del equipo? Escribenos en: usadatranslations@gmail.com
 Discord: ElNo Studió # 5137"""
 
@@ -103,27 +121,29 @@ def setTags():
 def writeDescr(dirClips):
     f = open(f"{dirClips}descr.txt", 'w', encoding="utf8")
     f.write(fullDescr)
+    f.close()
 
 def run(link): # Write only code, but dont ever dare to change function's order
+    global dirClips, title
     title = getTitle(link)
     title_without_special_chars = getTitleWithoutSpecialChars(title)
 
-    dirClips = f"../Clips/{title_without_special_chars}/"
+    dirClip = dirClips+title_without_special_chars+"/"
 
-    fileName = "../../desc.description"
     dir = os.path.dirname(__file__)
     realdir = os.path.join(dir, fileName)
 
-    downloadSmallFiles(dirClips, link)
+    downloadSmallFiles(dirClip, link)
 
     getmembers.getNames(title)
     getmembers.getNamesByFile(realdir)
 
     setTitle(title)
-    setDescrClip()
-    setStream(realdir, dirClips)
+    setDescrClip(link)
+    setStream(realdir, dirClip)
     setChannels()
     setRecruitmentAd()
     setTags()
 
-    writeDescr(dirClips)
+    writeDescr(dirClip)
+    resetVars()

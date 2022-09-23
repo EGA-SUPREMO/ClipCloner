@@ -18,19 +18,17 @@ def setUpModule():
         dirs.dir_stream = "tests/Examples/stream.mkv"
         dirs.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
 
+def tearDownModule():
+    for path in Path("tests/Clips").glob("**/*"):
+        if path.is_file():
+            path.unlink()
+        elif path.is_dir():
+            rmtree(path)
+
+    os.makedirs("tests/Clips/audio_parts")
+    os.makedirs("tests/Clips/fixed_audio_parts")
+
 class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
-
-    @classmethod
-    def tearDownClass(cls):
-        for path in Path("tests/Clips").glob("**/*"):
-            if path.is_file():
-                path.unlink()
-            elif path.is_dir():
-                rmtree(path)
-
-        os.makedirs("tests/Clips/audio_parts")
-        os.makedirs("tests/Clips/fixed_audio_parts")
-
 
     def test_remove_video_from_file_file_is_being_generated(self):
         chopper.removeVideo()
