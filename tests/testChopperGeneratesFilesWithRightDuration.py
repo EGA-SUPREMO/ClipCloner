@@ -10,24 +10,6 @@ from tests.order_tests import load_ordered_tests
 import clip_generator.editter.dirs as dirs
 from tests.common_functions import getDuration
 
-def setUpModule():
-        dirs.dir_audio_clip = "tests/Clips/audio_clip.mp4"
-        dirs.dir_clip = "tests/Examples/clip.mkv"
-        dirs.dirAudioParts = "tests/Clips/audio_parts/"
-        dirs.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
-        dirs.dir_stream = "tests/Examples/stream.mkv"
-        dirs.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
-
-def tearDownModule():
-    for path in Path("tests/Clips").glob("**/*"):
-        if path.is_file():
-            path.unlink()
-        elif path.is_dir():
-            rmtree(path)
-
-    os.makedirs("tests/Clips/audio_parts")
-    os.makedirs("tests/Clips/fixed_audio_parts")
-
 class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
 
     def test_remove_video_from_file_file_is_being_generated(self):
@@ -81,7 +63,7 @@ class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
         filename = Path(dirs.dir_trimmed_stream)
         duration=getDuration(filename)
 
-        self.assertEqual(round(0.8, 1), round(float(duration), 1), msg="Trimmed stream doesnt match duration: "+str(filename))
+        self.assertEqual(round(0.8, 1), round(float(duration), 1), msg="Trimmed clip in chop doesnt match duration: "+str(filename))
 
 if __name__ == '__main__':
 # This orders the tests to be run in the order they were declared.
