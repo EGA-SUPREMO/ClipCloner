@@ -68,5 +68,5 @@ def run_unit_tests():
 
 if __name__ == '__main__':
     #unittest.main() 
-    #run_tests()
-    run_unit_tests()
+    run_tests()
+    #run_unit_tests()

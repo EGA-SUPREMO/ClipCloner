@@ -6,12 +6,11 @@ import clip_generator.editter.dirs as dirs
 
 class TestAudioInfo(unittest.TestCase):
 
-    def setUp(self):
-        audio_info.infosTrim = list()
-
     @patch('clip_generator.editter.audio_info.get_alignment_info')
     def test_sets_audio_infos_for_trim(self, get_alignment_info_mock):
-        get_alignment_info_mock.return_value =[[0, {'pad': 5, 'post_pad':4, 'trim': 3, 'trim_post': 2}]]
+        audio_info.infosTrim = list()
+
+        get_alignment_info_mock.return_value =[[0, {'pad': 5, 'pad_post':4, 'trim': 3, 'trim_post': 2}]]
 
         audio_info.set_audio_infos_trim("1")
 

@@ -31,7 +31,7 @@ def trim_to_clip():
 
 	audio_info.set_audio_infos_trim(3)
 	audio_info.print_infos_trim()
-
+	
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
 	chopper.chop(from_second, to_second)

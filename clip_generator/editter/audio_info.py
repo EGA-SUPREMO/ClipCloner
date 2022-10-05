@@ -24,7 +24,10 @@ def set_audio_infos_edit(seconds, fromAudio, toAudio):
         infosEdit.append(get_alignment_info([dirs.dirFixedAudioParts + "S"+ seconds +"_clip_audio"+ str(x) +".mp4", dirs.dir_stream]))
 
 def set_audio_infos_trim(seconds):
+    global infosTrim
+    infosTrim=list()
     seconds = str(seconds)
+
     infosTrim.append(get_alignment_info([dirs.dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", dirs.dir_stream]))
     infosTrim.append(get_alignment_info([dirs.dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", dirs.dir_stream]))
 
