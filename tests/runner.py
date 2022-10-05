@@ -7,6 +7,7 @@ from tests.order_tests import load_ordered_tests
 import tests.testChopperGeneratesFilesWithRightDuration as testChopper
 import tests.testTrimmerGeneratesFilesWithRightDuration as testTrimmer
 import tests.testDescriptCorrect as testDescript
+import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
 
 import clip_generator.editter.dirs as dirs
@@ -46,6 +47,7 @@ def run_tests():
 	suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_generates_video'))
 	suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_right_duration'))
 	suite.addTest(testDescript.TestDescriptCorrect('test_files_is_being_generated_exactly_as_examples'))
+	suite.addTest(testDownload.TestCorrectDownload('test_clip_is_downloaded_as_example'))
 	suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
 	suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
 	runner = unittest.TextTestRunner()

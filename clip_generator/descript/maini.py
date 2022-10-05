@@ -27,6 +27,7 @@ tags=["#hololive", "#vtuber"]
 title = ""
 
 dirClips = "../Clips/"
+lastDirClip = dirClips
 fileName = "../../desc.description"
 
 fullDescr = ""
@@ -124,11 +125,12 @@ def writeDescr(dirClips):
     f.close()
 
 def run(link): # Write only code, but dont ever dare to change function's order
-    global dirClips, title
+    global dirClips, title, lastDirClip
     title = getTitle(link)
     title_without_special_chars = getTitleWithoutSpecialChars(title)
 
     dirClip = dirClips+title_without_special_chars+"/"
+    lastDirClip = dirClip
 
     dir = os.path.dirname(__file__)
     realdir = os.path.join(dir, fileName)
