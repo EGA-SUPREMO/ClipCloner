@@ -14,7 +14,9 @@ def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
     # defauflt max_misalignment=1800. But this produced inaccurate results for some videos.
     # changing it to 6000 improved results although seems to make it run slower.
-    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=6000)
+    # Have to test if max_misalignment=1800 is good enough
+    # Seems changing sample_rate could make more precise results
+    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=5000)
     with SyncDetector(params=summarizer_params, clear_cache=False) as det:
         result = det.align(file_specs, known_delay_map={})
     return list(zip(file_specs, result))

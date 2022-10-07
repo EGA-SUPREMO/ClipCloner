@@ -10,6 +10,7 @@ desc.description
 *.mp4
 *.mkv
 *.webm
+*.wav
 
 # Distribution / packaging
 .Python
