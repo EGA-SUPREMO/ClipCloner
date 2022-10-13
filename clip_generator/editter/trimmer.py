@@ -23,10 +23,10 @@ def auto_edit():
 	#audio_info.print_infos_edit()
 
 
-def trim_to_clip():
+def trim_to_clip(offset_credits=1):
 	chopper.removeVideo()
 	chopper.cutAudioIntoXSecondsParts("03")
-	chopper.cutLastSecondsAudio(3)
+	chopper.cutLastSecondsAudio(3, offset_credits)
 	chopper.fixAudioParts()
 
 	audio_info.set_audio_infos_trim(3)

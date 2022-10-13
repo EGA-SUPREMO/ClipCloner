@@ -11,8 +11,8 @@ def cutAudioIntoXSecondsParts(x):
 	os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_audio_clip}  -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac {dirs.dirAudioParts}S{x}_clip_audio%01d.mp4")
 
 # Input: Int: length of cutted audio from the last seconds
-def cutLastSecondsAudio(seconds):
-	cutted_seconds = str(seconds+1)
+def cutLastSecondsAudio(seconds, offset=1):
+	cutted_seconds = str(seconds+offset)
 	real_seconds = str(seconds)
 	os.system(f"ffmpeg -loglevel error -stats -y -sseof -{cutted_seconds} -i {dirs.dir_audio_clip} -c copy {dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4")
 	os.system("ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:03 -i "+ dirs.dirAudioParts +"temp_last_S"+ real_seconds +"_clip_audio.mp4 -c copy "+ dirs.dirAudioParts +"last_S"+ real_seconds +"_clip_audio.mp4")
