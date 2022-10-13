@@ -38,33 +38,16 @@ def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
     lengthFile = subprocess.run(['ffprobe', '-v', '0', '-show_entries','format=duration', '-of', 'compact=p=0:nk=1', file], capture_output=True, text=True).stdout
     return float(lengthFile) - seconds
 
-def print_infos_edit():
+def write_infos_edit():
     for info in infosEdit:
-        #print(info[0][1]['trim'])
+        f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
+        f.write(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
+        f.close()
         print(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
-        #print(info[0][1]['trim_post'])
-        #print(info[0][1]['pad_post'])
-    #for info in infosEdit:
-        #print(info[0][1]['trim'])
-        #print(info[0][1]['pad'])
-        #print(info[0][1]['trim_post'])
-        #print()
 
-def print_infos_trim():
+def write_infos_trim():
     for info in infosTrim:
-        #print(info[0][1]['trim'])
-        print(info[0][1]['pad'])
-        #print(info[0][1]['trim_post'])
-        #print(info[0][1]['pad_post'])
-    for info in infosTrim:
-        #print(info[0][1]['trim'])
-        #print(info[0][1]['pad'])
-        #print(info[0][1]['trim_post'])
-        print(info[0][1]['pad_post'])
-
-#print(get_alignment_info(["fixed_audio_parts/S0.5_clip_audio1.mp4", "fixed_audio_parts/S3_clip_audio0.mp4"]))
-#print(get_alignment_info(["clip_generator/editter/fixed_audio_parts/S01_clip_audio0.mp4", "clip_generator/editter/stream.webm"]))
-
-
-# [('/media/trabajo/1E8E46418E461227/Users/Tecnology Valencia/Downloads/uwu/Novaj git-oj/clip-generator/editer/parts/fixed_clip_audio010.mp4', {'trim': -0.0, 'pad': 20.053333333333335, 'orig_duration': 1.0, 'trim_post': 0.0, 'pad_post': 98.96666666666667, 'orig_streams': [{'type': 'Audio', 'sample_rate': 44100}], 'orig_streams_summary': {'max_resol_width': 0, 'max_resol_height': 0, 'max_sample_rate': 44100, 'max_fps': 0.0, 'num_video_streams': 0, 'num_audio_streams': 1}}), ('/media/trabajo/1E8E46418E461227/Users/Tecnology Valencia/Downloads/uwu/Novaj git-oj/clip-generator/editer/stream.mkv', {'trim': 20.053333333333335, 'pad': 0.0, 'orig_duration': 120.02, 'trim_post': 98.96666666666667, 'pad_post': 0.0, 'orig_streams': [{'type': 'Video', 'resolution': [[1920, 1080], '[SAR 1:1 DAR 16:9]'], 'fps': 60.0}, {'type': 'Audio', 'sample_rate': 44100}], 'orig_streams_summary': {'max_resol_width': 1920, 'max_resol_height': 1080, 'max_sample_rate': 44100, 'max_fps': 60.0, 'num_video_streams': 1, 'num_audio_streams': 1}})]
-
+        f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
+        f.write(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
+        f.close()
+        print(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])

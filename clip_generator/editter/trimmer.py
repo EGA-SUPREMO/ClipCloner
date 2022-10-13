@@ -10,7 +10,7 @@ def teste():
 	chopper.fixAudioParts()
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
-	#audio_info.print_infos_edit()
+	#audio_info.write_infos_edit()
 
 #To copy clip's edittion
 def auto_edit():
@@ -20,7 +20,7 @@ def auto_edit():
 	chopper.fixAudioParts()
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
-	#audio_info.print_infos_edit()
+	#audio_info.write_infos_edit()
 
 
 def trim_to_clip(offset_credits=1):
@@ -30,7 +30,7 @@ def trim_to_clip(offset_credits=1):
 	chopper.fixAudioParts()
 
 	audio_info.set_audio_infos_trim(3)
-	audio_info.print_infos_trim()
+	audio_info.write_infos_trim()
 	
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
