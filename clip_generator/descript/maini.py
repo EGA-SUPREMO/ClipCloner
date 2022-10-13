@@ -104,7 +104,6 @@ def setChannels():
 def setRecruitmentAd():
     global fullDescr
     fullDescr += "\n\n" + """Editor y traductor: 
-Grupo de facebook: https://www.facebook.com/groups/468481235166359/
 Te interesa formar parte del equipo? Escribenos en: usadatranslations@gmail.com
 Discord: ElNo Studió # 5137"""
 
