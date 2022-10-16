@@ -1,31 +1,19 @@
-import librosa
+# compare.py 
+import argparse
+from correlation import correlate
 
-import numpy as np
-from scipy import signal
-import matplotlib.pyplot as plt
+def initialize():    
+	parser = argparse.ArgumentParser()    
+	parser.add_argument("-i ", "--source-file", help="source file")    
+	parser.add_argument("-o ", "--target-file", help="target file")    
+	args = parser.parse_args()      
 
-dir_audiocito = "../../../"
-sec = 0.1
-def find_similarity(within_file, find_file):
-	y_within, sr_within = librosa.load(within_file, sr=None)
-	y_find, _ = librosa.load(find_file, sr=sr_within)
+	SOURCE_FILE = args.source_file if args.source_file else None    
+	TARGET_FILE = args.target_file if args.target_file else None    
+	if not SOURCE_FILE or not TARGET_FILE:      
+		raise Exception("Source or Target files not specified.")    
+	return SOURCE_FILE, TARGET_FILE  
 
-
-	fig, ax = plt.subplots()
-	ax.plot(y_find)
-	ax.plot(y_within)
-	fig.savefig("eee with.png")
-
-	c = signal.correlate(y_within, y_find, mode='valid', method='fft')
-	peak = np.argmax(c)
-
-
-	fig, ax = plt.subplots()
-	ax.plot(c)
-	fig.savefig(f"crosscorrelation stream.png")
-
-	print(c)
-	print(peak)
-	print(c[peak])
-
-find_similarity(dir_audiocito + "clip.wav", dir_audiocito + "zeta_trimmed_stream.wav")
+if __name__ == "__main__":    
+	SOURCE_FILE, TARGET_FILE = initialize()    
+	correlate(SOURCE_FILE, TARGET_FILE)  
