@@ -1,9 +1,11 @@
 import subprocess
 import difflib
+import os
 
 from pathlib import Path
+from shutil import rmtree
 
-from clip_generator.editter.dirs as dirs
+import clip_generator.editter.dirs as dirs
 
 def getDuration(filename):
     duration=subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', filename], stdout=subprocess.PIPE).stdout.decode('utf-8')
