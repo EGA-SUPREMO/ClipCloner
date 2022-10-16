@@ -5,7 +5,7 @@ from pathlib import Path
 import clip_generator.editter.trimmer as trimmer
 import clip_generator.editter.dirs as dirs
 
-from tests.common_functions import getDuration
+from clip_generator.common_functions import getDuration
 
 class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
 

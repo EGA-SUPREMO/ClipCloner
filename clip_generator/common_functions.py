@@ -5,6 +5,16 @@ def getDuration(filename):
     duration=subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', filename], stdout=subprocess.PIPE).stdout.decode('utf-8')
     return float(duration) 
 
+def removeAll(folder_path):
+    for path in Path(folder_path).glob("**/*"):
+        if path.is_file():
+            path.unlink()
+        elif path.is_dir():
+            rmtree(path)
+
+    os.makedirs("tests/Clips/audio_parts")
+    os.makedirs("tests/Clips/fixed_audio_parts")
+
 def checkTwoFilesAreTheSame(filename1, filename2):
     IsSame = True
     with open(filename1) as file_1:

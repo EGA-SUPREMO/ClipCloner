@@ -4,7 +4,7 @@ from pathlib import Path
 
 import clip_generator.descript.maini as maini
 import clip_generator.main as main
-from tests.common_functions import getDuration
+from clip_generator.common_functions import getDuration
 
 class TestCorrectDownload(unittest.TestCase): 
 

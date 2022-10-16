@@ -5,7 +5,7 @@ from unittest.mock import patch
 import clip_generator.editter.audio_info as audio_info
 import clip_generator.editter.dirs as dirs
 
-from tests.common_functions import checkTwoFilesAreTheSame
+from clip_generator.common_functions import checkTwoFilesAreTheSame
 
 class TestAudioInfo(unittest.TestCase):
 
@@ -31,7 +31,7 @@ class TestAudioInfo(unittest.TestCase):
 
         timefile = dirs.dir_clip_folder+"timestamps.txt" 
         f = open(timefile, "r")
-        
+
         self.assertTrue(checkTwoFilesAreTheSame(dirs.dir_clip_folder+"timestamps.txt", 'tests/Examples/timestamps.txt'))
 
 if __name__ == '__main__':

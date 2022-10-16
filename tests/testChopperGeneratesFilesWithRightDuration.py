@@ -8,7 +8,7 @@ from clip_generator.editter import chopper
 from tests.order_tests import load_ordered_tests
 
 import clip_generator.editter.dirs as dirs
-from tests.common_functions import getDuration
+from clip_generator.common_functions import getDuration
 
 class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
 

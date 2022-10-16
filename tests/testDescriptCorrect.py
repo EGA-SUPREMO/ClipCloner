@@ -2,7 +2,7 @@ import unittest
 import filecmp
 
 import clip_generator.descript.maini as maini
-from tests.common_functions import checkTwoFilesAreTheSame
+from clip_generator.common_functions import checkTwoFilesAreTheSame
 # TODO check if image is generated
 class TestDescriptCorrect(unittest.TestCase): 
 

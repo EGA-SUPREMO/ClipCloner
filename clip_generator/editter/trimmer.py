@@ -14,9 +14,8 @@ def teste():
 
 #To copy clip's edittion
 def auto_edit():
-	#chopper.removeVideo()
+	chopper.removeVideo()
 	chopper.cutAudioIntoXSecondsParts("3")
-	#chopper.cutAudioIntoXSecondsParts("3")
 	chopper.fixAudioParts()
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)

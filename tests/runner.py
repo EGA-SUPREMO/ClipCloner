@@ -11,6 +11,7 @@ import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
 
 import clip_generator.editter.dirs as dirs
+import clip_generator.common_functions as common_functions
 
 def setUpModule():
         dirs.dir_audio_clip = "tests/Clips/audio_clip.mp4"
@@ -25,14 +26,7 @@ def setUpModule():
         os.makedirs("tests/Clips/fixed_audio_parts", exist_ok=True)
 
 def tearDownModule():
-    for path in Path("tests/Clips").glob("**/*"):
-        if path.is_file():
-            path.unlink()
-        elif path.is_dir():
-            rmtree(path)
-
-    os.makedirs("tests/Clips/audio_parts")
-    os.makedirs("tests/Clips/fixed_audio_parts")
+	common_functions.removeAll(dirs.dir_clip_folder)
 
 def run_tests():
 	setUpModule()
