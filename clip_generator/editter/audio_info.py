@@ -38,16 +38,9 @@ def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
     lengthFile = subprocess.run(['ffprobe', '-v', '0', '-show_entries','format=duration', '-of', 'compact=p=0:nk=1', file], capture_output=True, text=True).stdout
     return float(lengthFile) - seconds
 
-def write_infos_edit():
-    for info in infosEdit:
-        f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
-        f.write(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
-        f.close()
-        print(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
-
 def write_infos_trim():
     for info in infosTrim:
         f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
-        f.write(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
+        f.write(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']) + "\n")
         f.close()
-        print(info[0][1]['pad'] + " - " + info[0][1]['pad_post'])
+        print(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']))

@@ -23,5 +23,9 @@ class TestAudioInfo(unittest.TestCase):
         last_seconds = audio_info.get_last_seconds_for_ffmpeg_argument_to(filename, 3)
         self.assertEqual(118.0, round(last_seconds, 1), msg="Failed to get last 3 seconds right for ffmpeg -to format: "+filename)
 
+    def test_write_infos(self):
+        f = open(dirs.dir_clip_folder+"timestamps.txt", "r")
+        print(f.read())
+
 if __name__ == '__main__':
     unittest.main() 
