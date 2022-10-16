@@ -1,0 +1,2 @@
+Trim: From second - to second:
+10.048 - 113.72033333333333

@@ -15,6 +15,7 @@ import clip_generator.editter.dirs as dirs
 def setUpModule():
         dirs.dir_audio_clip = "tests/Clips/audio_clip.mp4"
         dirs.dir_clip = "tests/Examples/clip.mkv"
+        dirs.dir_clip_folder = "tests/Clips/"
         dirs.dirAudioParts = "tests/Clips/audio_parts/"
         dirs.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
         dirs.dir_stream = "tests/Examples/stream.mkv"
