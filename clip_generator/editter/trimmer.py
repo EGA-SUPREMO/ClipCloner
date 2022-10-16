@@ -35,3 +35,5 @@ def trim_to_clip(offset_credits=1):
 	audio_info.write_infos_trim(from_second, to_second)
 
 	chopper.chop(from_second, to_second)
+	common_functions.removeAll(dirs.dirAudioParts)
+	common_functions.removeAll(dirs.dirFixedAudioParts)
