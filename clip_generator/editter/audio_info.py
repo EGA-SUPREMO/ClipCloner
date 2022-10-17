@@ -1,11 +1,16 @@
 import time
 import subprocess
+import json
+import os.path
 
 from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
 from align_videos_by_soundtrack.utils import *
 
 import clip_generator.editter.dirs as dirs
+
+data = {}
+data['logs'] = []
 
 infosEdit=list()
 infosTrim=list()
@@ -40,14 +45,26 @@ def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
 
 def write_infos_edit():
     for info in infosEdit:
+
+        #appendJSON({'edit': [[from_second, to_second], [from2, to2],...]})
         f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
         f.write(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']) + "\n")
         f.close()
         print(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']))
 
 def write_infos_trim(from_second, to_second):
-    f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
-    f.write("Trim: From second - to second:\n")
-    f.write(from_second + " - " + to_second + "\n")
-    f.close()
-    print(from_second + " - " + to_second)
+    appendJSON({'trim': [from_second, to_second]})
+    print(str(from_second) + " - " + str(to_second))
+
+def appendJSON(value):
+    filepath = dirs.dir_clip_folder + "timestamps.json"
+    dic = value
+    
+    if os.path.isfile(filepath):
+        with open(filepath,'r') as f:
+            dic = json.load(f)
+            dic.update(value)
+
+    with open(filepath,'w') as f:
+        json.dump(dic, f)
+        f.close()

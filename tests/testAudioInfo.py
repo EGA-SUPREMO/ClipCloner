@@ -29,10 +29,10 @@ class TestAudioInfo(unittest.TestCase):
     def test_write_infos(self):
         audio_info.write_infos_trim("10.048", "113.72033333333333")
 
-        timefile = dirs.dir_clip_folder+"timestamps.txt" 
+        timefile = dirs.dir_clip_folder+"timestamps.json" 
         f = open(timefile, "r")
-
-        self.assertTrue(checkTwoFilesAreTheSame(dirs.dir_clip_folder+"timestamps.txt", 'tests/Examples/timestamps.txt'))
+        # Later check whether it contains trim value dict or not, when there is areader
+        self.assertTrue(checkTwoFilesAreTheSame(dirs.dir_clip_folder+"timestamps.json", 'tests/Examples/timestamps.json'))
 
 if __name__ == '__main__':
     unittest.main() 
