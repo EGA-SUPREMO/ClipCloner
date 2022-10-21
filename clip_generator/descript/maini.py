@@ -5,24 +5,33 @@ import subprocess
 from pathlib import Path
 
 import clip_generator.descript.getmembers as getmembers
-#WRITE ONLY CODE
+
+
+# WRITE ONLY CODE
 
 def getTitle(link):
-    return subprocess.run(['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', link], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return subprocess.run(
+        ['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', link],
+        stdout=subprocess.PIPE).stdout.decode('utf-8')
+
 
 def getTitleWithoutSpecialChars(title):
     return re.sub('[^A-Za-z0-9 ]+', '', title)
 
+
 def downloadSmallFiles(dirClips, link):
     Path(dirClips).mkdir(parents=True, exist_ok=True)
 
-    os.system("youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + link)
-    os.system("youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + link)
+    os.system(
+        "youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + link)
+    os.system(
+        "youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + link)
+
 
 descrClip = "- Clip original: "
 descrStream = "- Stream original: "
 descrChannel = "- "
-tags=["#hololive", "#vtuber"]
+tags = ["#hololive", "#vtuber"]
 
 title = ""
 
@@ -32,15 +41,17 @@ fileName = "../../desc.description"
 
 fullDescr = ""
 
+
 def resetVars():
     global fullDescr, title, descrClip, descrStream, descrChannel, tags, title
     descrClip = "- Clip original: "
     descrStream = "- Stream original: "
     descrChannel = "- "
-    tags=["#hololive", "#vtuber"]
+    tags = ["#hololive", "#vtuber"]
 
     fullDescr = ""
     getmembers.removeMatchs()
+
 
 def setTitle(title):
     global fullDescr
@@ -57,8 +68,8 @@ def setDescrClip(link):
 def setStream(file, dirClips):
     global fullDescr
     global descrStream
-    
-    if len(sys.argv[1:])>=2:
+
+    if len(sys.argv[1:]) >= 2:
         descrStream += sys.argv[1:][1]
         fullDescr += "\n" + descrStream
         return
@@ -70,23 +81,25 @@ def setStream(file, dirClips):
     realMatchs = []
     fileMatch = open(f"{dirClips}streams.txt", "w")
 
-    #this for is only for writing all the streams linked to the description, in case the first one was wrong
+    # this for is only for writing all the streams linked to the description, in case the first one was wrong
     for match in matchLinks:
-        if len(re.findall(".*channel.*", match))==1 or len(re.findall(".*twitter.*", match))==1 or len(re.findall(".*dova-s.jp.*", match))==1 or len(re.findall(".*pixiv.*", match))==1:#checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
+        if len(re.findall(".*channel.*", match)) == 1 or len(re.findall(".*twitter.*", match)) == 1 or len(
+                re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*",
+                                                                           match)) == 1:  # checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
             pass
         else:
             fileMatch.write(match + "\n")
 
     for match in matchs:
-        if len(re.findall(".*channel.*", match))==1 or len(re.findall(".*twitter.*", match))==1 or len(re.findall(".*dova-s.jp.*", match))==1 or len(re.findall(".*pixiv.*", match))==1:
+        if len(re.findall(".*channel.*", match)) == 1 or len(re.findall(".*twitter.*", match)) == 1 or len(
+                re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1:
             continue
-        if len(re.findall(".*youtu*", match))==1:
-            realMatchs.append(match+"")
-
+        if len(re.findall(".*youtu*", match)) == 1:
+            realMatchs.append(match + "")
 
     fileMatch.close()
     f.close()
-    if len(realMatchs)>=1:
+    if len(realMatchs) >= 1:
         descrStream += realMatchs[0]
     fullDescr += "\n" + descrStream + "\n"
 
@@ -96,9 +109,11 @@ def setChannels():
     global fullDescr
 
     for i in range(len(getmembers.membersInClip)):
-        fullName = getmembers.members[getmembers.membersInClip[i]].name[0] + " " + getmembers.members[getmembers.membersInClip[i]].name[1]
-        fulldescrChannel += "\n" + descrChannel + fullName + " / @" + getmembers.members[getmembers.membersInClip[i]].arroba + ": " + getmembers.members[getmembers.membersInClip[i]].link
-    fullDescr +=  fulldescrChannel
+        fullName = getmembers.members[getmembers.membersInClip[i]].name[0] + " " + \
+                   getmembers.members[getmembers.membersInClip[i]].name[1]
+        fulldescrChannel += "\n" + descrChannel + fullName + " / @" + getmembers.members[
+            getmembers.membersInClip[i]].arroba + ": " + getmembers.members[getmembers.membersInClip[i]].link
+    fullDescr += fulldescrChannel
 
 
 def setRecruitmentAd():
@@ -123,12 +138,13 @@ def writeDescr(dirClips):
     f.write(fullDescr)
     f.close()
 
-def run(link): # Write only code, but dont ever dare to change function's order
+
+def run(link):  # Write only code, but dont ever dare to change function's order
     global dirClips, title, lastDirClip
     title = getTitle(link)
     title_without_special_chars = getTitleWithoutSpecialChars(title)
 
-    dirClip = dirClips+title_without_special_chars+"/"
+    dirClip = dirClips + title_without_special_chars + "/"
     lastDirClip = dirClip
 
     dir = os.path.dirname(__file__)
