@@ -9,6 +9,7 @@ from align_videos_by_soundtrack.utils import *
 
 import clip_generator.editter.dirs as dirs
 
+
 data = {}
 data['logs'] = []
 
@@ -40,9 +41,9 @@ def set_audio_infos_trim(seconds):
     seconds = str(seconds)
 
     infosTrim.append(
-        get_alignment_info([dirs.dirFixedAudioParts + "S0" + seconds + "_clip_audio0.mp4", dirs.dir_stream]))
+        get_alignment_info([dirs.dir_current_start_clip, dirs.dir_stream]))
     infosTrim.append(
-        get_alignment_info([dirs.dirFixedAudioParts + "last_S" + seconds + "_clip_audio.mp4", dirs.dir_stream]))
+        get_alignment_info([dirs.dir_current_end_clip, dirs.dir_stream]))
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
@@ -55,6 +56,7 @@ def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
 
 def write_infos_edit():
     for info in infosEdit:
+        # format
         # appendJSON({'edit': [[from_second, to_second], [from2, to2],...]})
         f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
         f.write(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']) + "\n")

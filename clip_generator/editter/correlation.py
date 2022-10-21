@@ -6,7 +6,8 @@ sample_time = 500# number of points to scan cross correlation over
 span = 150# step size (in points) of cross correlation
 step = 1# minimum number of points that must overlap in cross correlation
 # exception is raised if this cannot be met
-min_overlap = 20# report match when cross correlation has a peak exceeding threshold
+min_overlap = 20
+# report match when cross correlation has a peak exceeding threshold
 threshold = 0.5
 # calculate fingerprint
 def calculate_fingerprints(filename):
@@ -70,13 +71,14 @@ def max_index(listx):
 def get_max_corr(corr, source, target):	
 	max_corr_index = max_index(corr)	
 	max_corr_offset = -span + max_corr_index * step	
-	print("max_corr_index = ", max_corr_index, "max_corr_offset = ", max_corr_offset)
+	#print("max_corr_index = ", max_corr_index, "max_corr_offset = ", max_corr_offset)
 	# report matches	
-	if corr[max_corr_index] > threshold:		
-		print(('%s and %s match with correlation of %.4f at offset %i' % (source, target, corr[max_corr_index], max_corr_offset))) 
+	#if corr[max_corr_index] > threshold:
+	#	print(('%s and %s match with correlation of %.4f at offset %i' % (source, target, corr[max_corr_index], max_corr_offset)))
+	return corr[max_corr_index]
 
 def correlate(source, target):	
 	fingerprint_source = calculate_fingerprints(source)	
 	fingerprint_target = calculate_fingerprints(target)		
 	corr = compare(fingerprint_source, fingerprint_target, span, step)	
-	max_corr_offset = get_max_corr(corr, source, target)  
+	return get_max_corr(corr, source, target)
