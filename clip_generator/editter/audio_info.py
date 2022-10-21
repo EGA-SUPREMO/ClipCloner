@@ -12,8 +12,9 @@ import clip_generator.editter.dirs as dirs
 data = {}
 data['logs'] = []
 
-infosEdit=list()
-infosTrim=list()
+infosEdit = list()
+infosTrim = list()
+
 
 def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
@@ -26,45 +27,55 @@ def get_alignment_info(fps: list):
         result = det.align(file_specs, known_delay_map={})
     return list(zip(file_specs, result))
 
+
 def set_audio_infos_edit(seconds, fromAudio, toAudio):
-    for x in range(fromAudio, toAudio+1):
-        infosEdit.append(get_alignment_info([dirs.dirFixedAudioParts + "S"+ seconds +"_clip_audio"+ str(x) +".mp4", dirs.dir_stream]))
+    for x in range(fromAudio, toAudio + 1):
+        infosEdit.append(get_alignment_info(
+            [dirs.dirFixedAudioParts + "S" + seconds + "_clip_audio" + str(x) + ".mp4", dirs.dir_stream]))
+
 
 def set_audio_infos_trim(seconds):
     global infosTrim
-    infosTrim=list()
+    infosTrim = list()
     seconds = str(seconds)
 
-    infosTrim.append(get_alignment_info([dirs.dirFixedAudioParts + "S0"+ seconds +"_clip_audio0.mp4", dirs.dir_stream]))
-    infosTrim.append(get_alignment_info([dirs.dirFixedAudioParts + "last_S"+ seconds +"_clip_audio.mp4", dirs.dir_stream]))
+    infosTrim.append(
+        get_alignment_info([dirs.dirFixedAudioParts + "S0" + seconds + "_clip_audio0.mp4", dirs.dir_stream]))
+    infosTrim.append(
+        get_alignment_info([dirs.dirFixedAudioParts + "last_S" + seconds + "_clip_audio.mp4", dirs.dir_stream]))
+
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
-    seconds = seconds-1# chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
-    lengthFile = subprocess.run(['ffprobe', '-v', '0', '-show_entries','format=duration', '-of', 'compact=p=0:nk=1', file], capture_output=True, text=True).stdout
+    seconds = seconds - 1  # chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
+    lengthFile = subprocess.run(
+        ['ffprobe', '-v', '0', '-show_entries', 'format=duration', '-of', 'compact=p=0:nk=1', file],
+        capture_output=True, text=True).stdout
     return float(lengthFile) - seconds
+
 
 def write_infos_edit():
     for info in infosEdit:
-
-        #appendJSON({'edit': [[from_second, to_second], [from2, to2],...]})
+        # appendJSON({'edit': [[from_second, to_second], [from2, to2],...]})
         f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
         f.write(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']) + "\n")
         f.close()
         print(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']))
 
+
 def write_infos_trim(from_second, to_second):
-    appendJSON({'trim': [from_second, to_second]})
+    appendJSON({'trim': [str(from_second), str(to_second)]})
     print(str(from_second) + " - " + str(to_second))
+
 
 def appendJSON(value):
     filepath = dirs.dir_clip_folder + "timestamps.json"
     dic = value
-    
+
     if os.path.isfile(filepath):
-        with open(filepath,'r') as f:
+        with open(filepath, 'r') as f:
             dic = json.load(f)
             dic.update(value)
 
-    with open(filepath,'w') as f:
+    with open(filepath, 'w') as f:
         json.dump(dic, f)
         f.close()
