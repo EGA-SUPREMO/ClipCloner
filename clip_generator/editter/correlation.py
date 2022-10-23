@@ -2,9 +2,12 @@
 import subprocess
 import numpy
 # seconds to sample audio file for
-sample_time = 500# number of points to scan cross correlation over
-span = 150# step size (in points) of cross correlation
-step = 1# minimum number of points that must overlap in cross correlation
+sample_time = 500
+# number of points to scan cross correlation over
+span = 150
+# step size (in points) of cross correlation
+step = 1
+# minimum number of points that must overlap in cross correlation
 # exception is raised if this cannot be met
 min_overlap = 20
 # report match when cross correlation has a peak exceeding threshold

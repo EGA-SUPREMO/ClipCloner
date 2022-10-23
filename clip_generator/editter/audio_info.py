@@ -69,6 +69,11 @@ def write_infos_trim(from_second, to_second):
     print(str(from_second) + " - " + str(to_second))
 
 
+def write_correlation(start, end):
+    appendJSON({'correlation': {'trim': [str(start), str(end)]}})
+    print({'correlation': {'trim': [str(start), str(end)]}})
+
+
 def appendJSON(value):
     filepath = dirs.dir_clip_folder + "timestamps.json"
     dic = value

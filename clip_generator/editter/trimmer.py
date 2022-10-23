@@ -8,19 +8,36 @@ from clip_generator.editter.correlation import correlate
 
 
 def trim_to_clip(offset_credits=0):
-	chopper.removeVideo()
-	chopper.cutAudioIntoXSecondsParts("03")
-	chopper.cutLastSecondsAudio(3, offset_credits)
-	chopper.fixAudioParts()
+	# No need to extract audio, youtube-dl already can do it for you!, now TODO implement it!
+	#chopper.remove_videos()
+	#chopper.cutAudioIntoXSecondsParts("03")
+	#chopper.cutLastSecondsAudio(3, offset_credits)
+	#chopper.fixAudioParts()
 
 	audio_info.set_audio_infos_trim(3)
-	correlate(dirs.dir_current_start_clip, dirs.dir_stream)
+
+	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
+	to_second = str(float(from_second) + float(dirs.seconds[dirs.phase]))#3,
+	ffmpeg -i S03_clip_audio0.mp4 -filter:a "atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5" -vn clip_slow.mp4
+	ffmpeg -i strat_stream.mp4 -filter:a "atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5" -vn stream_slow.mp4
+	chopper.chop(dirs.dir_audio_stream, dirs.dir_current_start_stream, from_second, to_second)
+	start_correlation = correlate(dirs.dir_current_start_clip, dirs.dir_current_start_stream)
+
+	# safe correlatino is 75%
+
+	to_second = str(
+		audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
+	from_second = str(float(to_second) - float(dirs.seconds[dirs.phase]))
+	chopper.chop(dirs.dir_audio_stream, dirs.dir_current_end_stream, from_second, to_second)
+	end_correlation = correlate(dirs.dir_current_start_clip, dirs.dir_current_end_stream)
+
+	audio_info.write_correlation(start_correlation, end_correlation)
 
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
-	audio_info.write_infos_trim(from_second, to_second)
 
-	chopper.chop(from_second, to_second)
+	audio_info.write_infos_trim(from_second, to_second)
+	chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
 
 def teste():
 	#chopper.removeVideo()

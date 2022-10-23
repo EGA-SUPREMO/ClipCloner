@@ -1,15 +1,19 @@
 import os
 import sys
+from pathlib import Path
 
 import clip_generator.editter.dirs as dirs
 
 
-def removeVideo():
+def remove_videos():
     os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_clip} -vn {dirs.dir_audio_clip}")
+    os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_stream} -vn {dirs.dir_audio_stream}")
 
-
-def extract_audio(filepath):
-    os.system(f" ffmpeg -i '{filepath}' -c:a pcm_s24le '{filepath}.wav'")
+# untested and seems like useless
+#def extract_audio(file):
+#    filepath = Path(file)
+#    filepath_wo_suffix = filepath.with_suffix('')
+#    os.system(f" ffmpeg -i '{file}' -c:a pcm_s24le '{filepath_wo_suffix}.wav'")
 
 
 # Input: String: seconds in %01d
@@ -36,6 +40,6 @@ def fixAudioParts():
             "ffmpeg -loglevel error -stats -y -ss 00:00:00 -i " + dirs.dirAudioParts + filename + " " + dirs.dirFixedAudioParts + filename)
 
 
-def chop(from_second, to_second):
+def chop(input_file, output_file, from_second, to_second):
     os.system(
-        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i {dirs.dir_stream} {dirs.dir_trimmed_stream}")
+        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i {input_file} {output_file}")

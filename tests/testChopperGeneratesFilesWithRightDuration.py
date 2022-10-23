@@ -13,11 +13,17 @@ from clip_generator.common_functions import getDuration
 class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
 
     def test_remove_video_from_file_file_is_being_generated(self):
-        chopper.removeVideo()
+        chopper.remove_videos()
   
         clip_audio = Path(dirs.dir_audio_clip)
+        stream_audio = Path(dirs.dir_audio_stream)
 
         self.assertTrue(clip_audio.is_file(), f'File clip_audio.mp4 doesnt exist')
+        self.assertTrue(stream_audio.is_file(), f'File stream_audio.mp4 doesnt exist')
+
+ #   def test_audio_is_extracted(self):
+ #       chopper.extract_audio('clip_generator/editter/clip.mkv')
+ #       self.assertTrue(True, True)
 
     def test_cut_audio_into_x_seconds_file_is_being_generated(self):
         chopper.cutAudioIntoXSecondsParts("01")
@@ -54,7 +60,7 @@ class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
         self.assertEqual(round(3.0, 1), round(float(duration), 1), msg="Last 3 sec audio clip doesnt match duration: "+str(filename))
 
     def test_chop_generates_video(self):
-        chopper.chop("3", "3.8")
+        chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, "3", "3.8")
 
         trimmed_stream = Path(dirs.dir_trimmed_stream)
         self.assertTrue(trimmed_stream.is_file(), f'Trimmed stream doesnt exist')
