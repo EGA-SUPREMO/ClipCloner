@@ -1,8 +1,7 @@
 import os
-import sys
-from pathlib import Path
 
 import clip_generator.editter.dirs as dirs
+from clip_generator.common_functions import remove_file_extension
 
 
 def remove_videos():
@@ -11,10 +10,15 @@ def remove_videos():
 
 # untested and seems like useless
 #def extract_audio(file):
-#    filepath = Path(file)
-#    filepath_wo_suffix = filepath.with_suffix('')
+#
 #    os.system(f" ffmpeg -i '{file}' -c:a pcm_s24le '{filepath_wo_suffix}.wav'")
-
+# TODO TEST IT
+def slow_audio(input_audio):
+    output_audio = str(remove_file_extension(input_audio)) + "_slowed.mp4"
+    if dirs.seconds[dirs.phase] == "3":
+        slowness = "atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5"
+    os.system(f'ffmpeg -i {input_audio} -filter:a "{slowness}" -vn {output_audio}')
+    return output_audio
 
 # Input: String: seconds in %01d
 def cutAudioIntoXSecondsParts(x):
