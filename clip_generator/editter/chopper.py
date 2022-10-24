@@ -17,7 +17,7 @@ def slow_audio(input_audio):
     output_audio = str(remove_file_extension(input_audio)) + "_slowed.mp4"
     if dirs.seconds[dirs.phase] == "3":
         slowness = "atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5"
-    os.system(f'ffmpeg -i {input_audio} -filter:a "{slowness}" -vn {output_audio}')
+    os.system(f'ffmpeg -y -i {input_audio} -filter:a "{slowness}" -vn {output_audio}')
     return output_audio
 
 # Input: String: seconds in %01d
