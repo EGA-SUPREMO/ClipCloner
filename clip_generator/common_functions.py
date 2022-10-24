@@ -47,3 +47,8 @@ def check_two_large_files_are_equal(filepath1, filepath2):
     if os.path.getsize(filepath1) == os.path.getsize(filepath2):
         return True
     return False
+
+# TODO test it
+def remove_file_extension(file):
+    filepath = Path(file)
+    return filepath.with_suffix('')
