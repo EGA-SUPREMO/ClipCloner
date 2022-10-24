@@ -3,7 +3,7 @@ import os
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import remove_file_extension
 
-
+#TODO update test
 def remove_videos():
     os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_clip} -vn {dirs.dir_audio_clip}")
     os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_stream} -vn {dirs.dir_audio_stream}")

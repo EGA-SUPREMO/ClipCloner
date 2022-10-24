@@ -1,7 +1,6 @@
 import unittest
 import os
-from pathlib import Path
-from shutil import rmtree
+import sys
 
 from tests.order_tests import load_ordered_tests
 import tests.testChopperGeneratesFilesWithRightDuration as testChopper
@@ -31,7 +30,7 @@ def tearDownModule():
     common_functions.removeAll(dirs.dir_clip_folder)
 
 
-def run_tests():
+def run_tests(with_internet=True):
     setUpModule()
 
     load_tests = load_ordered_tests
@@ -50,8 +49,11 @@ def run_tests():
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_cut_last_seconds_audio_file_is_right_duration'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_generates_video'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_right_duration'))
-    suite.addTest(testDescript.TestDescriptCorrect('test_files_is_being_generated_exactly_as_examples'))
-    suite.addTest(testDownload.TestCorrectDownload('test_clip_is_downloaded_as_example'))
+
+    if with_internet:
+        suite.addTest(unittest.makeSuite(testDescript.TestDescriptCorrect))
+        suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
+
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
     suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
     runner = unittest.TextTestRunner()
@@ -74,5 +76,5 @@ def run_unit_tests():
 
 if __name__ == '__main__':
     # unittest.main()
-    run_tests()
+    run_tests(sys.argv[1:][0])
 # run_unit_tests()
