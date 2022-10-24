@@ -17,6 +17,7 @@ dir_trimmed_stream = dir_clip_folder + "trimmed_stream.mkv"
 dir_current_start_stream = dir_temp_files + "start_stream.mp4"
 dir_current_start_clip = dirFixedAudioParts + "S0" + seconds[0] + "_clip_audio0.mp4"
 dir_current_end_clip = dirFixedAudioParts + "last_S" + seconds[0] + "_clip_audio.mp4"
+dir_current_end_stream = dir_temp_files + "end_stream.mp4"
 
 
 def update_phase(new_phase):
