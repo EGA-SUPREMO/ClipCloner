@@ -14,16 +14,17 @@ import clip_generator.common_functions as common_functions
 
 
 def setUpModule():
-    dirs.dir_audio_clip = "tests/Clips/audio_clip.mp4"
+    dirs.dir_temp_files = "tests/Clips/temp/"
+
     dirs.dir_clip = "tests/Examples/clip.mkv"
     dirs.dir_clip_folder = "tests/Clips/"
-    dirs.dirAudioParts = "tests/Clips/audio_parts/"
-    dirs.dirFixedAudioParts = "tests/Clips/fixed_audio_parts/"
     dirs.dir_stream = "tests/Examples/stream.mkv"
-    dirs.dir_trimmed_stream = "tests/Clips/trimmed_stream.mkv"
 
-    os.makedirs("tests/Clips/audio_parts", exist_ok=True)
-    os.makedirs("tests/Clips/fixed_audio_parts", exist_ok=True)
+    dirs.dirAudioParts = dirs.dir_temp_files + "audio_parts/"
+    dirs.dirFixedAudioParts = dirs.dir_temp_files + "fixed_audio_parts/"
+
+    os.makedirs(dirs.dirAudioParts, exist_ok=True)
+    os.makedirs(dirs.dirFixedAudioParts, exist_ok=True)
 
 
 def tearDownModule():
@@ -50,7 +51,7 @@ def run_tests(with_internet=True):
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_generates_video'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_right_duration'))
 
-    if with_internet:
+    if with_internet=="True":
         suite.addTest(unittest.makeSuite(testDescript.TestDescriptCorrect))
         suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
 
