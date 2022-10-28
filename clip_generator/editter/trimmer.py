@@ -9,9 +9,9 @@ from clip_generator.editter.correlation import correlate
 correct_trim=True
 
 def trim_to_clip(offset_credits=0):
-	# No need to extract audio, youtube-dl already can do it for you!, now TODO implement it!
 	dirs.update_phase(0)
 
+	# No need to extract audio, youtube-dl already can do it for you!, now TODO implement it!
 	chopper.remove_videos()
 	chopper.cutAudioIntoXSecondsParts("03")
 	chopper.cutLastSecondsAudio(3, offset_credits)
@@ -92,8 +92,6 @@ def find_limits_for_trim(from_second: str, to_second: str, dir_stream_output, di
 
 	if correlation < 0.7:
 		correct_trim = False
-		print(dirs.dir_clip)
-		print(dirs.dir_stream)
 		print("Error correlation: "+dir_stream_output)
 		return correlation
 		

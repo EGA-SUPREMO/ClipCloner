@@ -25,6 +25,8 @@ def setUpModule():
     dirs.dir_audio_clip = dirs.dir_temp_files + "clip_audio.mp4"
     dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
 
+    dirs.update_phase(0)
+
     os.makedirs(dirs.dirAudioParts, exist_ok=True)
     os.makedirs(dirs.dirFixedAudioParts, exist_ok=True)
 
@@ -46,12 +48,16 @@ def run_tests(is_with_internet=True):
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_cut_last_seconds_audio_file_is_being_generated'))
     suite.addTest(
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_fix_audio_parts_files_is_being_generated'))
-    suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration(
-        'test_cut_audio_into_x_seconds_fixed_file_is_right_duration'))
     suite.addTest(
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_cut_last_seconds_audio_file_is_right_duration'))
+    suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration(
+        'test_cut_audio_into_x_seconds_fixed_file_is_right_duration'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_generates_video'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_right_duration'))
+    suite.addTest(
+        testChopper.TestChopperGeneratesFilesWithRightDuration('test_slow_audio_is_being_generated'))
+    suite.addTest(
+        testChopper.TestChopperGeneratesFilesWithRightDuration('test_slow_audio_is_being_slowed'))
 
     if not is_with_internet == "ni":
         suite.addTest(unittest.makeSuite(testDescript.TestDescriptCorrect))

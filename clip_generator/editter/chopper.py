@@ -3,7 +3,7 @@ import os
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import remove_file_extension
 
-#TODO update test
+
 def remove_videos():
     os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_clip} -vn {dirs.dir_audio_clip}")
     os.system(f"ffmpeg -loglevel error -stats -y -i {dirs.dir_stream} -vn {dirs.dir_audio_stream}")
@@ -12,7 +12,8 @@ def remove_videos():
 #def extract_audio(file):
 #
 #    os.system(f" ffmpeg -i '{file}' -c:a pcm_s24le '{filepath_wo_suffix}.wav'")
-# TODO TEST IT
+
+
 def slow_audio(input_audio):
     output_audio = str(remove_file_extension(input_audio)) + "_slowed.mp4"
     if dirs.get_second() == 3:
