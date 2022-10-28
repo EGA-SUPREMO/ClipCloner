@@ -6,34 +6,40 @@ import clip_generator.editter.dirs as dirs
 import clip_generator.common_functions as common_functions
 from clip_generator.editter.correlation import correlate
 
+correct_trim=True
 
 def trim_to_clip(offset_credits=0):
 	# No need to extract audio, youtube-dl already can do it for you!, now TODO implement it!
+	dirs.update_phase(0)
+
 	chopper.remove_videos()
 	chopper.cutAudioIntoXSecondsParts("03")
 	chopper.cutLastSecondsAudio(3, offset_credits)
 	chopper.fixAudioParts()
 
-	audio_info.set_audio_infos_trim()
 
-	wrong_trim=True
+	while True:
+		audio_info.set_audio_infos_trim()
+		from_second = str(audio_info.infosTrim[0][0][1]['pad'])
+		to_second = str(float(from_second) + float(dirs.seconds[dirs.phase]))
 
-	while wrong_trim:
+		start_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
 
-	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
-	to_second = str(float(from_second) + float(dirs.seconds[dirs.phase]))
+		to_second = str(
+			audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
+		from_second = str(float(to_second) - float(dirs.seconds[dirs.phase]))
 
-	start_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
+		end_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
-	to_second = str(
-		audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
-	from_second = str(float(to_second) - float(dirs.seconds[dirs.phase]))
+		audio_info.write_correlation(start_correlation, end_correlation)
 
-	end_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
+		audio_info.misalignment = audio_info.misalignment + 1500
+		if correct_trim:
+			audio_info.misalignment = 6000
+			if audio_info.misalignment > 10000:
+				print("Error, possibly wrong files")
 
-	audio_info.write_correlation(start_correlation, end_correlation)
-
-	if
+			break
 
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(
@@ -75,6 +81,8 @@ def auto_edit(credits_offset=0):
 
 # TODO test it
 def find_limits_for_trim(from_second: str, to_second: str, dir_stream_output, dir_clip):
+	global correct_trim
+
 	chopper.chop(dirs.dir_audio_stream, dir_stream_output, from_second, to_second)
 
 	slowed_stream = chopper.slow_audio(dir_stream_output)
@@ -83,7 +91,10 @@ def find_limits_for_trim(from_second: str, to_second: str, dir_stream_output, di
 	correlation = correlate(slowed_clip, slowed_stream)
 
 	if correlation < 0.7:
-		print("Error")
+		correct_trim = False
+		print(dirs.dir_clip)
+		print(dirs.dir_stream)
+		print("Error correlation: "+dir_stream_output)
 		return correlation
 		
 	return correlation

@@ -27,7 +27,7 @@ def update_phase(new_phase):
 
     phase = new_phase
     dir_current_start_clip = dirFixedAudioParts + "S0" + str(seconds[phase]) + "_clip_audio0.mp4"
-    dir_current_end_clip = dirFixedAudioParts + "last_S0" + str(seconds[phase]) + "_clip_audio0.mp4"
+    dir_current_end_clip = dirFixedAudioParts + "last_S" + str(seconds[phase]) + "_clip_audio.mp4"
 
 
 def get_second():

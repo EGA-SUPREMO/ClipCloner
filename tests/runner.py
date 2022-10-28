@@ -22,6 +22,8 @@ def setUpModule():
 
     dirs.dirAudioParts = dirs.dir_temp_files + "audio_parts/"
     dirs.dirFixedAudioParts = dirs.dir_temp_files + "fixed_audio_parts/"
+    dirs.dir_audio_clip = dirs.dir_temp_files + "clip_audio.mp4"
+    dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
 
     os.makedirs(dirs.dirAudioParts, exist_ok=True)
     os.makedirs(dirs.dirFixedAudioParts, exist_ok=True)
