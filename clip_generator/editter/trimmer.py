@@ -14,7 +14,11 @@ def trim_to_clip(offset_credits=0):
 	chopper.cutLastSecondsAudio(3, offset_credits)
 	chopper.fixAudioParts()
 
-	audio_info.set_audio_infos_trim(3)
+	audio_info.set_audio_infos_trim()
+
+	wrong_trim=True
+
+	while wrong_trim:
 
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(float(from_second) + float(dirs.seconds[dirs.phase]))
@@ -28,6 +32,8 @@ def trim_to_clip(offset_credits=0):
 	end_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
 	audio_info.write_correlation(start_correlation, end_correlation)
+
+	if
 
 	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
 	to_second = str(
@@ -68,10 +74,16 @@ def auto_edit(credits_offset=0):
 	#common_functions.removeAll(dirs.dirFixedAudioParts)
 
 # TODO test it
-def find_limits_for_trim(from_second, to_second, dir_stream_output, dir_clip):
+def find_limits_for_trim(from_second: str, to_second: str, dir_stream_output, dir_clip):
 	chopper.chop(dirs.dir_audio_stream, dir_stream_output, from_second, to_second)
 
 	slowed_stream = chopper.slow_audio(dir_stream_output)
 	slowed_clip = chopper.slow_audio(dir_clip)
-	
-	return correlate(slowed_clip, slowed_stream)
+
+	correlation = correlate(slowed_clip, slowed_stream)
+
+	if correlation < 0.7:
+		print("Error")
+		return correlation
+		
+	return correlation

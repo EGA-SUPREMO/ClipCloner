@@ -15,7 +15,7 @@ class TestAudioInfo(unittest.TestCase):
 
         get_alignment_info_mock.return_value =[[0, {'pad': 5, 'pad_post':4, 'trim': 3, 'trim_post': 2}]]
 
-        audio_info.set_audio_infos_trim("1")
+        audio_info.set_audio_infos_trim()
 
         for info in audio_info.infosTrim:
             self.assertEqual(info[0][1]['pad'], 5)
@@ -27,7 +27,7 @@ class TestAudioInfo(unittest.TestCase):
         self.assertEqual(118.0, round(last_seconds, 1), msg="Failed to get last 3 seconds right for ffmpeg -to format: "+filename)
 
     def test_write_infos(self):
-        audio_info.write_infos_trim("10.048", "113.72033333333333")
+        audio_info.write_infos_trim(10.048, 113.72033333333333)
 
         timefile = dirs.dir_clip_folder+"timestamps.json" 
         f = open(timefile, "r")

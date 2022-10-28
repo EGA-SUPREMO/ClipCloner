@@ -31,7 +31,7 @@ def tearDownModule():
     common_functions.removeAll(dirs.dir_clip_folder)
 
 
-def run_tests(with_internet=True):
+def run_tests(is_with_internet=True):
     setUpModule()
 
     load_tests = load_ordered_tests
@@ -51,7 +51,7 @@ def run_tests(with_internet=True):
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_generates_video'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_right_duration'))
 
-    if with_internet=="True":
+    if not is_with_internet == "ni":
         suite.addTest(unittest.makeSuite(testDescript.TestDescriptCorrect))
         suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
 

@@ -9,6 +9,7 @@ from align_videos_by_soundtrack.utils import *
 
 import clip_generator.editter.dirs as dirs
 
+misalignment=6000
 
 data = {}
 data['logs'] = []
@@ -23,22 +24,21 @@ def get_alignment_info(fps: list):
     # changing it to 6000 improved results although seems to make it run slower.
     # Have to test if max_misalignment=1800 is good enough
     # Seems changing sample_rate could make more precise results
-    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=6000)
+    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=misalignment)
     with SyncDetector(params=summarizer_params, clear_cache=False) as det:
         result = det.align(file_specs, known_delay_map={})
     return list(zip(file_specs, result))
 
 
-def set_audio_infos_edit(seconds, fromAudio, toAudio):
+def set_audio_infos_edit(seconds: str, fromAudio, toAudio):
     for x in range(fromAudio, toAudio + 1):
         infosEdit.append(get_alignment_info(
             [dirs.dirFixedAudioParts + "S" + seconds + "_clip_audio" + str(x) + ".mp4", dirs.dir_stream]))
 
 
-def set_audio_infos_trim(seconds):
+def set_audio_infos_trim():
     global infosTrim
     infosTrim = list()
-    seconds = str(seconds)
 
     infosTrim.append(
         get_alignment_info([dirs.dir_current_start_clip, dirs.dir_stream]))
@@ -46,7 +46,7 @@ def set_audio_infos_trim(seconds):
         get_alignment_info([dirs.dir_current_end_clip, dirs.dir_stream]))
 
 
-def get_last_seconds_for_ffmpeg_argument_to(file, seconds):
+def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     seconds = seconds - 1  # chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
     lengthFile = subprocess.run(
         ['ffprobe', '-v', '0', '-show_entries', 'format=duration', '-of', 'compact=p=0:nk=1', file],
@@ -63,15 +63,16 @@ def write_infos_edit():
         f.close()
         print(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']))
 
+
 # TODO remove test
-def write_infos_trim(from_second, to_second):
-    appendJSON({'trim': [str(from_second), str(to_second)]})
+def write_infos_trim(from_second: int, to_second: int):
+    appendJSON({'trim': [from_second, to_second]})
     print(str(from_second) + " - " + str(to_second))
 
 
-def write_correlation(start, end):
-    appendJSON({'correlation': {'trim': [str(start), str(end)]}})
-    print({'correlation': {'trim': [str(start), str(end)]}})
+def write_correlation(start: int, end: int):
+    appendJSON({'correlation': {'trim': [start, end]}})
+    print({'correlation': {'trim': [start, end]}})
 
 # TODO test it
 def appendJSON(value):
