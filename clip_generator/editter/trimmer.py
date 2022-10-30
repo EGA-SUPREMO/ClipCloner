@@ -20,16 +20,9 @@ def trim_to_clip(offset_credits=0):
 
 	while True:
 		audio_info.set_audio_infos_trim()
-		from_second = str(audio_info.infosTrim[0][0][1]['pad'])
-		to_second = str(float(from_second) + float(dirs.seconds[dirs.phase]))
 
-		start_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
-
-		to_second = str(
-			audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
-		from_second = str(float(to_second) - float(dirs.seconds[dirs.phase]))
-
-		end_correlation = find_limits_for_trim(from_second, to_second, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
+		start_correlation = check_correlation_for_trim("start", dirs.dir_current_start_stream, dirs.dir_current_start_clip)
+		end_correlation = check_correlation_for_trim("end", dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
 		audio_info.write_correlation(start_correlation, end_correlation)
 
@@ -41,9 +34,6 @@ def trim_to_clip(offset_credits=0):
 
 			break
 
-	from_second = str(audio_info.infosTrim[0][0][1]['pad'])
-	to_second = str(
-		audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post']))
 
 	audio_info.write_infos_trim(from_second, to_second)
 	chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
@@ -54,7 +44,7 @@ def teste():
 	#chopper.cutAudioIntoXSecondsParts("3")
 	chopper.fixAudioParts()
 
-	#audio_info.set_audio_infos_edit("0.5", 0, 2)
+#audio_info.set_audio_infos_edit("0.5", 0, 2)
 	#audio_info.write_infos_edit()
 
 #To copy clip's edition
@@ -69,8 +59,9 @@ def auto_edit(credits_offset=0):
 
 	print(rounded_duraction_clip_without_credits)
 	print(rounded_duration_stream)
-	#audio_info.set_audio_infos_edit(3)
 
+
+#audio_info.set_audio_infos_edit(3)
 
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
@@ -79,8 +70,8 @@ def auto_edit(credits_offset=0):
 	#common_functions.removeAll(dirs.dirAudioParts)
 	#common_functions.removeAll(dirs.dirFixedAudioParts)
 
-# TODO test it
-def find_limits_for_trim(from_second: str, to_second: str, dir_stream_output, dir_clip):
+# TODO test these three
+def check_correlation_at(from_second, to_second, dir_stream_output, dir_clip):
 	global correct_trim
 
 	chopper.chop(dirs.dir_audio_stream, dir_stream_output, from_second, to_second)
@@ -92,7 +83,27 @@ def find_limits_for_trim(from_second: str, to_second: str, dir_stream_output, di
 
 	if correlation < 0.7:
 		correct_trim = False
-		print("Error correlation: "+dir_stream_output)
+		print("Error correlation: " + str(correlation) + dir_stream_output)
 		return correlation
-		
+
 	return correlation
+
+
+def find_limits_for_trim(limit_type: str):
+	from_second = audio_info.infosTrim[0][0][1]['pad']
+	to_second = audio_info.get_last_seconds_for_ffmpeg_argument_to(dirs.dir_stream, audio_info.infosTrim[1][0][1]['pad_post'])
+
+	match limit_type:
+		case "only_start":
+			to_second = from_second + dirs.get_second()
+			return
+		case "only_end":
+			from_second = to_second - dirs.get_second()
+			return
+		case "full":
+			return
+	return from_second, to_second
+
+def check_correlation_for_trim(limit_type: str, dir_stream, dir_clip):
+	from_second, to_second = find_limits_for_trim(limit_type)
+	check_correlation_at(from_second, to_second, dir_stream, dir_clip)
