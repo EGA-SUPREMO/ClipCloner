@@ -17,26 +17,11 @@ def trim_to_clip(offset_credits=0):
 	chopper.cutLastSecondsAudio(3, offset_credits)
 	chopper.fixAudioParts()
 
-
-	while True:
-		audio_info.set_audio_infos_trim()
-
-		start_correlation = check_correlation_for_trim("start", dirs.dir_current_start_stream, dirs.dir_current_start_clip)
-		end_correlation = check_correlation_for_trim("end", dirs.dir_current_end_stream, dirs.dir_current_end_clip)
-
-		audio_info.write_correlation(start_correlation, end_correlation)
-
-		audio_info.misalignment = audio_info.misalignment + 1500
-		if correct_trim:
-			audio_info.misalignment = 6000
-			if audio_info.misalignment > 10000:
-				print("Error, possibly wrong files")
-
-			break
+	find_timestamps_for_trim()
 
 
-	audio_info.write_infos_trim(from_second, to_second)
-	chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
+	#audio_info.write_infos_trim(from_second, to_second)
+	#chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
 
 def teste():
 	#chopper.removeVideo()
@@ -47,7 +32,7 @@ def teste():
 #audio_info.set_audio_infos_edit("0.5", 0, 2)
 	#audio_info.write_infos_edit()
 
-#To copy clip's edition
+# To copy clip's edition
 def auto_edit(credits_offset=0):
 	trim_to_clip(credits_offset)
 
@@ -96,14 +81,33 @@ def find_limits_for_trim(limit_type: str):
 	match limit_type:
 		case "only_start":
 			to_second = from_second + dirs.get_second()
-			return
+			return from_second, to_second
 		case "only_end":
 			from_second = to_second - dirs.get_second()
-			return
+			return from_second, to_second
 		case "full":
-			return
+			return from_second, to_second
+
 	return from_second, to_second
 
 def check_correlation_for_trim(limit_type: str, dir_stream, dir_clip):
 	from_second, to_second = find_limits_for_trim(limit_type)
-	check_correlation_at(from_second, to_second, dir_stream, dir_clip)
+	return check_correlation_at(from_second, to_second, dir_stream, dir_clip)
+
+
+def find_timestamps_for_trim():
+	while True:
+		audio_info.set_audio_infos_trim()
+
+		start_correlation = check_correlation_for_trim("only_start", dirs.dir_current_start_stream, dirs.dir_current_start_clip)
+		end_correlation = check_correlation_for_trim("only_end", dirs.dir_current_end_stream, dirs.dir_current_end_clip)
+
+		audio_info.write_correlation(start_correlation, end_correlation)
+
+		audio_info.misalignment = audio_info.misalignment + 1500
+		if correct_trim:
+			audio_info.misalignment = 6000
+			if audio_info.misalignment > 10000:
+				print("Error, possibly wrong files")
+
+			break
