@@ -38,12 +38,8 @@ def set_audio_infos_edit(seconds: str, fromAudio, toAudio):
 
 def set_audio_infos_trim():
     global infosTrim
-    infosTrim = list()
-
-    infosTrim.append(
-        get_alignment_info([dirs.dir_current_start_clip, dirs.dir_stream]))
-    infosTrim.append(
-        get_alignment_info([dirs.dir_current_end_clip, dirs.dir_stream]))
+    infosTrim = [get_alignment_info([dirs.dir_current_start_clip, dirs.dir_stream]),
+                 get_alignment_info([dirs.dir_current_end_clip, dirs.dir_stream])]
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):

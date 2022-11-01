@@ -19,9 +19,8 @@ def trim_to_clip(offset_credits=0):
 
 	find_timestamps_for_trim()
 
-
-	#audio_info.write_infos_trim(from_second, to_second)
-	#chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
+	from_second, to_second = find_limits_for_trim("full")
+	chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
 
 def teste():
 	#chopper.removeVideo()
@@ -98,16 +97,17 @@ def check_correlation_for_trim(limit_type: str, dir_stream, dir_clip):
 def find_timestamps_for_trim():
 	while True:
 		audio_info.set_audio_infos_trim()
-
 		start_correlation = check_correlation_for_trim("only_start", dirs.dir_current_start_stream, dirs.dir_current_start_clip)
 		end_correlation = check_correlation_for_trim("only_end", dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
-		audio_info.write_correlation(start_correlation, end_correlation)
 
 		audio_info.misalignment = audio_info.misalignment + 1500
 		if correct_trim:
 			audio_info.misalignment = 6000
 			if audio_info.misalignment > 10000:
 				print("Error, possibly wrong files")
-
+				return
+			from_second, to_second = find_limits_for_trim("full")
+			audio_info.write_infos_trim(from_second, to_second)
+			audio_info.write_correlation(start_correlation, end_correlation)
 			break
