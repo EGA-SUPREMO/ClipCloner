@@ -6,7 +6,8 @@ import clip_generator.editter.dirs as dirs
 import clip_generator.common_functions as common_functions
 from clip_generator.editter.correlation import correlate
 
-correct_trim=True
+correct_trim = True
+
 
 def trim_to_clip(offset_credits=0):
 	dirs.update_phase(0)
@@ -22,6 +23,7 @@ def trim_to_clip(offset_credits=0):
 	from_second, to_second = find_limits_for_trim("full")
 	chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
 
+
 def teste():
 	#chopper.removeVideo()
 	chopper.cutAudioIntoXSecondsParts("1")
@@ -30,6 +32,7 @@ def teste():
 
 #audio_info.set_audio_infos_edit("0.5", 0, 2)
 	#audio_info.write_infos_edit()
+
 
 # To copy clip's edition
 def auto_edit(credits_offset=0):
@@ -89,6 +92,7 @@ def find_limits_for_trim(limit_type: str):
 
 	return from_second, to_second
 
+
 def check_correlation_for_trim(limit_type: str, dir_stream, dir_clip):
 	from_second, to_second = find_limits_for_trim(limit_type)
 	return check_correlation_at(from_second, to_second, dir_stream, dir_clip)
@@ -99,7 +103,6 @@ def find_timestamps_for_trim():
 		audio_info.set_audio_infos_trim()
 		start_correlation = check_correlation_for_trim("only_start", dirs.dir_current_start_stream, dirs.dir_current_start_clip)
 		end_correlation = check_correlation_for_trim("only_end", dirs.dir_current_end_stream, dirs.dir_current_end_clip)
-
 
 		audio_info.misalignment = audio_info.misalignment + 1500
 		if correct_trim:
