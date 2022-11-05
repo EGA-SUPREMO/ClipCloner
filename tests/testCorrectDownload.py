@@ -1,9 +1,12 @@
+import os
 import unittest
 import filecmp
 from pathlib import Path
 
 import clip_generator.descript.maini as maini
 import clip_generator.main as main
+import clip_generator.stream as stream
+import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
 
 
@@ -24,7 +27,24 @@ class TestCorrectDownload(unittest.TestCase):
         self.assertEqual(30.7, round(float(duration), 1), msg="Downloaded clip doesnt match duration: " + str(filename))
 
     def test_stream_is_downloaded_as_example(self):
-        pass
+        dirs.dir_stream = dirs.dir_temp_files + "stream.mkv"
+
+        stream.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 241)
+
+        filename = Path(dirs.dir_stream)
+        duration = getDuration(filename)
+
+        dirs.dir_stream = "tests/Examples/stream.mkv"
+        self.assertEqual(12, round(float(duration), 1), msg="Downloaded stream doesnt match duration: " + str(filename))
+
+    def test_stream_download_is_too_long(self):
+        dirs.dir_stream = dirs.dir_temp_files + "stream1.mkv"
+
+        stream.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 741)
+
+        self.assertTrue(not os.path.isfile(dirs.dir_stream), "Stream file found: " + dirs.dir_stream)
+        dirs.dir_stream = "tests/Examples/stream.mkv"
+
 
 if __name__ == '__main__':
     unittest.main()

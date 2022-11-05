@@ -12,7 +12,6 @@ correct_trim = True
 def trim_to_clip(offset_credits=0):
 	dirs.update_phase(0)
 
-	# No need to extract audio, youtube-dl already can do it for you!, now TODO implement it!
 	chopper.remove_videos()
 	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
 	chopper.cutLastSecondsAudio(dirs.get_second(), offset_credits)
