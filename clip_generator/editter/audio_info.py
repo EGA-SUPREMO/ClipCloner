@@ -43,7 +43,7 @@ def set_audio_infos_trim():
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
-    seconds = seconds - 1  # chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
+    seconds = seconds - dirs.transition_offset  # chopper cuts one second sonner to avoid errors with transitions/credits, so this time we subtract one to compensate and make it one second longer
     lengthFile = subprocess.run(
         ['ffprobe', '-v', '0', '-show_entries', 'format=duration', '-of', 'compact=p=0:nk=1', file],
         capture_output=True, text=True).stdout
