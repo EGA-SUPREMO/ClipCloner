@@ -23,5 +23,8 @@ class TestCorrectDownload(unittest.TestCase):
 
         self.assertEqual(30.7, round(float(duration), 1), msg="Downloaded clip doesnt match duration: " + str(filename))
 
+    def test_stream_is_downloaded_as_example(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()
