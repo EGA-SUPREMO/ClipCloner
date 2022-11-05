@@ -5,7 +5,7 @@ import subprocess
 import clip_generator.descript.maini as maini
 
 
-def downloadClip(link):
+def downloadClip(link: str):
 	os.system("youtube-dl -f \"bestvideo[height<=720]+bestaudio[ext=m4a]/bestvideo+bestaudio\" --merge-output-format mkv -k -o \"" + maini.lastDirClip + "clip\" " + link)
 
 if __name__ == '__main__':

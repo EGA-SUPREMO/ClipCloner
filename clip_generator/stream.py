@@ -4,17 +4,17 @@ import sys
 
 #import clip_generator.editter.trimmer
 
-#urlsText=subprocess.run(['youtube-dl', '-g', '--no-warnings', '--youtube-skip-dash-manifest', sys.argv[1:][0]], stdout=subprocess.PIPE).stdout.decode('utf-8')
-#urls = urlsText.split()
 
-#el comando es este
-#ffmpeg -y -ss '" + sys.argv[1:][1] + "' -i '" + urls[0] + "' -ss '" + sys.argv[1:][1] + "' -i '" + urls[1] + "' -map 0:v -map 1:a -ss 5 -t '" + sys.argv[1:][2] + "' -c:v libx265 -c:a aac '../Clips/stream.mkv'
-#noice = subprocess.run(["ffmpeg", "-y", '-ss', sys.argv[1:][1], '-i', urls[0], '-ss', sys.argv[1:][1], '-i', urls[1], '-map', '0:v', '-map', '1:a', '-ss', '5', '-t', sys.argv[1:][2], '-c:v', 'libx265', '-c:a', 'aac', '../Clips/stream.mkv'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-#print(noice)
-# BORRRRRRRARRR COMENTARIOS VIEJOS' ESTO NO TIENE TESTS PORQUE NO ESTA COMPLETOOOOOOOOOOOOo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# para descargar el estream siempre tiene que ser sinco segundos antes de lo contrario falla y la duracion sin modificancion
-#editter.trimmer.trim_to_clip()
+def download_stream(link: str, from_second: int, to_second: int):
+    # BORRRRRRRARRR COMENTARIOS VIEJOS' ESTO NO TIENE TESTS PORQUE NO ESTA COMPLETOOOOOOOOOOOOo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # para descargar el estream siempre tiene que ser sinco segundos antes de lo contrario falla y la duracion sin modificancion
+    noice = subprocess.run(['yt-dlp', '-R', 'infinite', '--no-warnings', '-o', '../../Clips/clip', '--merge-output-format',
+                        'mkv',  '--download-sections', '*' + from_second + '-' + to_second + '', link], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    print(noice)
+    #editter.trimmer.trim_to_clip()
 
-noice = subprocess.run(['yt-dlp', '-k', '-R', 'infinite', '--no-warnings', '-o', '../../Clips/clip', '--merge-output-format',
-                        'mkv',  '--download-sections', '*' + sys.argv[1:][1] + '-' + sys.argv[1:][2] + '', sys.argv[1:][0]], stdout=subprocess.PIPE).stdout.decode('utf-8')
-print(noice)
+if __name__ == '__main__':
+    from_second = sys.argv[1:][1]
+    to_second = sys.argv[1:][2]
+
+    download_stream(sys.argv[1:][0], from_second, to_second)
