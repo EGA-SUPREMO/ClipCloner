@@ -4,7 +4,8 @@ import filecmp
 from pathlib import Path
 
 import clip_generator.descript.maini as maini
-import clip_generator.main as main
+import clip_generator.downloader
+import clip_generator.downloader as main
 import clip_generator.stream as stream
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
@@ -19,7 +20,7 @@ class TestCorrectDownload(unittest.TestCase):
         maini.lastDirClip = "tests/Clips/"
 
     def test_clip_is_downloaded_as_example(self):
-        main.downloadClip("https://www.youtube.com/watch?v=rnqQPIod3pA")
+        main.download_clip("https://www.youtube.com/watch?v=rnqQPIod3pA")
 
         filename = Path(maini.lastDirClip + "clip.mkv")
         duration = getDuration(filename)
@@ -29,7 +30,7 @@ class TestCorrectDownload(unittest.TestCase):
     def test_stream_is_downloaded_as_example(self):
         dirs.dir_stream = dirs.dir_temp_files + "stream.mkv"
 
-        stream.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 241)
+        clip_generator.downloader.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 241)
 
         filename = Path(dirs.dir_stream)
         duration = getDuration(filename)
@@ -40,7 +41,7 @@ class TestCorrectDownload(unittest.TestCase):
     def test_stream_download_is_too_long(self):
         dirs.dir_stream = dirs.dir_temp_files + "stream1.mkv"
 
-        stream.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 741)
+        clip_generator.downloader.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 741)
 
         self.assertTrue(not os.path.isfile(dirs.dir_stream), "Stream file found: " + dirs.dir_stream)
         dirs.dir_stream = "tests/Examples/stream.mkv"
