@@ -12,7 +12,7 @@ from clip_generator.common_functions import getDuration
 class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
 
     def test_remove_video_from_file_file_is_being_generated(self):
-        chopper.remove_videos()
+        chopper.remove_video()
 
         clip_audio = Path(dirs.dir_audio_clip)
         stream_audio = Path(dirs.dir_audio_stream)

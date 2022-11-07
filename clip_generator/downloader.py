@@ -3,12 +3,16 @@ import sys
 import subprocess
 
 import clip_generator.descript.maini as maini
-import clip_generator.stream as stream
 from clip_generator.editter import dirs as dirs
 
 
+# TODO Needs tests
+def download_video(format: str, dir_video: str, link: str):
+    os.system("yt-dlp -f \"" + format + "\" --merge-output-format mkv -k -o \"" + dir_video + "\" " + link)
+
+
 def download_clip(link: str):
-    os.system("yt-dlp -f \"bestvideo[height<=720]+bestaudio[ext=m4a]/bestvideo+bestaudio\" --merge-output-format mkv -k -o \"" + maini.lastDirClip + "clip\" " + link)
+    download_video("bestvideo[height<=720]+bestaudio[ext=m4a]/bestvideo+bestaudio", maini.lastDirClip + 'clip', link)
 
 
 def download_stream(link: str, from_second: int, to_second: int):

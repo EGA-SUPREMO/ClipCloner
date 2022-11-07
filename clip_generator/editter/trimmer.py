@@ -9,19 +9,22 @@ from clip_generator.editter.correlation import correlate
 correct_trim = True
 
 
-def trim_to_clip(offset_credits=0):
+def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 	dirs.update_phase(0)
 
-	chopper.remove_videos()
+	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
+	if is_stream_a_video:
+		chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
-	chopper.cutLastSecondsAudio(dirs.get_second(), offset_credits)
+	chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
 	chopper.fixAudioParts()
 
-	find_timestamps_for_trim()
+	find_timestamps_for_trim(not is_stream_a_video)
 
-	from_second, to_second = find_limits_for_trim("full")
-	chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
-
+	if is_stream_a_video:
+		from_second, to_second = find_limits_for_trim("full")
+		chopper.chop(dirs.dir_stream, dirs.dir_trimmed_stream, from_second, to_second)
+	return find_limits_for_trim("full")
 
 def teste():
 	#chopper.removeVideo()
@@ -97,22 +100,18 @@ def check_correlation_for_trim(limit_type: str, dir_stream, dir_clip):
 	return check_correlation_at(from_second, to_second, dir_stream, dir_clip)
 
 
-def find_timestamps_for_trim():
+def find_timestamps_for_trim(write_info=True):
 	while True:
 		audio_info.set_audio_infos_trim()
 		start_correlation = check_correlation_for_trim("only_start", dirs.dir_current_start_stream, dirs.dir_current_start_clip)
 		end_correlation = check_correlation_for_trim("only_end", dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
 		audio_info.misalignment = audio_info.misalignment + 1500
-		if audio_info.misalignment > 20000:
+		if audio_info.misalignment > 20000 or correct_trim:
 			print("Error, possibly wrong files")
-			from_second, to_second = find_limits_for_trim("full")
-			audio_info.write_infos_trim(from_second, to_second)
-			audio_info.write_correlation(start_correlation, end_correlation)
-			return
-		if correct_trim:
 			audio_info.misalignment = 6000
-			from_second, to_second = find_limits_for_trim("full")
-			audio_info.write_infos_trim(from_second, to_second)
-			audio_info.write_correlation(start_correlation, end_correlation)
-			break
+			if write_info:
+				from_second, to_second = find_limits_for_trim("full")
+				audio_info.write_infos_trim(from_second, to_second)
+				audio_info.write_correlation(start_correlation, end_correlation)
+			return

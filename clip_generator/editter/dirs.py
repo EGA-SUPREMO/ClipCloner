@@ -15,6 +15,7 @@ dir_clip_folder = "../Clips/"
 
 dir_clip = dir_clip_folder + "clip.mkv"
 dir_stream = dir_clip_folder + "stream.mkv"
+dir_worstaudio_stream = dir_clip_folder + "worstaudio_stream.mkv"
 dir_trimmed_stream = dir_clip_folder + "trimmed_stream.mkv"
 
 dir_current_start_stream = dir_temp_files + "start_stream.mp4"

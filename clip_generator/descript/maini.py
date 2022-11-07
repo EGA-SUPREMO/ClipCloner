@@ -34,6 +34,7 @@ descrChannel = "- "
 tags = ["#hololive", "#vtuber"]
 
 title = ""
+stream_links = []
 
 dirClips = "../Clips/"
 lastDirClip = dirClips
@@ -68,6 +69,7 @@ def setDescrClip(link):
 def setStream(file, dirClips):
     global fullDescr
     global descrStream
+    global stream_links
 
     if len(sys.argv[1:]) >= 2:
         descrStream += sys.argv[1:][1]
@@ -77,21 +79,25 @@ def setStream(file, dirClips):
     f = open(file, "r", encoding="utf8")
     text = f.read()
     matchs = re.findall("\n.*\s.*", text)
-    matchLinks = re.findall("https://([^\s]+)", text)
+    matchLinks = re.findall("https://([^\s]+)", text) # Get the whole line starting with https:// until the first space
     realMatchs = []
     fileMatch = open(f"{dirClips}streams.txt", "w")
 
     # this for is only for writing all the streams linked to the description, in case the first one was wrong
     for match in matchLinks:
         if len(re.findall(".*channel.*", match)) == 1 or len(re.findall(".*twitter.*", match)) == 1 or len(
-                re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1 or len(re.findall(".*facebook.*", match)) == 1:  # checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
+                re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1 or len(
+                re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1:
+            # checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
             pass
         else:
             fileMatch.write(match + "\n")
+            stream_links.append(match + "")
 
     for match in matchs:
         if len(re.findall(".*channel.*", match)) == 1 or len(re.findall(".*twitter.*", match)) == 1 or len(
-                re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1 or len(re.findall(".*facebook.*", match)) == 1:
+                re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1 or len(
+                re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1:
             continue
         if len(re.findall(".*youtu*", match)) == 1:
             realMatchs.append(match + "")
