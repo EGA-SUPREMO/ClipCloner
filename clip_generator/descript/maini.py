@@ -71,11 +71,6 @@ def setStream(file, dirClips):
     global descrStream
     global stream_links
 
-    if len(sys.argv[1:]) >= 2:
-        descrStream += sys.argv[1:][1]
-        fullDescr += "\n" + descrStream
-        return
-
     f = open(file, "r", encoding="utf8")
     text = f.read()
     matchs = re.findall("\n.*\s.*", text)

@@ -15,7 +15,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
 	if is_stream_a_video:
-		current_stream = dirs.dir_worstaudio_stream
+		current_stream = dirs.dir_stream
 		chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
 	chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
@@ -115,8 +115,10 @@ def find_timestamps_for_trim(contains_video=False):
 		end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
 		audio_info.misalignment = audio_info.misalignment + 1500
-		if audio_info.misalignment > 20000 or correct_trim:
+		if audio_info.misalignment > 15000:
 			print("Error, possibly wrong files")
+
+		if correct_trim or audio_info.misalignment > 15000:
 			audio_info.misalignment = 6000
 			if not contains_video:
 				from_second, to_second = find_limits_for_trim("full")
