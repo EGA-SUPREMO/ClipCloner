@@ -31,8 +31,6 @@ def cutAudioIntoXSecondsParts(x: str):
 
 # Input: Int: length of cut audio from the last seconds
 def cutLastSecondsAudio(seconds: int, offset_credits=0):
-
-
     cutted_seconds = str(
         seconds + offset_credits + dirs.transition_offset)  # Usually the last second is a transition from the clip to credits or it simply loses volume to zero in the span of 1-2 seconds, this could interfere with the comparasons, so it gets left out
     real_seconds = str(seconds)
