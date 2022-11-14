@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 import clip_generator.descript.maini as maini
-from clip_generator.editter import dirs as dirs
+import clip_generator.editter.dirs as dirs
 
 
 # TODO Needs test
@@ -12,7 +12,7 @@ def download_video(format: str, dir_video: str, link: str):
 
 
 def download_clip(link: str):
-    download_video("bestvideo[height<=720]+bestaudio[ext=m4a]/bestvideo+bestaudio", maini.lastDirClip + 'clip', link)
+    download_video("bestvideo[height<=720]+bestaudio[ext=m4a]/bestvideo+bestaudio", dirs.last_dir_clip + 'clip', link)
 
 
 def download_stream(link: str, from_second: int, to_second: int):
@@ -25,8 +25,10 @@ def download_stream(link: str, from_second: int, to_second: int):
     from_second = str(from_second - 1)
     to_second = str(to_second + 1)
     noice = subprocess.run(['yt-dlp', '-R', 'infinite', '--no-warnings', '-o', dirs.dir_stream, '--merge-output-format',
-                        'mkv',  '--download-sections', '*' + from_second + '-' + to_second + '', link], stdout=subprocess.PIPE).stdout.decode('utf-8')
+                            'mkv',  '--download-sections', '*' + from_second + '-' + to_second + '', link],
+                           stdout=subprocess.PIPE).stdout.decode('utf-8')
     print(noice)
+
 
 if __name__ == '__main__':
     maini.run(sys.argv[1:][0])

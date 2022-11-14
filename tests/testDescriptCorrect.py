@@ -2,6 +2,7 @@ import unittest
 import filecmp
 
 import clip_generator.descript.maini as maini
+import clip_generator.editter.dirs
 from clip_generator.common_functions import checkTwoFilesAreTheSame
 from clip_generator.common_functions import check_two_large_files_are_equal
 
@@ -10,7 +11,7 @@ class TestDescriptCorrect(unittest.TestCase):
 
 	@classmethod
 	def setUpClass(cls):
-		maini.dirClips = "tests/Clips/"
+		clip_generator.editter.dirs.dir_clip_folder = "tests/Clips/"
 		maini.filename = "tests/Clips/"
 
 	def test_files_is_being_generated_exactly_as_examples(self):

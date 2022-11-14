@@ -6,6 +6,7 @@ from pathlib import Path
 import clip_generator.descript.maini as maini
 import clip_generator.downloader
 import clip_generator.downloader as main
+import clip_generator.editter.dirs
 import clip_generator.stream as stream
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
@@ -15,14 +16,14 @@ class TestCorrectDownload(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        maini.dirClips = "tests/Clips/"
+        clip_generator.editter.dirs.dir_clip_folder = "tests/Clips/"
         maini.filename = "tests/Clips/"
-        maini.lastDirClip = "tests/Clips/"
+        clip_generator.editter.dirs.last_dir_clip = "tests/Clips/"
 
     def test_clip_is_downloaded_as_example(self):
         main.download_clip("https://www.youtube.com/watch?v=rnqQPIod3pA")
 
-        filename = Path(maini.lastDirClip + "clip.mkv")
+        filename = Path(clip_generator.editter.dirs.last_dir_clip + "clip.mkv")
         duration = getDuration(filename)
 
         self.assertEqual(30.7, round(float(duration), 1), msg="Downloaded clip doesnt match duration: " + str(filename))

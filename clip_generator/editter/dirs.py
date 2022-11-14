@@ -12,6 +12,7 @@ dir_audio_clip = dir_temp_files + "clip_audio.mp4"
 dir_audio_stream = dir_temp_files + "stream_audio.mp4"
 
 dir_clip_folder = "../Clips/"
+last_dir_clip = dir_clip_folder
 
 dir_clip = dir_clip_folder + "clip.mkv"
 dir_stream = dir_clip_folder + "stream.mkv"
@@ -34,3 +35,5 @@ def update_phase(new_phase):
 
 def get_second():
     return seconds[phase]
+
+

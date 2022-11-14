@@ -1,10 +1,10 @@
-import sys
 import re
 import os
 import subprocess
 from pathlib import Path
 
 import clip_generator.descript.getmembers as getmembers
+import clip_generator.editter.dirs as dirs
 
 
 # WRITE ONLY CODE
@@ -36,8 +36,6 @@ tags = ["#hololive", "#vtuber"]
 title = ""
 stream_links = []
 
-dirClips = "../Clips/"
-lastDirClip = dirClips
 fileName = "../../desc.description"
 
 fullDescr = ""
@@ -140,12 +138,12 @@ def writeDescr(dirClips):
 
 
 def run(link):  # Write only code, but dont ever dare to change function's order
-    global dirClips, title, lastDirClip
+    global title
     title = getTitle(link)
     title_without_special_chars = getTitleWithoutSpecialChars(title)
 
-    dirClip = dirClips + title_without_special_chars + "/"
-    lastDirClip = dirClip
+    dirClip = dirs.dir_clip_folder + title_without_special_chars + "/"
+    dirs.last_dir_clip = dirClip
 
     dir = os.path.dirname(__file__)
     realdir = os.path.join(dir, fileName)
