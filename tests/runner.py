@@ -43,7 +43,7 @@ def run_tests(is_with_internet=True):
         suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
 
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
-    suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
+    #suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
     suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
     runner = unittest.TextTestRunner()
     runner.run(suite)

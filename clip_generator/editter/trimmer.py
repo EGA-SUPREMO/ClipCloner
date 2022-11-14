@@ -118,7 +118,7 @@ def find_timestamps_for_trim(contains_video=False):
 		if audio_info.misalignment > 15000:
 			print("Error, possibly wrong files")
 
-		if correct_trim or audio_info.misalignment > 15000:
+		if correct_trim or audio_info.misalignment > 12000:
 			audio_info.misalignment = 4000
 			if not contains_video:
 				from_second, to_second = find_limits_for_trim("full")
