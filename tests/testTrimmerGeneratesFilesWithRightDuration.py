@@ -7,13 +7,14 @@ import clip_generator.editter.dirs as dirs
 
 from clip_generator.common_functions import getDuration
 
+
 class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
 
     def test_trim_to_clip_match_duration_as_example(self):
-        trimmer.trim_to_clip()
+        trimmer.trim_to_clip(True)
 
         filename = Path(dirs.dir_trimmed_stream)
-        duration=getDuration(filename)
+        duration = getDuration(filename)
 
         self.assertEqual(103.7, round(float(duration), 1), msg="REAL Trimmed stream doesnt match duration: "+str(filename))
 

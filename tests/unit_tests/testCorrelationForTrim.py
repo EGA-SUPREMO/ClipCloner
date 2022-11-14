@@ -7,7 +7,6 @@ import clip_generator.editter.audio_info as audio_info
 
 from tests.configs import setUpModule
 from tests.configs import tearDownModule
-from clip_generator.common_functions import checkTwoFilesAreTheSame
 
 
 class TestCorrelationForTrim(unittest.TestCase):
