@@ -4,7 +4,7 @@ import clip_generator.editter.chopper as chopper
 import clip_generator.editter.audio_info as audio_info
 import clip_generator.editter.dirs as dirs
 import clip_generator.common_functions as common_functions
-from clip_generator.editter.correlation import correlate
+import clip_generator.editter.correlation as correlation
 
 correct_trim = True
 current_stream = dirs.dir_worstaudio_stream
@@ -21,7 +21,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 	chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
 	chopper.fixAudioParts()
 
-	find_timestamps_for_trim(is_stream_a_video)
+	find_timestamps_for_trim(is_stream_a_video, int(offset_credits))
 
 	if is_stream_a_video:
 		from_second, to_second = find_limits_for_trim("full")
@@ -70,14 +70,14 @@ def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_ou
 	slowed_stream = chopper.slow_audio(dir_stream_output)
 	slowed_clip = chopper.slow_audio(dir_clip)
 
-	correlation = correlate(slowed_clip, slowed_stream)
+	correl = correlation.correlate(slowed_clip, slowed_stream)
 
-	if correlation < 0.7:
+	if correl < 0.7:
 		correct_trim = False
-		print("Error correlation: " + str(correlation) + dir_stream_output)
-		return correlation
+		print("Error correlation: " + str(correl) + dir_stream_output)
+		return correl
 
-	return correlation
+	return correl
 
 
 def find_limits_for_trim(limit_type: str):
@@ -103,7 +103,9 @@ def check_correlation_for_trim(limit_type: str, dir_input_stream: str, dir_outpu
 	return check_correlation_at(from_second, to_second, dir_input_stream, dir_output_stream, dir_clip)
 
 
-def find_timestamps_for_trim(contains_video=False):
+def find_timestamps_for_trim(contains_video=False, offset_credits=0):
+	clip_duration = common_functions.getDuration(dirs.dir_audio_clip) - 5 - offset_credits
+
 	while True:
 		audio_info.set_audio_infos_trim(current_stream)
 
@@ -115,8 +117,16 @@ def find_timestamps_for_trim(contains_video=False):
 		end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
 		audio_info.misalignment = audio_info.misalignment + 1500
-		if audio_info.misalignment > 15000:
-			print("Error, possibly wrong files")
+
+		if audio_info.misalignment > 12000:
+			print("Error, wrong files perhaps?")
+
+			from_second, to_second = find_limits_for_trim("full")
+			stream_duration = to_second - from_second
+
+			if stream_duration <= clip_duration:
+				print("Wrong match, stream duration is smaller than clip duration")
+				raise Exception("Clip duration is significantly bigger than stream duration")
 
 		if correct_trim or audio_info.misalignment > 12000:
 			audio_info.misalignment = 4000

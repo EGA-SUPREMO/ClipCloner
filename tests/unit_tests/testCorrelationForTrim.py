@@ -1,4 +1,5 @@
 import unittest
+from unittest import TestCase
 from unittest.mock import patch
 
 import clip_generator.editter.trimmer as trimmer
@@ -76,6 +77,25 @@ class TestCorrelationForTrim(unittest.TestCase):
         dirs.dir_current_start_clip = dirs.dirFixedAudioParts + "S03_clip_audio0.mp4"
         dirs.dir_current_end_clip = dirs.dirFixedAudioParts + "last_S3_clip_audio.mp4"
         dirs.dir_current_end_stream = dirs.dir_temp_files + "end_stream.mp4"
+
+    @patch('clip_generator.editter.audio_info.get_alignment_info')
+    @patch('clip_generator.editter.audio_info.get_last_seconds_for_ffmpeg_argument_to')
+    @patch('clip_generator.editter.chopper.chop')
+    @patch('clip_generator.editter.chopper.slow_audio')
+    @patch('clip_generator.editter.correlation.correlate')
+    def test_clip_duration_is_larger_than_stream_duration_raises_exception(self, correlate_mock, slow_audio_mock,
+                                                                           chop_mock,
+                                                                           get_last_seconds_for_ffmpeg_argument_to_mock,
+                                                                           get_alignment_info_mock):
+        dirs.dir_audio_clip = "tests/Examples/clip_audio.mp4"
+
+        get_alignment_info_mock.return_value = [[[], {'pad': 20, 'pad_post': 50}]]
+        correlate_mock.return_value = 0.2
+        get_last_seconds_for_ffmpeg_argument_to_mock.return_value = 60
+
+        TestCase.assertRaises(self, Exception, trimmer.find_timestamps_for_trim, True, 10)
+
+        dirs.dir_audio_clip = dirs.dir_temp_files + "clip_audio.mp4"
 
 
 if __name__ == '__main__':
