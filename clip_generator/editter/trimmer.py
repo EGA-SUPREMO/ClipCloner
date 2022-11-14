@@ -120,8 +120,9 @@ def find_timestamps_for_trim(contains_video=False):
 
 		if correct_trim or audio_info.misalignment > 12000:
 			audio_info.misalignment = 4000
+			from_second, to_second = find_limits_for_trim("full")
 			if not contains_video:
-				from_second, to_second = find_limits_for_trim("full")
 				audio_info.write_infos_trim(from_second, to_second)
 				audio_info.write_correlation(start_correlation, end_correlation)
-			return
+
+			return from_second, to_second, start_correlation, end_correlation
