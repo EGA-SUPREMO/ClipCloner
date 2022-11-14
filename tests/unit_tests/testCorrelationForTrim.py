@@ -9,6 +9,7 @@ from tests.configs import setUpModule
 from tests.configs import tearDownModule
 from clip_generator.common_functions import checkTwoFilesAreTheSame
 
+
 class TestCorrelationForTrim(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -42,10 +43,10 @@ class TestCorrelationForTrim(unittest.TestCase):
         dir_test_start_clip = "tests/Examples/S03_clip_audio0.mp4"
         dirs.dir_audio_stream = "tests/Examples/stream_audio.mp4"
 
-
         correlation = trimmer.check_correlation_at(audio_info.infosTrim[0][0][1]['pad'],
-                                     audio_info.infosTrim[0][0][1]['pad'] + dirs.get_second(),
-                                     dirs.dir_current_start_stream, dir_test_start_clip)
+                                                   audio_info.infosTrim[0][0][1]['pad'] + dirs.get_second(),
+                                                   dirs.dir_audio_stream, dirs.dir_current_start_stream,
+                                                   dir_test_start_clip)
 
         self.assertEqual(correlation, 0.8594182825484764, msg="check_correlation at doesnt match expected value")
         dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
@@ -61,7 +62,8 @@ class TestCorrelationForTrim(unittest.TestCase):
 
         get_alignment_info_mock.return_value = [[[], {'pad': 10.048, 'pad_post': 7.302666666666667}]]
         trimmer.find_timestamps_for_trim()
-        self.assertTrue(checkTwoFilesAreTheSame(dirs.dir_clip_folder+"timestamps.json", 'tests/Examples/timestamps1.json'))
+        self.assertTrue(
+            checkTwoFilesAreTheSame(dirs.dir_clip_folder + "timestamps.json", 'tests/Examples/timestamps1.json'))
 
         dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
         dirs.dir_audio_clip = dirs.dir_temp_files + "clip_audio.mp4"
@@ -69,6 +71,7 @@ class TestCorrelationForTrim(unittest.TestCase):
         dirs.dir_current_start_clip = dirs.dirFixedAudioParts + "S03_clip_audio0.mp4"
         dirs.dir_current_end_clip = dirs.dirFixedAudioParts + "last_S3_clip_audio.mp4"
         dirs.dir_current_end_stream = dirs.dir_temp_files + "end_stream.mp4"
+
 
 if __name__ == '__main__':
     unittest.main()

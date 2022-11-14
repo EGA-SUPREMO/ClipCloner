@@ -6,7 +6,7 @@ import clip_generator.descript.maini as maini
 from clip_generator.editter import dirs as dirs
 
 
-# TODO Needs tests
+# TODO Needs test
 def download_video(format: str, dir_video: str, link: str):
     os.system("yt-dlp -f \"" + format + "\" --merge-output-format mkv -k -o \"" + dir_video + "\" " + link)
 
