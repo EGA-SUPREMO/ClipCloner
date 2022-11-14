@@ -9,6 +9,7 @@ import clip_generator.editter.correlation as correlation
 correct_trim = True
 current_stream = dirs.dir_worstaudio_stream
 
+
 def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 	global current_stream
 	dirs.update_phase(0)
@@ -26,16 +27,9 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 	if is_stream_a_video:
 		from_second, to_second = find_limits_for_trim("full")
 		chopper.chop(current_stream, dirs.dir_trimmed_stream, from_second, to_second)
+
+	common_functions.removeAll(dirs.dir_temp_files)
 	return find_limits_for_trim("full")
-
-def teste():
-	#chopper.removeVideo()
-	chopper.cutAudioIntoXSecondsParts("1")
-	#chopper.cutAudioIntoXSecondsParts("3")
-	chopper.fixAudioParts()
-
-#audio_info.set_audio_infos_edit("0.5", 0, 2)
-	#audio_info.write_infos_edit()
 
 
 # To copy clip's edition
@@ -51,9 +45,7 @@ def auto_edit(credits_offset=0):
 	print(rounded_duraction_clip_without_credits)
 	print(rounded_duration_stream)
 
-
-#audio_info.set_audio_infos_edit(3)
-
+	#audio_info.set_audio_infos_edit(3)
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
 	#audio_info.write_infos_edit()
