@@ -9,7 +9,7 @@ from align_videos_by_soundtrack.utils import *
 
 import clip_generator.editter.dirs as dirs
 
-misalignment=6000
+misalignment=4000
 
 data = {}
 data['logs'] = []
