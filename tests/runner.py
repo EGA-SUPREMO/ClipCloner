@@ -14,7 +14,7 @@ from tests.configs import setUpModule
 from tests.configs import tearDownModule
 
 
-def run_tests(is_with_internet=True):
+def run_tests(options="ni"):
     setUpModule()
 
     load_tests = load_ordered_tests
@@ -38,12 +38,13 @@ def run_tests(is_with_internet=True):
     suite.addTest(
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_slow_audio_is_being_slowed'))
 
-    if not is_with_internet == "ni":
+    if "ni" not in options:
         suite.addTest(unittest.makeSuite(testDescript.TestDescriptCorrect))
         suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
 
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
-    #suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
+    if "fast" not in options:
+        suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
     suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
     runner = unittest.TextTestRunner()
     runner.run(suite)
