@@ -9,4 +9,4 @@ if __name__ == '__main__':
 	except IndexError:
 	    pass
 
-	trimmer.trim_to_clip(credits_offset)
+	trimmer.trim_to_clip(offset_credits=credits_offset)

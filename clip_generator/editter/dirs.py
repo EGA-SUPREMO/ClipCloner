@@ -25,6 +25,18 @@ dir_current_end_clip = dirFixedAudioParts + "last_S" + str(seconds[0]) + "_clip_
 dir_current_end_stream = dir_temp_files + "end_stream.mp4"
 
 
+# TODO Needs tests
+def update_clip_dirs(title):
+    global dir_clip_folder, last_dir_clip, dir_clip, dir_stream, dir_worstaudio_stream, dir_trimmed_stream
+
+    dir_clip_folder = "../Clips/" + title + "/"
+    last_dir_clip = dir_clip_folder
+
+    dir_clip = dir_clip_folder + "clip.mkv"
+    dir_stream = dir_clip_folder + "stream.mkv"
+    dir_worstaudio_stream = dir_clip_folder + "worstaudio_stream.mkv"
+    dir_trimmed_stream = dir_clip_folder + "trimmed_stream.mkv"
+
 def update_phase(new_phase):
     global dir_current_start_clip, dir_current_end_clip, phase
 

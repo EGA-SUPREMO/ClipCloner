@@ -15,9 +15,12 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 	dirs.update_phase(0)
 
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
+
+	current_stream = dirs.dir_worstaudio_stream
 	if is_stream_a_video:
 		current_stream = dirs.dir_stream
 		chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
+		
 	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
 	chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
 	chopper.fixAudioParts()
@@ -64,7 +67,7 @@ def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_ou
 
 	correl = correlation.correlate(slowed_clip, slowed_stream)
 
-	if correl < 0.7:
+	if correl < 0.85:
 		correct_trim = False
 		print("Error correlation: " + str(correl) + dir_stream_output)
 		return correl
@@ -110,17 +113,17 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 
 		audio_info.misalignment = audio_info.misalignment + 1500
 
+		from_second, to_second = find_limits_for_trim("full")
+		stream_duration = to_second - from_second
+
 		if audio_info.misalignment > 12000:
 			print("Error, wrong files perhaps?")
-
-			from_second, to_second = find_limits_for_trim("full")
-			stream_duration = to_second - from_second
 
 			if stream_duration <= clip_duration:
 				print("Wrong match, stream duration is smaller than clip duration")
 				raise Exception("Clip duration is significantly bigger than stream duration")
 
-		if correct_trim or audio_info.misalignment > 12000:
+		if (correct_trim and stream_duration >= clip_duration) or audio_info.misalignment > 12000:
 			audio_info.misalignment = 4000
 			from_second, to_second = find_limits_for_trim("full")
 			if not contains_video:

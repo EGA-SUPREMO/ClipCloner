@@ -16,7 +16,7 @@ def getTitle(link):
 
 
 def getTitleWithoutSpecialChars(title):
-    return re.sub('[^A-Za-z0-9 ]+', '', title)
+    return re.sub('[^A-Za-z0-9]+', '', title)
 
 
 def downloadSmallFiles(dirClips, link):
@@ -143,7 +143,7 @@ def run(link):  # Write only code, but dont ever dare to change function's order
     title_without_special_chars = getTitleWithoutSpecialChars(title)
 
     dirClip = dirs.dir_clip_folder + title_without_special_chars + "/"
-    dirs.last_dir_clip = dirClip
+    dirs.update_clip_dirs(title_without_special_chars)
 
     dir = os.path.dirname(__file__)
     realdir = os.path.join(dir, fileName)

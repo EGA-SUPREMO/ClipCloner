@@ -36,7 +36,7 @@ def cutLastSecondsAudio(seconds: int, offset_credits=0):
     real_seconds = str(seconds)
     os.system(
         f"ffmpeg -loglevel error -stats -y -sseof -{cutted_seconds} -i {dirs.dir_audio_clip} -c copy {dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4")
-    os.system(
+    os.system(# TODO SEEMS Like this only works if its only 3 seconds the cut
         "ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:03 -i " + dirs.dirAudioParts + "temp_last_S" + real_seconds + "_clip_audio.mp4 -c copy " + dirs.dirAudioParts + "last_S" + real_seconds + "_clip_audio.mp4")
 
 
