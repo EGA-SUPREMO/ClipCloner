@@ -111,19 +111,19 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 		start_correlation = check_correlation_for_trim("only_start", input_stream, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
 		end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
-		audio_info.misalignment = audio_info.misalignment + 1500
+		audio_info.misalignment = audio_info.misalignment + 2000
 
 		from_second, to_second = find_limits_for_trim("full")
 		stream_duration = to_second - from_second
 
-		if audio_info.misalignment > 12000:
+		if audio_info.misalignment > 8000:
 			print("Error, wrong files perhaps?")
 
 			if stream_duration <= clip_duration:
 				print("Wrong match, stream duration is smaller than clip duration")
 				raise Exception("Clip duration is significantly bigger than stream duration")
 
-		if (correct_trim and stream_duration >= clip_duration) or audio_info.misalignment > 12000:
+		if (correct_trim and stream_duration >= clip_duration) or audio_info.misalignment > 8000:
 			audio_info.misalignment = 4000
 			from_second, to_second = find_limits_for_trim("full")
 			if not contains_video:
