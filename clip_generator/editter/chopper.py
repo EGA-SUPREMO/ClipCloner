@@ -23,6 +23,7 @@ def slow_audio(input_audio):
     return output_audio
 
 
+# TODO get total audio parts number and set it in a local var
 # Input: String: seconds
 def cutAudioIntoXSecondsParts(x: str):
     os.system(

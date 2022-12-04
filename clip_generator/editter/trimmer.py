@@ -67,7 +67,7 @@ def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_ou
 
 	correl = correlation.correlate(slowed_clip, slowed_stream)
 
-	if correl < 0.85:
+	if correl < 0.80:
 		correct_trim = False
 		print("Error correlation: " + str(correl) + dir_stream_output)
 		return correl
@@ -91,7 +91,7 @@ def find_limits_for_trim(limit_type: str):
 
 	return from_second, to_second
 
-
+	# TODO seems like there is a bug where the stream cut to the last 3 seconds and the clip to the last 4 seconds but it cuts the last seconds, resulting in comparison of different parts of the audio
 def check_correlation_for_trim(limit_type: str, dir_input_stream: str, dir_output_stream: str, dir_clip: str):
 	from_second, to_second = find_limits_for_trim(limit_type)
 
