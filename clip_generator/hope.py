@@ -2,8 +2,8 @@ import numpy as np
 from scipy.io import wavfile
 from matplotlib import pyplot as plt
 
-rate1, data1 = wavfile.read("clip44100.wav")
-rate2, data2 = wavfile.read("clip2.wav")
+rate1, data1 = wavfile.read("clip1.wav")
+rate2, data2 = wavfile.read("clip.wav")
 
 if rate1 != rate2:
     raise ValueError("The sample rates of the two audio files must match")

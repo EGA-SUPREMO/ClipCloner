@@ -4,8 +4,8 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 
 # Read in the two audio files
-rate1, data1 = wavfile.read("clip2.wav")
-rate2, data2 = wavfile.read("clipkoyo.wav")
+rate1, data1 = wavfile.read("borrar/stream1.wav")
+rate2, data2 = wavfile.read("borrar/clip3.wav")
 
 # Make sure the audio files have the same sample rate
 if rate1 != rate2:
@@ -15,29 +15,19 @@ data1 = np.resize(data1, data2.shape)
 
 # Calculate the difference between the two audio files
 difference = np.abs(data1 - data2)
-difference1 = np.abs(data2 - data1)
 
-
-# casting both audios into mono-channel wave
-# this is not optimal for comparing multi-channel audio, but this is in general very naive implementation
-if len(data1.shape) > 1:
-    new_data1 = []
-    for el in data1:
-        new_data1.append(np.sum(el)/len(el))
-    data1 = np.array(new_data1)
-    
-if len(data2.shape) > 1:
-    new_data2 = []
-    for el in data2:
-        new_data2.append(np.sum(el)/len(el))
-    data2 = np.array(new_data2)
+# normalizing waves
+data1 = data1/np.max(data1)
+data2 = data2/np.max(data2)
 
 # Print the difference
-#print(difference) 
+print(difference)
+result = np.sum(difference)/np.sum(np.abs(data1)+np.abs(data2)) 
+print(result)
 
-#fig, ax = plt.subplots()
-#ax.plot(difference)
-#fig.savefig("cross-correlation20.png")
+fig, ax = plt.subplots()
+ax.plot(result)
+fig.savefig("result.png")
 
 #fig1, ax1 = plt.subplots()
 #ax1.plot(difference1)
@@ -68,13 +58,3 @@ def similarity_percentage(arr1, arr2):
     percentage = 1 - distance / max_distance
     return percentage
 
-def compare_freq(audio1, audio2, sr):
-    # computing fft for both waves 
-    audio1_fft = np.fft.fft(audio1, sr)
-    audio2_fft = np.fft.fft(audio2, sr)
-    # will compare only real part of the ffts
-    audio1_fft, audio2_fft = audio1_fft.real, audio2_fft.real
-    return audio1_fft, audio2_fft, similarity_percentage(audio1_fft,audio2_fft)
-
-audio1_fft, audio2_fft, similarity = compare_freq(data1, data2, rate1)
-print(similarity)
