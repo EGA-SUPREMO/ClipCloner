@@ -124,7 +124,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 				raise Exception("Clip duration is significantly bigger than stream duration")
 
 		if (correct_trim and stream_duration >= clip_duration) or audio_info.misalignment > 8000:
-			audio_info.misalignment = 4000
+			audio_info.misalignment = 6000
 			from_second, to_second = find_limits_for_trim("full")
 			if not contains_video:
 				audio_info.write_infos_trim(from_second, to_second)

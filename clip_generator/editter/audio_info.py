@@ -10,7 +10,7 @@ from align_videos_by_soundtrack.utils import *
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
 
-misalignment=4000
+misalignment=6000
 
 data = {}
 data['logs'] = []

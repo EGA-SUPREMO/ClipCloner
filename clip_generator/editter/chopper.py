@@ -51,3 +51,7 @@ def fixAudioParts():
 def chop(input_file, output_file, from_second: str, to_second: str):
     os.system(
         f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i {input_file} {output_file}")
+
+# Given a array, it will make the edits given timestamps
+#def final_chop():
+    #ffmpeg -i clip.mkv -vf "select='between(t,4,6.5)+between(t,17,26)+between(t,74,91)', setpts=N/FRAME_RATE/TB" -af "aselect='between(t,4,6.5)+between(t,17,26)+between(t,74,91)', asetpts=N/SR/TB" out.mp4
