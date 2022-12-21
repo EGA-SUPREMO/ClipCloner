@@ -1,4 +1,5 @@
 import os
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -73,6 +74,25 @@ class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
         duration = getDuration(filename)
 
         self.assertEqual(round(0.8, 1), round(float(duration), 1), msg="Trimmed clip in chop doesnt match duration: "+str(filename))
+
+    def test_final_chop_generates_files_with_right_duration(self):
+        # Test the apply_filters function with a single time interval
+        chopper.final_chop(dirs.dir_stream, dirs.dir_trimmed_stream, [(4, 6.5)])
+        # Check that the output file has been created
+        self.assertTrue(os.path.exists(dirs.dir_trimmed_stream))
+        # Check the duration of the output file to make sure the correct time interval has been selected
+        duration = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", dirs.dir_trimmed_stream], capture_output=True).stdout.strip()
+        self.assertAlmostEqual(float(duration), 2.5, delta=0.1)
+        os.remove(dirs.dir_trimmed_stream)
+
+        # Test the apply_filters function with multiple time intervals2.528.5
+        chopper.final_chop(dirs.dir_stream, dirs.dir_trimmed_stream, [(4, 6.5), (17, 26), (74, 91)])
+        # Check that the output file has been created
+        self.assertTrue(os.path.exists(dirs.dir_trimmed_stream))
+        # Check the duration of the output file to make sure the correct time intervals have been selected
+        duration = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", dirs.dir_trimmed_stream], capture_output=True).stdout.strip()
+        self.assertAlmostEqual(float(duration), 28.5, delta=0.1)
+        os.remove(dirs.dir_trimmed_stream)
 
 
 if __name__ == '__main__':

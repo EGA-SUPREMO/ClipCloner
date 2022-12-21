@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import remove_file_extension
@@ -52,6 +53,18 @@ def chop(input_file, output_file, from_second: str, to_second: str):
     os.system(
         f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i {input_file} {output_file}")
 
+
 # Given a array, it will make the edits given timestamps
-#def final_chop():
-    #ffmpeg -i clip.mkv -vf "select='between(t,4,6.5)+between(t,17,26)+between(t,74,91)', setpts=N/FRAME_RATE/TB" -af "aselect='between(t,4,6.5)+between(t,17,26)+between(t,74,91)', asetpts=N/SR/TB" out.mp4
+def final_chop(input_file, output_file, time_intervals):
+    # Create the select and aselect filters for FFmpeg
+    select_filter = "select='"
+    aselect_filter = "aselect='"
+    for interval in time_intervals:
+        start, end = interval
+        select_filter += f"between(t,{start},{end})+"
+        aselect_filter += f"between(t,{start},{end})+"
+    select_filter = select_filter[:-1] + "',setpts=N/FRAME_RATE/TB"
+    aselect_filter = aselect_filter[:-1] + "',asetpts=N/SR/TB"
+
+    # Call FFmpeg with the select and aselect filters
+    subprocess.run(["ffmpeg", "-i", input_file, "-vf", select_filter, "-af", aselect_filter, output_file])
