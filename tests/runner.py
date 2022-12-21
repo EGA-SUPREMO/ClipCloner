@@ -37,6 +37,8 @@ def run_tests(options="ni"):
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_slow_audio_is_being_generated'))
     suite.addTest(
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_slow_audio_is_being_slowed'))
+    suite.addTest(
+        testChopper.TestChopperGeneratesFilesWithRightDuration('test_final_chop_generates_files_with_right_duration'))
 
     if "ni" not in options:
         suite.addTest(unittest.makeSuite(testDescript.TestDescriptCorrect))

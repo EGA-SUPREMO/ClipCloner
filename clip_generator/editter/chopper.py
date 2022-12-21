@@ -67,4 +67,4 @@ def final_chop(input_file, output_file, time_intervals):
     aselect_filter = aselect_filter[:-1] + "',asetpts=N/SR/TB"
 
     # Call FFmpeg with the select and aselect filters
-    subprocess.run(["ffmpeg", "-i", input_file, "-vf", select_filter, "-af", aselect_filter, output_file])
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_file, "-vf", select_filter, "-af", aselect_filter, output_file])
