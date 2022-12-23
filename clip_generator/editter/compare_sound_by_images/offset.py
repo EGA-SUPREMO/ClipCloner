@@ -2,23 +2,23 @@ from PIL import Image
 
 from matplotlib import pyplot as plt
 
-# Open the two images
-clip_image = Image.open('clip30.png')
-stream_image = Image.open('stream.png')
-
-def blending(image1, image2, offset_x):
-    # Add an offset to image2 by pasting it onto a blank image and then resizing it
-    offset_image = Image.new('RGBA', image2.size, (0, 0, 0, 0))
-    offset_image.paste(image2, (offset_x, 0))
-    offset_image = offset_image.resize(image2.size)
-
+def blending(clip_image, stream_image, offset_x):
+    # Add an offset to stream_image by pasting it onto a blank image and then crop it
+    offset_image = Image.new('RGBA', (clip_image.width + offset_x, clip_image.height), (0, 0, 0, 0))
+    offset_image.paste(clip_image, (offset_x, 0))
+    offset_image = offset_image.crop((0, 0, clip_image.width + offset_x, clip_image.height))
+    
     # Get the size of the intersection of the two images
-    intersection_width = min(image1.size[0] - offset_x, image2.size[0])
-    intersection_height = min(image1.size[1], image2.size[1])
+    intersection_width = min(clip_image.size[0], stream_image.size[0] - offset_x)
+    intersection_height = min(clip_image.size[1], stream_image.size[1])
 
-    offset_image = offset_image.resize(image1.size)
+    # Check if the images have the same size and mode
+    if stream_image.size != offset_image.size:
+        # crop to the size of stream_image
+        offset_image = offset_image.crop((0, 0, stream_image.width, stream_image.height))
+
     # Blend the images
-    blended_image = Image.blend(image1, offset_image, alpha=0.5)
+    blended_image = Image.blend(stream_image, offset_image, alpha=0.5)
 
     # Crop the blended image to the intersection size
     cropped_image = blended_image.crop((offset_x, 0, intersection_width + offset_x, intersection_height))
@@ -55,6 +55,12 @@ def count_colored_pixels(pixels: list[tuple[int, int, int, int]]) -> dict[str, i
 line = []
 lineamount = []
 line_average = []
+
+stream_image = Image.open('stream.png')
+clip_image = Image.open('clip30.png')
+# Open the two images
+#stream_image = Image.open('stream.png')
+
 for x in range(stream_image.width):
     blended_image = blending(clip_image, stream_image, x)
     # Get the pixel data for the image
