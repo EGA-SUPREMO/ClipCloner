@@ -18,14 +18,26 @@ class TestRelationPercentage(unittest.TestCase):
     def test_value1_equal_to_0(self):
         value1 = 0
         value2 = 5
-        expected_result = 0.0
+        expected_result = 16.666666666666668
         self.assertAlmostEqual(relation_percentage(value1, value2), expected_result)
 
     def test_value2_equal_to_0(self):
         value1 = 5
         value2 = 0
-        expected_result = 100.0
+        expected_result = 83.33333333333333
         self.assertAlmostEqual(relation_percentage(value1, value2), expected_result)
+        
+    def test_value1_and_value2_negative(self):
+        with self.assertRaises(ValueError):
+            relation_percentage(-5, -10)
+
+    def test_value1_negative(self):
+        with self.assertRaises(ValueError):
+            relation_percentage(-5, 10)
+
+    def test_value2_negative(self):
+        with self.assertRaises(ValueError):
+            relation_percentage(5, -10)
 
 if __name__ == '__main__':
-    unittest.main
+    unittest.main()

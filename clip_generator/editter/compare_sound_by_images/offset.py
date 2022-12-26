@@ -31,6 +31,9 @@ def image_blend(clip_image, stream_image, offset_x):
 
 
 def relation_percentage(value1: int, value2: int) -> float:
+    if value1 < 0 or value2 < 0:
+        raise ValueError("Input values must be positive")
+        
     value1 = max(value1, 1)
     value2 = max(value2, 1)
     
