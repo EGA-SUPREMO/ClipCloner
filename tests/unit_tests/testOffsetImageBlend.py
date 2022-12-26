@@ -43,7 +43,7 @@ class TestOffsetWriteSortedValues(unittest.TestCase):
         stream_image = common_functions.generate_test_image()
         offset_x = 25
         blended_image = image_blend(clip_image, stream_image, offset_x)
-        blended_image.save("hoeeh.png")
+        
         self.assertEqual(blended_image.getpixel((0, 0)), (255, 0, 0, 255))
         self.assertEqual(blended_image.getpixel((24, 0)), (255, 0, 0, 255))
         self.assertEqual(blended_image.getpixel((25, 0)), (127, 0, 127, 255))

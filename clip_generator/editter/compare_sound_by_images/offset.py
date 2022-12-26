@@ -93,8 +93,6 @@ def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -
             write_sorted_values(line, "indices.txt")
             write_sorted_values(line_average, "indicesamount.txt")
 
-            print(np.argmax(line))
-
             fig, ax = plt.subplots()
             ax.plot(line, color="red")
             ax.plot(lineamount, color="blue")
