@@ -1,6 +1,7 @@
 import subprocess
 import difflib
 import os
+from PIL import Image, ImageDraw
 
 from pathlib import Path
 from shutil import rmtree
@@ -53,3 +54,18 @@ def check_two_large_files_are_equal(filepath1, filepath2):
 def remove_file_extension(file):
     filepath = Path(file)
     return filepath.with_suffix('')
+
+def generate_test_image() -> Image:
+    width = 100
+    height = 100
+    # Create an empty image
+    image = Image.new('RGBA', (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
+
+    # Fill the left half of the image with red
+    draw.rectangle((0, 0, width // 2, height), fill=(255, 0, 0, 255))
+
+    # Fill the right half of the image with blue
+    draw.rectangle((width // 2, 0, width, height), fill=(0, 0, 255, 255))
+
+    return image

@@ -5,6 +5,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 def image_blend(clip_image, stream_image, offset_x):
+    if offset_x < 0:
+        raise ValueError("Input offset_x must be positive")
     # Add an offset to stream_image by pasting it onto a blank image and then crop it
     offset_image = Image.new('RGBA', (clip_image.width + offset_x, clip_image.height), (0, 0, 0, 0))
     offset_image.paste(clip_image, (offset_x, 0))
@@ -17,7 +19,6 @@ def image_blend(clip_image, stream_image, offset_x):
     if stream_image.size != offset_image.size:
         # crop to the size of stream_image
         offset_image = offset_image.crop((0, 0, stream_image.width, stream_image.height))
-
     # Blend the images
     blended_image = Image.blend(stream_image, offset_image, alpha=0.5)
 
