@@ -24,16 +24,13 @@ def image_blend(clip_image, stream_image, offset_x):
     # Crop the blended image to the intersection size
     cropped_image = blended_image.crop((offset_x, 0, intersection_width + offset_x, intersection_height))
 
-    # Save the blended image
-    #cropped_image.save(f'blending/blended_image{offset_x}.png')
-
     return cropped_image
 
 
 def relation_percentage(value1: int, value2: int) -> float:
     if value1 < 0 or value2 < 0:
         raise ValueError("Input values must be positive")
-        
+
     value1 = max(value1, 1)
     value2 = max(value2, 1)
     
@@ -102,11 +99,6 @@ def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -
             ax.plot(lineamount, color="blue")
             ax.plot(line_average, color="green")
             fig.savefig("cross-correlation10.png")
-
-            print(f'Number of red pixels: {result["red"]}')
-            print(f'Number of blue pixels: {result["blue"]}')
-            print(f'Number of purple pixels: {result["purple"]}')
-            print(f'Number of other non transparent pixels: {result["other"]}')
 
 def write_sorted_values(values: list[int], file_path: str):
     sorted_array = sorted(enumerate(values), key=lambda x: x[1], reverse=True)
