@@ -1,6 +1,6 @@
 import unittest
 
-from clip_generator.editter.compare_sound_by_image import relation_percentage
+from clip_generator.editter.compare_sound_by_images.offset import relation_percentage
 
 class TestRelationPercentage(unittest.TestCase):
     def test_value1_greater_than_value2(self):
