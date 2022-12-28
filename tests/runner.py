@@ -10,6 +10,7 @@ import tests.unit_tests.testOffsetImageBlend as testOffsetImageBlend
 import tests.unit_tests.testOffsetCountPixels as testOffsetCountPixels
 import tests.unit_tests.testOffsetRelationPercentage as testOffsetRelationPercentage
 import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
+import tests.unit_tests.testDrawPlotCorrectly as testDrawPlotCorrectly
 import tests.testDescriptCorrect as testDescript
 import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
@@ -56,6 +57,7 @@ def run_tests(options="ni"):
     suite.addTest(unittest.makeSuite(testOffsetImageBlend.TestOffsetWriteSortedValues))
     suite.addTest(unittest.makeSuite(testOffsetCountPixels.TestOffsetCountPixels))
     suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
+    suite.addTest(unittest.makeSuite(testDrawPlotCorrectly.TestDrawAveragePlotLines))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 
