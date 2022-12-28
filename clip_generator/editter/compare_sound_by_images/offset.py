@@ -1,5 +1,4 @@
 from PIL import Image
-import concurrent.futures
 import os
 
 from matplotlib import pyplot as plt
@@ -64,36 +63,18 @@ def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -
     line_amount = []
     line_average = []
     x = 0
-    offset_to_future = {}
-    num_cores = os.cpu_count()
 
-    # Use a ThreadPoolExecutor to parallelize the processing
-    with concurrent.futures.ThreadPoolExecutor(max_workers=num_cores) as executor:
-        # Create a list of futures representing the blending tasks
-        futures = [executor.submit(image_blend, clip_image, stream_image, offset) for offset in offsets]
+    for offset in offsets:
+        blended_image = image_blend(clip_image, stream_image, offset)
+        pixels = blended_image.getdata()
+        result = count_colored_pixels(pixels)
 
-        # Use the wait method to wait for all the futures to complete
-        for offset, future in zip(offsets, futures):
-            offset_to_future[offset] = future
+        accuracy, amount = calculate_accuracy_and_amount(result)
 
-        # Use the wait method to wait for all the futures to complete
-        concurrent.futures.wait(futures)
-
-        for offset in offsets:
-            # Find the corresponding future in the list
-            future = offset_to_future[offset]
-            # Get the result of the future
-            blended_image = future.result()
-            # Append the blended image to the list
-            pixels = blended_image.getdata()
-            result = count_colored_pixels(pixels)
-
-            accuracy, amount = calculate_accuracy_and_amount(result)
-
-            x += 1
-            line_accuracy.append(accuracy)
-            line_amount.append(amount)
-            line_average.append((accuracy * 0.3) + (amount * 0.7))
+        x += 1
+        line_accuracy.append(accuracy)
+        line_amount.append(amount)
+        line_average.append((accuracy * 0.3) + (amount * 0.7))
 
     write_sorted_values(line_accuracy, "indices.txt")
     write_sorted_values(line_average, "indices_amount.txt")
