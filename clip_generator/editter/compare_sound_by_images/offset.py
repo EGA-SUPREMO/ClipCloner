@@ -83,7 +83,7 @@ def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -
 
 
 def draw_average_plot_lines(line_accuracy, line_amount, line_average, filename):
-    fig, ax = plt.subplots(figsize=(20, 6))
+    fig, ax = plt.subplots(figsize=(45, 10))
     ax.plot(line_accuracy, color="red")
     ax.plot(line_amount, color="blue")
     ax.plot(line_average, color="green")
@@ -107,9 +107,20 @@ def calculate_accuracy_and_amount(result):
 
     return accuracy, amount
 
+# TODO Needs tests
+def crop_height_image(image):
+    # Crop the image to the specified size
+    image = image.crop((0, 0, image.width, 512))
+    image = image.crop((0, 256, image.width, 512))
+
+    return image
 
 if __name__ == '__main__':
-    stream_image = Image.open('stream.png')
-    clip_image = Image.open('clip.png')
+    stream_image = Image.open('stream2022.png')
+    clip_image = Image.open('clip2022.png')
+
+    clip_image = crop_height_image(clip_image)
+    stream_image = crop_height_image(stream_image)
+
     offsets = range(stream_image.width)
     compare_images(clip_image, stream_image, offsets)
