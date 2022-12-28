@@ -6,6 +6,10 @@ from tests.order_tests import load_ordered_tests
 import tests.testChopperGeneratesFilesWithRightDuration as testChopper
 import tests.testTrimmerGeneratesFilesWithRightDuration as testTrimmer
 import tests.unit_tests.testCorrelationForTrim as testUnitTrimmer
+import tests.unit_tests.testOffsetImageBlend as testOffsetImageBlend
+import tests.unit_tests.testOffsetCountPixels as testOffsetCountPixels
+import tests.unit_tests.testOffsetRelationPercentage as testOffsetRelationPercentage
+import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
 import tests.testDescriptCorrect as testDescript
 import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
@@ -48,6 +52,10 @@ def run_tests(options="ni"):
     if "fast" not in options:
         suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
     suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
+    suite.addTest(unittest.makeSuite(testOffsetRelationPercentage.TestRelationPercentage))
+    suite.addTest(unittest.makeSuite(testOffsetImageBlend.TestOffsetWriteSortedValues))
+    suite.addTest(unittest.makeSuite(testOffsetCountPixels.TestOffsetCountPixels))
+    suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 
