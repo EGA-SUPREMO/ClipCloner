@@ -1,6 +1,6 @@
 from PIL import Image
 import concurrent.futures
-import numpy as np
+import os
 
 from matplotlib import pyplot as plt
 
@@ -57,15 +57,16 @@ def count_colored_pixels(pixels: list[tuple[int, int, int, int]]) -> dict[str, i
     return result
 
 
-def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -> list[float]:
+def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -> None:
     line_accuracy = []
     line_amount = []
     line_average = []
     x = 0
     offset_to_future = {}
+    num_cores = os.cpu_count()
 
     # Use a ThreadPoolExecutor to parallelize the processing
-    with concurrent.futures.ThreadPoolExecutor() as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=num_cores) as executor:
         # Create a list of futures representing the blending tasks
         futures = [executor.submit(image_blend, clip_image, stream_image, offset) for offset in offsets]
 
@@ -95,7 +96,7 @@ def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -
     write_sorted_values(line_accuracy, "indices.txt")
     write_sorted_values(line_average, "indices_amount.txt")
 
-    draw_average_plot_lines(line_accuracy, line_amount, line_average)
+    draw_average_plot_lines(line_accuracy, line_amount, line_average, "testo.png")
 
 
 def draw_average_plot_lines(line_accuracy, line_amount, line_average, filename):
@@ -123,9 +124,9 @@ def calculate_accuracy_and_amount(result):
 
     return accuracy, amount
 
+
 if __name__ == '__main__':
     stream_image = Image.open('stream.png')
     clip_image = Image.open('clip.png')
-    offsets=range(stream_image.width)
-    offsets=range(10)
+    offsets = range(stream_image.width)
     compare_images(clip_image, stream_image, offsets)
