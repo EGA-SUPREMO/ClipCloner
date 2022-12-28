@@ -8,6 +8,8 @@ from matplotlib import pyplot as plt
 def image_blend(clip_image, stream_image, offset_x):
     if offset_x < 0:
         raise ValueError("Input offset_x must be positive")
+    if stream_image.mode != clip_image.mode:
+        raise ValueError("Stream image and clip image don't have the same mode")
     # Add an offset to stream_image by pasting it onto a blank image and then crop it
     offset_image = Image.new('RGBA', (clip_image.width + offset_x, clip_image.height), (0, 0, 0, 0))
     offset_image.paste(clip_image, (offset_x, 0))
