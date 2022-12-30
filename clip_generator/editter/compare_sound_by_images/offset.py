@@ -1,3 +1,5 @@
+from typing import Tuple, List
+
 from PIL import Image
 import os
 
@@ -36,7 +38,7 @@ def relation_percentage(value1: int, value2: int) -> float:
 
     value1 = max(value1, 1)
     value2 = max(value2, 1)
-    
+
     return 100 * value1 / (value1 + value2)
 
 
@@ -58,7 +60,8 @@ def count_colored_pixels(pixels: list[tuple[int, int, int, int]]) -> dict[str, i
     return result
 
 
-def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -> None:
+def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -> tuple[
+        list[float], list[float], list[float]]:
     line_accuracy = []
     line_amount = []
     line_average = []
@@ -76,10 +79,17 @@ def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -
         line_amount.append(amount)
         line_average.append((accuracy * 0.3) + (amount * 0.7))
 
-    write_sorted_values(line_accuracy, "indices.txt")
-    write_sorted_values(line_average, "indices_amount.txt")
+    return line_accuracy, line_amount, line_average
 
-    draw_average_plot_lines(line_accuracy, line_amount, line_average, "testo.png")
+
+def save_data(line_accuracy: list[float], line_average: list[float], line_amount: list[float], foldername: str):
+    os.makedirs(foldername, exist_ok=True)
+
+    write_sorted_values(line_accuracy, foldername + "indices_accuracy.txt")
+    write_sorted_values(line_average, foldername + "indices_average.txt")
+    write_sorted_values(line_amount, foldername + "indices_amount.txt")
+
+    draw_average_plot_lines(line_accuracy, line_amount, line_average, foldername + "testo.png")
 
 
 def draw_average_plot_lines(line_accuracy, line_amount, line_average, filename):
@@ -90,7 +100,7 @@ def draw_average_plot_lines(line_accuracy, line_amount, line_average, filename):
     fig.savefig(filename)
 
 
-def write_sorted_values(values: list[int], file_path: str):
+def write_sorted_values(values: list[float], file_path: str):
     sorted_array = sorted(enumerate(values), key=lambda x: x[1], reverse=True)
     with open(file_path, "w") as f:
         for i, element in sorted_array:
@@ -107,6 +117,7 @@ def calculate_accuracy_and_amount(result):
 
     return accuracy, amount
 
+
 # TODO Needs tests
 def crop_height_image(image):
     # Crop the image to the specified size
@@ -114,6 +125,7 @@ def crop_height_image(image):
     image = image.crop((0, 256, image.width, 512))
 
     return image
+
 
 if __name__ == '__main__':
     stream_image = Image.open('stream2022.png')
@@ -123,4 +135,5 @@ if __name__ == '__main__':
     stream_image = crop_height_image(stream_image)
 
     offsets = range(stream_image.width)
-    compare_images(clip_image, stream_image, offsets)
+    line_accuracy, line_average, line_amount = compare_images(clip_image, stream_image, offsets)
+    save_data(line_accuracy, line_average, line_amount, "typical_test/")
