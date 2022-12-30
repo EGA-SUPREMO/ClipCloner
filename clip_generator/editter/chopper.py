@@ -1,3 +1,4 @@
+import math
 import os
 import subprocess
 
@@ -14,11 +15,10 @@ def remove_video(dir_input: str, dir_output: str):
 #    os.system(f" ffmpeg -i '{file}' -c:a pcm_s24le '{filepath_wo_suffix}.wav'")
 
 
-# TODO Needs tests
 def cut_audio(input_file: str, output_file: str, start_time: float, duration: int):
     command = [
-        "ffmpeg",
-        "-loglevel", "error"
+        "ffmpeg", "-y",
+        "-loglevel", "error",
         "-i", input_file,
         "-ss", str(start_time),
         "-t", str(duration),
@@ -30,7 +30,7 @@ def cut_audio(input_file: str, output_file: str, start_time: float, duration: in
 # TODO needs tests
 def round_duration_cutting_existing_video_for_compare_image(input_file: str, output_file: str):
     duration = getDuration(input_file)
-    cut_audio(input_file, output_file, 0.5, duration)
+    cut_audio(input_file, output_file, 0.5, math.floor(duration-0.5))
 
 
 def slow_audio(input_audio):
@@ -66,7 +66,7 @@ def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str):
     round_duration_cutting_existing_video_for_compare_image(audio_file, )
 
     command = [
-        "ffmpeg",
+        "ffmpeg", "-y",
         "-loglevel", "error",
         "-i", audio_file,
         "-lavfi", "showwavespic=s=26374x1024:draw=scale:colors=" + color,
@@ -84,7 +84,7 @@ def fixAudioParts():
 
 def chop(input_file, output_file, from_second: str, to_second: str):
     os.system(
-        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i {input_file} {output_file}")
+        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i '{input_file}' '{output_file}'")
 
 
 # Given a array, it will make the edits given timestamps
