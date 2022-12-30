@@ -60,19 +60,24 @@ def count_colored_pixels(pixels: list[tuple[int, int, int, int]]) -> dict[str, i
     return result
 
 
-def compare_images(clip_image: Image, stream_image: Image, offsets: list[int]) -> tuple[
+def compare_images(clip_image: Image, stream_image: Image) -> tuple[
         list[float], list[float], list[float]]:
     line_accuracy = []
     line_amount = []
     line_average = []
     x = 0
 
+    clip_image = crop_height_image(clip_image)
+    stream_image = crop_height_image(stream_image)
+
+    offsets = range(stream_image.width)
+
     for offset in offsets:
         blended_image = image_blend(clip_image, stream_image, offset)
         pixels = blended_image.getdata()
         result = count_colored_pixels(pixels)
 
-        accuracy, amount = calculate_accuracy_and_amount(result)
+        accuracy, amount = calculate_accuracy_and_amount(result, offset, clip_image.height)
 
         x += 1
         line_accuracy.append(accuracy)
@@ -107,13 +112,13 @@ def write_sorted_values(values: list[float], file_path: str):
             f.write(f"{element} in {i}\n")
 
 
-def calculate_accuracy_and_amount(result):
+def calculate_accuracy_and_amount(result, x_offset, image_height):
     # Calculate the accuracy
     mismatch_pixels = result["red"] + result["blue"] + result["other"]
     accuracy = relation_percentage(result["purple"], mismatch_pixels)
 
     # Calculate the amount
-    amount = relation_percentage(result["purple"] + mismatch_pixels, result["none"] + (0 * clip_image.height))
+    amount = relation_percentage(result["purple"] + mismatch_pixels, result["none"] + (x_offset * image_height))
 
     return accuracy, amount
 
@@ -121,7 +126,6 @@ def calculate_accuracy_and_amount(result):
 # TODO Needs tests
 def crop_height_image(image):
     # Crop the image to the specified size
-    image = image.crop((0, 0, image.width, 512))
     image = image.crop((0, 256, image.width, 512))
 
     return image
@@ -131,9 +135,5 @@ if __name__ == '__main__':
     stream_image = Image.open('stream2022.png')
     clip_image = Image.open('clip2022.png')
 
-    clip_image = crop_height_image(clip_image)
-    stream_image = crop_height_image(stream_image)
-
-    offsets = range(stream_image.width)
-    line_accuracy, line_average, line_amount = compare_images(clip_image, stream_image, offsets)
+    line_accuracy, line_average, line_amount = compare_images(clip_image, stream_image)
     save_data(line_accuracy, line_average, line_amount, "typical_test/")
