@@ -12,6 +12,8 @@ import tests.unit_tests.testOffsetRelationPercentage as testOffsetRelationPercen
 import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
 import tests.unit_tests.testDrawPlotCorrectly as testDrawPlotCorrectly
 import tests.unit_tests.testImageCropHeight as testImageCropHeight
+import tests.unit_tests.testCutAudio as testCutAudio
+import tests.unit_tests.testRoundDurationFloor as testRoundDurationFloor
 import tests.testDescriptCorrect as testDescript
 import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
@@ -71,6 +73,8 @@ def run_unit_tests():
     suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
     suite.addTest(unittest.makeSuite(testDrawPlotCorrectly.TestDrawAveragePlotLines))
     suite.addTest(unittest.makeSuite(testImageCropHeight.TestCropHeightImage))
+    suite.addTest(unittest.makeSuite(testCutAudio.TestCutAudioChopper))
+    suite.addTest(unittest.makeSuite(testRoundDurationFloor.TestRoundDurationFloor))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 
