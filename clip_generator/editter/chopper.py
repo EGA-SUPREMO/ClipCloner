@@ -3,7 +3,7 @@ import subprocess
 
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import remove_file_extension
-
+from clip_generator.common_functions import getDuration
 
 def remove_video(dir_input: str, dir_output: str):
     os.system(f"ffmpeg -loglevel error -stats -y -i {dir_input} -vn {dir_output}")
@@ -12,6 +12,25 @@ def remove_video(dir_input: str, dir_output: str):
 #def extract_audio(file):
 #
 #    os.system(f" ffmpeg -i '{file}' -c:a pcm_s24le '{filepath_wo_suffix}.wav'")
+
+
+# TODO Needs tests
+def cut_audio(input_file: str, output_file: str, start_time: float, duration: int):
+    command = [
+        "ffmpeg",
+        "-loglevel", "error"
+        "-i", input_file,
+        "-ss", str(start_time),
+        "-t", str(duration),
+        output_file
+    ]
+    subprocess.run(command)
+
+
+# TODO needs tests
+def round_duration_cutting_existing_video_for_compare_image(input_file: str, output_file: str):
+    duration = getDuration(input_file)
+    cut_audio(input_file, output_file, 0.5, duration)
 
 
 def slow_audio(input_audio):
@@ -40,6 +59,20 @@ def cutLastSecondsAudio(seconds: int, offset_credits=0):
         f"ffmpeg -loglevel error -stats -y -sseof -{cutted_seconds} -i {dirs.dir_audio_clip} -c copy {dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4")
     os.system(# TODO SEEMS Like this only works if its only 3 seconds the cut
         "ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:03 -i " + dirs.dirAudioParts + "temp_last_S" + real_seconds + "_clip_audio.mp4 -c copy " + dirs.dirAudioParts + "last_S" + real_seconds + "_clip_audio.mp4")
+
+
+# TODO Needs tests
+def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str):
+    round_duration_cutting_existing_video_for_compare_image(audio_file, )
+
+    command = [
+        "ffmpeg",
+        "-loglevel", "error",
+        "-i", audio_file,
+        "-lavfi", "showwavespic=s=26374x1024:draw=scale:colors=" + color,
+        image_file
+    ]
+    subprocess.run(command)
 
 
 def fixAudioParts():
