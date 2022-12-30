@@ -12,6 +12,7 @@ return_values = compare_images(clip_image, stream_image)
 execution_time = timeit.timeit(lambda: return_values, number=1)
 print(f'Execution time for test scenario 1: {execution_time:.6f} seconds')
 
+
 print(f'Return values:' + str(len(return_values[0])))
 
 # # Test scenario 2: compare two large images with a large offset

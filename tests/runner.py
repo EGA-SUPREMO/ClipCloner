@@ -11,6 +11,7 @@ import tests.unit_tests.testOffsetCountPixels as testOffsetCountPixels
 import tests.unit_tests.testOffsetRelationPercentage as testOffsetRelationPercentage
 import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
 import tests.unit_tests.testDrawPlotCorrectly as testDrawPlotCorrectly
+import tests.unit_tests.testImageCropHeight as testImageCropHeight
 import tests.testDescriptCorrect as testDescript
 import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
@@ -52,12 +53,6 @@ def run_tests(options="ni"):
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
     if "fast" not in options:
         suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
-    suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
-    suite.addTest(unittest.makeSuite(testOffsetRelationPercentage.TestRelationPercentage))
-    suite.addTest(unittest.makeSuite(testOffsetImageBlend.TestOffsetWriteSortedValues))
-    suite.addTest(unittest.makeSuite(testOffsetCountPixels.TestOffsetCountPixels))
-    suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
-    suite.addTest(unittest.makeSuite(testDrawPlotCorrectly.TestDrawAveragePlotLines))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 
@@ -69,7 +64,13 @@ def run_unit_tests():
     load_tests = load_ordered_tests
     suite = unittest.TestSuite()
     # suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
-    suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
+    suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
+    suite.addTest(unittest.makeSuite(testOffsetRelationPercentage.TestRelationPercentage))
+    suite.addTest(unittest.makeSuite(testOffsetImageBlend.TestOffsetWriteSortedValues))
+    suite.addTest(unittest.makeSuite(testOffsetCountPixels.TestOffsetCountPixels))
+    suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
+    suite.addTest(unittest.makeSuite(testDrawPlotCorrectly.TestDrawAveragePlotLines))
+    suite.addTest(unittest.makeSuite(testImageCropHeight.TestCropHeightImage))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 
@@ -78,5 +79,6 @@ def run_unit_tests():
 
 if __name__ == '__main__':
     # unittest.main()
-    run_tests(sys.argv[1:][0])
-# run_unit_tests()
+    run_unit_tests()
+    if "unit" not in sys.argv[1:][0]:
+        run_tests(sys.argv[1:][0])

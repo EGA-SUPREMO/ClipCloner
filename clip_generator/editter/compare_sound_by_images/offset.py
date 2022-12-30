@@ -67,8 +67,8 @@ def compare_images(clip_image: Image, stream_image: Image) -> tuple[
     line_average = []
     x = 0
 
-    clip_image = crop_height_image(clip_image)
-    stream_image = crop_height_image(stream_image)
+    clip_image = crop_height_image(clip_image, 256, 256)
+    stream_image = crop_height_image(stream_image, 256, 256)
 
     offsets = range(stream_image.width)
 
@@ -123,10 +123,9 @@ def calculate_accuracy_and_amount(result, x_offset, image_height):
     return accuracy, amount
 
 
-# TODO Needs tests
-def crop_height_image(image):
+def crop_height_image(image, y_offset, height):
     # Crop the image to the specified size
-    image = image.crop((0, 256, image.width, 512))
+    image = image.crop((0, y_offset, image.width, height + y_offset))
 
     return image
 

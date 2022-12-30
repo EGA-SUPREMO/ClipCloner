@@ -3,6 +3,8 @@ import clip_generator.common_functions as common_functions
 
 import os
 
+example_test_folder = "tests/Examples/"
+
 
 def setUpModule():
     dirs.dir_temp_files = "tests/Clips/temp/"
