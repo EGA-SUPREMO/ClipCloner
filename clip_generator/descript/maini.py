@@ -16,7 +16,7 @@ def getTitle(link):
 
 
 def getTitleWithoutSpecialChars(title):
-    return re.sub('[^A-Za-z0-9]+', '', title)
+    return re.sub('[^A-Za-z0-9 ]+', '', title)
 
 
 def downloadSmallFiles(dirClips, link):

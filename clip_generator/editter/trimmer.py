@@ -32,7 +32,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 		from_second, to_second = find_limits_for_trim("full")
 		chopper.chop(current_stream, dirs.dir_trimmed_stream, from_second, to_second)
 
-	common_functions.removeAll(dirs.dir_temp_files)
+	#common_functions.removeAll(dirs.dir_temp_files)
 	return find_limits_for_trim("full")
 
 
@@ -77,7 +77,7 @@ def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_ou
 
 
 def find_limits_for_trim(limit_type: str):
-	from_second = audio_info.infosTrim[0][0][1]['pad']
+	from_second = audio_info.infosTrim[0][0][1]['pad'] - 0.5 # We chop 0.5 after clip starts because it may have some transiction, if you change this, change at the begining also
 	to_second = audio_info.get_last_seconds_for_ffmpeg_argument_to(current_stream, audio_info.infosTrim[1][0][1]['pad_post'])
 
 	match limit_type:
