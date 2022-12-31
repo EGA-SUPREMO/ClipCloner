@@ -6,11 +6,12 @@ import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import remove_file_extension
 from clip_generator.common_functions import getDuration
 
+
 def remove_video(dir_input: str, dir_output: str):
     os.system(f"ffmpeg -loglevel error -stats -y -i {dir_input} -vn {dir_output}")
 
 # untested and seems like useless
-#def extract_audio(file):
+# def extract_audio(file):
 #
 #    os.system(f" ffmpeg -i '{file}' -c:a pcm_s24le '{filepath_wo_suffix}.wav'")
 
@@ -32,6 +33,7 @@ def round_duration_cutting_existing_video_for_compare_image(input_file: str, out
     cut_audio(input_file, output_file, 0.5, math.floor(duration-0.5))
     final_duration = getDuration(output_file)
     return round(final_duration)
+
 
 def slow_audio(input_audio):
     output_audio = str(remove_file_extension(input_audio)) + "_slowed.mp4"
