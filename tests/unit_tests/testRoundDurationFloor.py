@@ -12,7 +12,7 @@ class TestRoundDurationFloor(unittest.TestCase):
     def test_round_duration_cutting_existing_video1(self):
         input_file = configs.example_test_folder + "clip_audio.mp4"
         output_file = dirs.dir_temp_files + "output_audio.mp4"
-        round_duration_cutting_existing_video_for_compare_image(input_file, output_file)
+        returning_duration = round_duration_cutting_existing_video_for_compare_image(input_file, output_file)
 
         # Calculate the expected duration of the output file
         input_duration = getDuration(input_file)
@@ -20,13 +20,14 @@ class TestRoundDurationFloor(unittest.TestCase):
 
         # Check that the output file has the expected duration
         self.assertAlmostEqual(expected_duration, getDuration(output_file), delta=0.001)
+        self.assertAlmostEqual(expected_duration, returning_duration, delta=0.001)
 
         os.remove(output_file)
 
     def test_round_duration_cutting_existing_video2(self):
         input_file = configs.example_test_folder + "stream_audio.mp4"
         output_file = dirs.dir_temp_files + "output_audio2.mp4"
-        round_duration_cutting_existing_video_for_compare_image(input_file, output_file)
+        returning_duration = round_duration_cutting_existing_video_for_compare_image(input_file, output_file)
 
         # Calculate the expected duration of the output file
         input_duration = getDuration(input_file)
@@ -34,6 +35,7 @@ class TestRoundDurationFloor(unittest.TestCase):
 
         # Check that the output file has the expected duration
         self.assertAlmostEqual(expected_duration, getDuration(output_file), delta=0.001)
+        self.assertAlmostEqual(expected_duration, returning_duration, delta=0.001)
 
         os.remove(output_file)
 

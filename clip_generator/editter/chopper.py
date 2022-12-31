@@ -27,11 +27,11 @@ def cut_audio(input_file: str, output_file: str, start_time: float, duration: in
     subprocess.run(command)
 
 
-# TODO needs tests
-def round_duration_cutting_existing_video_for_compare_image(input_file: str, output_file: str):
+def round_duration_cutting_existing_video_for_compare_image(input_file: str, output_file: str) -> int:
     duration = getDuration(input_file)
     cut_audio(input_file, output_file, 0.5, math.floor(duration-0.5))
-
+    final_duration = getDuration(output_file)
+    return round(final_duration)
 
 def slow_audio(input_audio):
     output_audio = str(remove_file_extension(input_audio)) + "_slowed.mp4"
@@ -62,18 +62,17 @@ def cutLastSecondsAudio(seconds: int, offset_credits=0):
 
 
 # TODO Needs tests
-def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str):
-    round_duration_cutting_existing_video_for_compare_image(audio_file, )
-
+def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str, scale: int):
+    temp_audio_file = dirs.dir_temp_files+"audio_file.mkv"
+    duration = round_duration_cutting_existing_video_for_compare_image(audio_file, temp_audio_file)
     command = [
         "ffmpeg", "-y",
         "-loglevel", "error",
-        "-i", audio_file,
-        "-lavfi", "showwavespic=s=26374x1024:draw=scale:colors=" + color,
+        "-i", temp_audio_file,
+        "-lavfi", "showwavespic=s=" + str(duration * scale) + "x1024:draw=scale:colors=" + color,
         image_file
     ]
     subprocess.run(command)
-
 
 def fixAudioParts():
     filenames = next(os.walk(dirs.dirAudioParts), (None, None, []))[2]
