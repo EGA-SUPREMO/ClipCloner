@@ -61,15 +61,14 @@ def cutLastSecondsAudio(seconds: int, offset_credits=0):
         "ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:03 -i " + dirs.dirAudioParts + "temp_last_S" + real_seconds + "_clip_audio.mp4 -c copy " + dirs.dirAudioParts + "last_S" + real_seconds + "_clip_audio.mp4")
 
 
-# TODO Needs tests
-def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str, scale: int):
+def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str, scale: int, filters=""):
     temp_audio_file = dirs.dir_temp_files+"audio_file.mkv"
     duration = round_duration_cutting_existing_video_for_compare_image(audio_file, temp_audio_file)
     command = [
         "ffmpeg", "-y",
         "-loglevel", "error",
         "-i", temp_audio_file,
-        "-lavfi", "showwavespic=s=" + str(duration * scale) + "x1024:draw=scale:colors=" + color,
+        "-lavfi", "showwavespic=s=" + str(duration * scale) + "x1024:draw=scale:colors=" + color + filters,
         image_file
     ]
     subprocess.run(command)
