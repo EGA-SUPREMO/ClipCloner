@@ -16,7 +16,7 @@ class TestCorrelationForTrim(unittest.TestCase):
         setUpModule()
         audio_info.infosTrim = [[[[], {'pad': 0}]], [[[], {'pad_post': 0}]]]
 
-        audio_info.infosTrim[0][0][1]['pad'] = 10.048
+        audio_info.infosTrim[0][0][1]['pad'] = 10.548
         audio_info.infosTrim[1][0][1]['pad_post'] = 7.302666666666667
 
     def tearDown(self) -> None:
@@ -27,14 +27,14 @@ class TestCorrelationForTrim(unittest.TestCase):
         trimmer.current_stream = dirs.dir_stream
 
         from_second, to_second = trimmer.find_limits_for_trim("only_start")
-        self.assertEqual(from_second, 10.048, msg="From second in only start type aren't equal to expected")
-        self.assertEqual(to_second, 10.048 + dirs.get_second(),
+        self.assertEqual(from_second, 10.548, msg="From second in only start type aren't equal to expected")
+        self.assertEqual(to_second, 10.548 + dirs.get_second(),
                          msg="To second in only start type aren't equal to expected")
 
         from_second, to_second = trimmer.find_limits_for_trim("only_end")
-        self.assertEqual(from_second, 113.72033333333333 - dirs.get_second(),
+        self.assertEqual(from_second, 112.72033333333333 - dirs.get_second(),
                          msg="From second in only end type aren't equal to expected")
-        self.assertEqual(to_second, 113.72033333333333, msg="To second in only end type aren't equal to expected")
+        self.assertEqual(to_second, 112.72033333333333, msg="To second in only end type aren't equal to expected")
 
         from_second, to_second = trimmer.find_limits_for_trim("full")
         self.assertEqual(from_second, 10.048, msg="From second in full type aren't equal to expected")
@@ -49,7 +49,7 @@ class TestCorrelationForTrim(unittest.TestCase):
                                                    dirs.dir_audio_stream, dirs.dir_current_start_stream,
                                                    dir_test_start_clip)
 
-        self.assertEqual(correlation, 0.8594182825484764, msg="check_correlation at doesnt match expected value")
+        self.assertEqual(correlation, 0.909109477124183, msg="check_correlation at doesnt match expected value")
         dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
 
     @patch('clip_generator.editter.audio_info.get_alignment_info')

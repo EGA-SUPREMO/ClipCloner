@@ -77,7 +77,7 @@ def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_ou
 
 
 def find_limits_for_trim(limit_type: str):
-	from_second = audio_info.infosTrim[0][0][1]['pad'] - 0.5 # We chop 0.5 after clip starts because it may have some transiction, if you change this, change at the begining also
+	from_second = audio_info.infosTrim[0][0][1]['pad']
 	to_second = audio_info.get_last_seconds_for_ffmpeg_argument_to(current_stream, audio_info.infosTrim[1][0][1]['pad_post'])
 
 	match limit_type:
@@ -88,7 +88,11 @@ def find_limits_for_trim(limit_type: str):
 			from_second = to_second - dirs.get_second()
 			return from_second, to_second
 		case "full":
-			return from_second, to_second
+			return from_second  - 0.5, to_second  + dirs.transition_offset  # chopper cuts one second sooner to avoid
+							# errors with transitions/credits, so this time we subtract one to compensate and make it
+							# one second longer
+							# We chop 0.5 after clip starts because it may have some transiction,
+							# if you change this, change at the begining also
 
 	return from_second, to_second
 
