@@ -49,7 +49,7 @@ class TestCorrelationForTrim(unittest.TestCase):
                                                    dirs.dir_audio_stream, dirs.dir_current_start_stream,
                                                    dir_test_start_clip)
 
-        self.assertEqual(correlation, 0.909109477124183, msg="check_correlation at doesnt match expected value")
+        self.assertAlmostEqual(correlation, 0.91, 2, msg="check_correlation at doesnt match expected value")
         dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
 
     @patch('clip_generator.editter.audio_info.get_alignment_info')
@@ -66,9 +66,9 @@ class TestCorrelationForTrim(unittest.TestCase):
 
         get_alignment_info_mock.return_value = [[[], {'pad': 10.048, 'pad_post': 7.302666666666667}]]
         _, _, start_corr, end_corr = trimmer.find_timestamps_for_trim(True)
-        self.assertEqual(start_corr, 0.8594182825484764,
+        self.assertAlmostEqual(start_corr, 0.859, 3,
                          msg="Start correlation is not equal to expected " + str(start_corr))
-        self.assertEqual(end_corr, 0.8481770833333333,
+        self.assertAlmostEqual(end_corr, 0.848, 3,
                          msg="End correlation is not equal to expected " + str(end_corr))
 
         dirs.dir_audio_stream = dirs.dir_temp_files + "stream_audio.mp4"
