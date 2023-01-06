@@ -21,12 +21,12 @@ class TestCorrectDownload(unittest.TestCase):
         clip_generator.editter.dirs.last_dir_clip = "tests/Clips/"
 
     def test_clip_is_downloaded_as_example(self):
-        main.download_clip("https://www.youtube.com/watch?v=rnqQPIod3pA")
+        main.download_clip("https://youtu.be/0UGYR8Zi8qk")
 
         filename = Path(clip_generator.editter.dirs.last_dir_clip + "clip.mkv")
         duration = getDuration(filename)
 
-        self.assertEqual(30.7, round(float(duration), 1), msg="Downloaded clip doesnt match duration: " + str(filename))
+        self.assertEqual(2, round(float(duration), 1), msg="Downloaded clip doesnt match duration: " + str(filename))
 
     def test_stream_is_downloaded_as_example(self):
         dirs.dir_stream = dirs.dir_temp_files + "stream.mkv"
