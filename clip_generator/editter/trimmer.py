@@ -41,15 +41,15 @@ def auto_edit(credits_offset=0):
 	trim_to_clip(True, credits_offset)
 
 	rounded_duration_stream = round(common_functions.getDuration(dirs.dir_trimmed_stream))
-	rounded_duraction_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
-	if math.isclose(rounded_duration_stream, rounded_duraction_clip_without_credits, rel_tol=0.01):
+	rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
+	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):
 		print("festejo")
 		return
 
-	print(rounded_duraction_clip_without_credits)
+	print(rounded_duration_clip_without_credits)
 	print(rounded_duration_stream)
 
-	#audio_info.set_audio_infos_edit(3)
+	audio_info.set_audio_infos_edit(3)
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
 	#audio_info.write_infos_edit()
