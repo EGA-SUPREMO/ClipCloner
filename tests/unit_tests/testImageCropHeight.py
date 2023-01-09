@@ -18,7 +18,6 @@ class TestCropHeightImage(unittest.TestCase):
     def test_crop_height_128_image(self):
         image = Image.open(configs.example_test_folder + "height_test_64.png")
         cropped_image = crop_height_image(image, 384, 128)
-        cropped_image.save("test.png")
 
         self.assertEqual(cropped_image.size, (20, 128))
         self.assertEqual(cropped_image.getpixel((0, 63)), (0, 0, 0, 255))

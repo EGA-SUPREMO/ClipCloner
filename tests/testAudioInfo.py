@@ -21,6 +21,18 @@ class TestAudioInfo(unittest.TestCase):
             self.assertEqual(info[0][1]['pad'], 5)
             self.assertEqual(info[0][1]['trim'], 3)
 
+    @patch('clip_generator.editter.audio_info.get_alignment_info')
+    def test_sets_audio_infos_for_edit_by_images(self, get_alignment_info_mock):
+        audio_info.infosTrim = list()
+
+        get_alignment_info_mock.return_value =[[0, {'pad': 5, 'pad_post':4, 'trim': 3, 'trim_post': 2}]]
+
+        audio_info.set_audio_infos_edit_by_image()
+
+        for info in audio_info.infosEdit:
+            self.assertEqual(info[0][1]['pad'], 5)
+            self.assertEqual(info[0][1]['trim'], 3)
+
     def test_get_last_seconds_for_ffmpeg_argument_to(self):
         filename = "tests/Examples/stream.mkv"
         last_seconds = audio_info.get_last_seconds_for_ffmpeg_argument_to(filename, 3)

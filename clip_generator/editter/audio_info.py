@@ -46,6 +46,14 @@ def set_audio_infos_trim(dir_stream=""):
                  get_alignment_info([dirs.dir_current_end_clip, dir_stream])]
 
 
+def set_audio_infos_edit_by_image(dir_stream=""):
+    global infosEdit
+    if not dir_stream:
+        dir_stream = dirs.dir_stream
+
+
+
+
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     return float(getDuration(file)) - seconds
 
@@ -68,6 +76,7 @@ def write_infos_trim(from_second: float, to_second: float):
 def write_correlation(start: float, end: float):
     print({'correlation': {'trim': [start, end]}})
     appendJSON({'correlation': {'trim': [start, end]}})
+
 
 def appendJSON(value):
     filepath = dirs.dir_clip_folder + "timestamps.json"

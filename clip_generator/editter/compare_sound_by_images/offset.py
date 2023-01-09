@@ -130,6 +130,12 @@ def crop_height_image(image, y_offset, height):
     return image
 
 
+def crop_width_image(image, x_offset, width):
+    # Crop the image to the specified size
+    image = image.crop((x_offset, 0, width + x_offset, image.height))
+
+    return image
+
 if __name__ == '__main__':
     stream_image = Image.open('stream2022.png')
     clip_image = Image.open('clip2022.png')

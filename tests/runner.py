@@ -12,6 +12,7 @@ import tests.unit_tests.testOffsetRelationPercentage as testOffsetRelationPercen
 import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
 import tests.unit_tests.testDrawPlotCorrectly as testDrawPlotCorrectly
 import tests.unit_tests.testImageCropHeight as testImageCropHeight
+import tests.unit_tests.testImageCropWidth as testImageCropWidth
 import tests.unit_tests.testCutAudio as testCutAudio
 import tests.unit_tests.testRoundDurationFloor as testRoundDurationFloor
 import tests.unit_tests.testAudioIntoImage as testAudioIntoImage
@@ -74,6 +75,7 @@ def run_unit_tests():
     suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
     suite.addTest(unittest.makeSuite(testDrawPlotCorrectly.TestDrawAveragePlotLines))
     suite.addTest(unittest.makeSuite(testImageCropHeight.TestCropHeightImage))
+    suite.addTest(unittest.makeSuite(testImageCropWidth.TestCropWidthImage))
     suite.addTest(unittest.makeSuite(testCutAudio.TestCutAudioChopper))
     suite.addTest(unittest.makeSuite(testRoundDurationFloor.TestRoundDurationFloor))
     suite.addTest(unittest.makeSuite(testAudioIntoImage.TestConvertAudioIntoWaveImage))
