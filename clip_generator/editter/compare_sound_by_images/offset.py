@@ -4,6 +4,7 @@ from PIL import Image
 import os
 
 from matplotlib import pyplot as plt
+import clip_generator.editter.dirs as dirs
 
 
 def image_blend(clip_image, stream_image, offset_x):
@@ -110,6 +111,11 @@ def write_sorted_values(values: list[float], file_path: str):
     with open(file_path, "w") as f:
         for i, element in sorted_array:
             f.write(f"{element} in {i}\n")
+
+
+# TODO TESTSETSESTS
+def pixels_into_seconds(seconds: int):
+    return seconds / dirs.scale_edit
 
 
 def calculate_accuracy_and_amount(result, x_offset, image_height):

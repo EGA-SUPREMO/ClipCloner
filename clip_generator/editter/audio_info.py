@@ -3,12 +3,14 @@ import subprocess
 import json
 import os.path
 
+from PIL import Image
 from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
 from align_videos_by_soundtrack.utils import *
 
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
+import clip_generator.editter.compare_sound_by_images.offset as offset
 
 misalignment=6000
 
@@ -45,14 +47,26 @@ def set_audio_infos_trim(dir_stream=""):
     infosTrim = [get_alignment_info([dirs.dir_current_start_clip, dir_stream]),
                  get_alignment_info([dirs.dir_current_end_clip, dir_stream])]
 
-
-def set_audio_infos_edit_by_image(dir_stream=""):
+# TODO Needs tests
+def set_audio_infos_edit_by_image():
     global infosEdit
-    if not dir_stream:
-        dir_stream = dirs.dir_stream
 
+    clip_image = Image.open(dirs.dir_audio_clip_image)
+    stream_image = Image.open(dirs.dir_audio_stream_image)
+    stream_image.save("stream.png")
+    clip_image.save("clip.png")
+    real_second = []
+    for x in range(0, clip_image.width, dirs.get_second_for_edit() * dirs.scale_edit):
+        print(x)
+        cropped_clip = offset.crop_width_image(clip_image, x, dirs.get_second() * dirs.scale_edit)
+        cropped_clip.save(str(x)+".png")
+        line_accuracy, line_average, line_amount = offset.compare_images(cropped_clip, stream_image)
+        infosEdit.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
+        real_second.append(offset.pixels_into_seconds(x))
+#        offset.save_data(line_accuracy, line_average, line_amount, "typical_test/"+str(x))
 
-
+    print(infosEdit)
+    print(real_second)
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     return float(getDuration(file)) - seconds

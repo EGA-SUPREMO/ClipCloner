@@ -58,6 +58,7 @@ def auto_edit(credits_offset=0):
 	#common_functions.removeAll(dirs.dirFixedAudioParts)
 
 
+# TODO Needs tests
 def auto_edit_by_images():
 	chopper.remove_video(dirs.dir_trimmed_stream, dirs.dir_audio_trimmed_stream)
 
@@ -67,7 +68,7 @@ def auto_edit_by_images():
 	chopper.convert_audio_into_wave_image(dirs.dir_audio_clip_rounded, dirs.dir_audio_clip_image, "red", dirs.scale_edit)
 	chopper.convert_audio_into_wave_image(dirs.dir_audio_stream_rounded, dirs.dir_audio_stream_image, "blue", dirs.scale_edit)
 
-
+	audio_info.set_audio_infos_edit_by_image()
 
 
 def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_output, dir_clip):
@@ -108,7 +109,7 @@ def find_limits_for_trim(limit_type: str):
 
 	return from_second, to_second
 
-	# TODO seems like there is a bug where the stream cut to the last 3 seconds and the clip to the last 4 seconds but it cuts the last seconds, resulting in comparison of different parts of the audio
+
 def check_correlation_for_trim(limit_type: str, dir_input_stream: str, dir_output_stream: str, dir_clip: str):
 	from_second, to_second = find_limits_for_trim(limit_type)
 

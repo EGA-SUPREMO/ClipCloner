@@ -1,7 +1,9 @@
 seconds = [3, 1, 0.5]
 phase = 0
+seconds_edit = [3, 0.5]
+phase_edit = 0
 transition_offset = 1
-scale_edit = 5
+scale_edit = 30
 scale_trim = 3
 
 dir_temp_files = "clip_generator/editter/temp/"
@@ -53,5 +55,7 @@ def update_phase(new_phase):
 
 def get_second():
     return seconds[phase]
+def get_second_for_edit():
+    return seconds_edit[phase_edit]
 
 
