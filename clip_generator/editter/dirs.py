@@ -10,6 +10,11 @@ dirAudioParts = dir_temp_files + "audio_parts/"
 dirFixedAudioParts = dir_temp_files + "fixed_audio_parts/"
 dir_audio_clip = dir_temp_files + "clip_audio.mp4"
 dir_audio_stream = dir_temp_files + "stream_audio.mp4"
+dir_audio_trimmed_stream = dir_temp_files + "trimmed_stream_audio.mp4"
+dir_audio_clip_rounded = dir_temp_files + "clip_audio_rounded.mp4"
+dir_audio_stream_rounded = dir_temp_files + "stream_audio_rounded.mp4"
+dir_audio_clip_image = dir_temp_files + "clip_audio.png"
+dir_audio_stream_image = dir_temp_files + "stream_audio.png"
 
 dir_clip_folder = "../Clips/"
 last_dir_clip = dir_clip_folder

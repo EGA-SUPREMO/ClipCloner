@@ -58,6 +58,18 @@ def auto_edit(credits_offset=0):
 	#common_functions.removeAll(dirs.dirFixedAudioParts)
 
 
+def auto_edit_by_images():
+	chopper.remove_video(dirs.dir_trimmed_stream, dirs.dir_audio_trimmed_stream)
+
+	chopper.round_duration_cutting_existing_video_for_compare_image(dirs.dir_audio_clip, dirs.dir_audio_clip_rounded)
+	chopper.round_duration_cutting_existing_video_for_compare_image(dirs.dir_audio_trimmed_stream, dirs.dir_audio_stream_rounded)
+
+	chopper.convert_audio_into_wave_image(dirs.dir_audio_clip_rounded, dirs.dir_audio_clip_image, "red", dirs.scale_edit)
+	chopper.convert_audio_into_wave_image(dirs.dir_audio_stream_rounded, dirs.dir_audio_stream_image, "blue", dirs.scale_edit)
+
+
+
+
 def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_output, dir_clip):
 	global correct_trim
 
