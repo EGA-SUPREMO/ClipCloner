@@ -1,4 +1,5 @@
 import math
+import os.path
 
 import clip_generator.editter.chopper as chopper
 import clip_generator.editter.audio_info as audio_info
@@ -121,18 +122,26 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 	start_correlation = 0
 	end_correlation = 0
 
-	while True:
-		input_stream = dirs.dir_worstaudio_stream
-		if contains_video:
-			input_stream = dirs.dir_audio_stream
+	input_stream = dirs.dir_worstaudio_stream
+	if contains_video:
+		input_stream = dirs.dir_audio_stream
 
+	while True:
 		if start_correlation < 0.8:
-			audio_info.set_audio_infos_trim_start(current_stream)
+			audio_info.set_audio_infos_trim_start(input_stream)
 			start_correlation = check_correlation_for_trim("only_start", input_stream, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
+		elif not os.path.exists(dirs.dir_start_only_untrimmed_stream):
+			from_second, to_second = find_limits_for_trim("only_start")
+			chopper.chop(current_stream, dirs.dir_start_only_untrimmed_stream, from_second, to_second)
+			input_stream = dirs.dir_start_only_untrimmed_stream
 
 		if end_correlation < 0.8:
-			audio_info.set_audio_infos_trim_end(current_stream)
+			audio_info.set_audio_infos_trim_end(input_stream)
 			end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
+		elif not os.path.exists(dirs.dir_end_only_untrimmed_stream):
+			from_second, to_second = find_limits_for_trim("only_end")
+			chopper.chop(current_stream, dirs.dir_end_only_untrimmed_stream, from_second, to_second)
+			input_stream = dirs.dir_end_only_untrimmed_stream
 
 		audio_info.misalignment = audio_info.misalignment + 2000
 

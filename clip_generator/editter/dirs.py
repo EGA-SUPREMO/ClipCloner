@@ -17,6 +17,8 @@ dir_audio_clip_rounded = dir_temp_files + "clip_audio_rounded.mp4"
 dir_audio_stream_rounded = dir_temp_files + "stream_audio_rounded.mp4"
 dir_audio_clip_image = dir_temp_files + "clip_audio.png"
 dir_audio_stream_image = dir_temp_files + "stream_audio.png"
+dir_start_only_untrimmed_stream = dir_temp_files + "start_untrimmed_stream.mp4"
+dir_end_only_untrimmed_stream = dir_temp_files + "end_untrimmed_stream.mp4"
 
 dir_clip_folder = "../Clips/"
 last_dir_clip = dir_clip_folder

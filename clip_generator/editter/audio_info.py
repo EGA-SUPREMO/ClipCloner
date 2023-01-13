@@ -50,19 +50,19 @@ def set_audio_infos_trim(dir_stream=""):
 
 
 # TODO needs tests
-def set_audio_infos_trim_start(dir_stream=""):
+def set_audio_infos_trim_start(dir_stream):
     global infosTrim
-    if not dir_stream:
-        dir_stream = dirs.dir_stream
+    if dir_stream == dirs.dir_start_only_untrimmed_stream:
+        raise Exception("Set audio info trim can't trim the start from an already trimmed stream")
 
     infosTrim[0] = get_alignment_info([dirs.dir_current_start_clip, dir_stream])
 
 
 # TODO nedes tests
-def set_audio_infos_trim_end(dir_stream=""):
+def set_audio_infos_trim_end(dir_stream):
     global infosTrim
-    if not dir_stream:
-        dir_stream = dirs.dir_stream
+    if dir_stream == dirs.dir_end_only_untrimmed_stream:
+        raise Exception("Set audio info trim can't trim the end from an already trimmed stream")
 
     infosTrim[1] = get_alignment_info([dirs.dir_current_end_clip, dir_stream])
 
