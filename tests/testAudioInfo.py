@@ -7,6 +7,7 @@ import clip_generator.editter.dirs as dirs
 
 from clip_generator.common_functions import checkTwoFilesAreTheSame
 
+
 class TestAudioInfo(unittest.TestCase):
 
     @patch('clip_generator.editter.audio_info.get_alignment_info')
