@@ -39,6 +39,7 @@ def set_audio_infos_edit(seconds: str, fromAudio, toAudio):
             [dirs.dirFixedAudioParts + "S" + seconds + "_clip_audio" + str(x) + ".mp4", dirs.dir_stream]))
 
 
+# TODO borrar, es inutil, ya hay otras funcitones que las replazan
 def set_audio_infos_trim(dir_stream=""):
     global infosTrim
     if not dir_stream:
@@ -46,6 +47,25 @@ def set_audio_infos_trim(dir_stream=""):
 
     infosTrim = [get_alignment_info([dirs.dir_current_start_clip, dir_stream]),
                  get_alignment_info([dirs.dir_current_end_clip, dir_stream])]
+
+
+# TODO needs tests
+def set_audio_infos_trim_start(dir_stream=""):
+    global infosTrim
+    if not dir_stream:
+        dir_stream = dirs.dir_stream
+
+    infosTrim[0] = get_alignment_info([dirs.dir_current_start_clip, dir_stream])
+
+
+# TODO nedes tests
+def set_audio_infos_trim_end(dir_stream=""):
+    global infosTrim
+    if not dir_stream:
+        dir_stream = dirs.dir_stream
+
+    infosTrim[1] = get_alignment_info([dirs.dir_current_end_clip, dir_stream])
+
 
 # TODO Needs tests
 def set_audio_infos_edit_by_image():

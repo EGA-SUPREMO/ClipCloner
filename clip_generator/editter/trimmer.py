@@ -118,16 +118,21 @@ def check_correlation_for_trim(limit_type: str, dir_input_stream: str, dir_outpu
 
 def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 	clip_duration = common_functions.getDuration(dirs.dir_audio_clip) - 5 - offset_credits
+	start_correlation = 0
+	end_correlation = 0
 
 	while True:
-		audio_info.set_audio_infos_trim(current_stream)
-
 		input_stream = dirs.dir_worstaudio_stream
 		if contains_video:
 			input_stream = dirs.dir_audio_stream
 
-		start_correlation = check_correlation_for_trim("only_start", input_stream, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
-		end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
+		if start_correlation < 0.8:
+			audio_info.set_audio_infos_trim_start(current_stream)
+			start_correlation = check_correlation_for_trim("only_start", input_stream, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
+
+		if end_correlation < 0.8:
+			audio_info.set_audio_infos_trim_end(current_stream)
+			end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
 
 		audio_info.misalignment = audio_info.misalignment + 2000
 

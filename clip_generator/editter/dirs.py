@@ -3,7 +3,7 @@ phase = 0
 seconds_edit = [3, 0.5]
 phase_edit = 0
 transition_offset = 1
-scale_edit = 30
+scale_edit = 10
 scale_trim = 3
 
 dir_temp_files = "clip_generator/editter/temp/"
