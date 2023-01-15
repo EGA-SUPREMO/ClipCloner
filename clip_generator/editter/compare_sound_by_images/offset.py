@@ -63,9 +63,9 @@ def count_colored_pixels(pixels: list[tuple[int, int, int, int]]) -> dict[str, i
 
 def compare_images(clip_image: Image, stream_image: Image) -> tuple[
         list[float], list[float], list[float]]:
-    line_accuracy = []
-    line_amount = []
-    line_average = []
+    indexes_accuracy = []
+    indexes_similarity = []
+    indexes_average = []
     x = 0
 
     clip_image = crop_height_image(clip_image, 256, 256)
@@ -78,31 +78,31 @@ def compare_images(clip_image: Image, stream_image: Image) -> tuple[
         pixels = blended_image.getdata()
         result = count_colored_pixels(pixels)
 
-        accuracy, amount = calculate_accuracy_and_amount(result, offset, clip_image.height)
+        similarity, accuracy = calculate_similarity_and_accuracy(result, offset, clip_image.height)
 
         x += 1
-        line_accuracy.append(accuracy)
-        line_amount.append(amount)
-        line_average.append((accuracy * 0.3) + (amount * 0.7))
+        indexes_similarity.append(similarity)
+        indexes_accuracy.append(accuracy)
+        indexes_average.append(accuracy * 0.5 + similarity * 0.5)
 
-    return line_accuracy, line_amount, line_average
+    return indexes_similarity, indexes_accuracy, indexes_average
 
 
-def save_data(line_accuracy: list[float], line_average: list[float], line_amount: list[float], foldername: str):
+def save_data(indexes_similarity: list[float], indexes_accuracy: list[float], indexes_average: list[float], foldername: str):
     os.makedirs(foldername, exist_ok=True)
 
-    write_sorted_values(line_accuracy, foldername + "indices_accuracy.txt")
-    write_sorted_values(line_average, foldername + "indices_average.txt")
-    write_sorted_values(line_amount, foldername + "indices_amount.txt")
+    write_sorted_values(indexes_similarity, foldername + "indices_similarity.txt")
+    write_sorted_values(indexes_accuracy, foldername + "indices_accuracy.txt")
+    write_sorted_values(indexes_average, foldername + "indices_average.txt")
 
-    draw_average_plot_lines(line_accuracy, line_amount, line_average, foldername + "testo.png")
+    draw_plot_indexes(indexes_similarity, indexes_accuracy, indexes_average, foldername + "testo.png")
 
 
-def draw_average_plot_lines(line_accuracy, line_amount, line_average, filename):
+def draw_plot_indexes(indexes_similarity, indexes_accuracy, indexes_average, filename):
     fig, ax = plt.subplots(figsize=(45, 10))
-    ax.plot(line_accuracy, color="red")
-    ax.plot(line_amount, color="blue")
-    ax.plot(line_average, color="green")
+    ax.plot(indexes_similarity, color="red")
+    ax.plot(indexes_accuracy, color="blue")
+    ax.plot(indexes_average, color="purple")
     fig.savefig(filename)
 
 
@@ -118,15 +118,22 @@ def pixels_into_seconds(seconds: int):
     return seconds / dirs.scale_edit
 
 
-def calculate_accuracy_and_amount(result, x_offset, image_height):
-    # Calculate the accuracy
+# TODO update tests, make them tests the results itself!!!!!1
+def calculate_similarity_and_accuracy(result, x_offset, image_height):
+    # Calculate the similarity
+    match_pixels = result["purple"]
     mismatch_pixels = result["red"] + result["blue"] + result["other"]
-    accuracy = relation_percentage(result["purple"], mismatch_pixels)
+    similarity = relation_percentage(match_pixels, mismatch_pixels)
 
-    # Calculate the amount
-    amount = relation_percentage(result["purple"] + mismatch_pixels, result["none"] + (x_offset * image_height))
+    # Calculate the accuracy, this has a bug where the higher the mismatch, the higher the accuracy, that's because
+    # when there is a mismatch, there is more red and blue, a potencial solution is to multiply by two purple pixels and
+    # or divide by two red and blue
+    match_mismatch = match_pixels + mismatch_pixels
+    null = result["none"]# + (x_offset * image_height) this part is necesarry to calculate when we are aproaching the
+                         # edges of the image
+    accuracy = relation_percentage(match_mismatch, null)
 
-    return accuracy, amount
+    return similarity, accuracy
 
 
 def crop_height_image(image, y_offset, height):
@@ -143,8 +150,8 @@ def crop_width_image(image, x_offset, width):
     return image
 
 if __name__ == '__main__':
-    stream_image = Image.open('stream2022.png')
-    clip_image = Image.open('clip2022.png')
+    stream_image = Image.open('stream.png')
+    clip_image = Image.open('clip_540.png')
 
-    line_accuracy, line_average, line_amount = compare_images(clip_image, stream_image)
-    save_data(line_accuracy, line_average, line_amount, "typical_test/")
+    indexes_similarity, indexes_accuracy, indexes_average = compare_images(clip_image, stream_image)
+    save_data(indexes_similarity, indexes_accuracy, indexes_average, "typical_test/")
