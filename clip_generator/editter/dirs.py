@@ -57,6 +57,8 @@ def update_phase(new_phase):
 
 def get_second():
     return seconds[phase]
+
+
 def get_second_for_edit():
     return seconds_edit[phase_edit]
 

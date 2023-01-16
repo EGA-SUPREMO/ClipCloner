@@ -2,6 +2,7 @@ import time
 import subprocess
 import json
 import os.path
+import math
 
 from PIL import Image
 from align_videos_by_soundtrack.align import SyncDetector
@@ -67,6 +68,25 @@ def set_audio_infos_trim_end(dir_stream):
     infosTrim[1] = get_alignment_info([dirs.dir_current_end_clip, dir_stream])
 
 
+# TODO needs tests, what happens if one of the times it's just a loner, or rather, a bug and those around them are close together?
+def get_timestamps_from_times(times):
+    temp_end = 0
+    temp_start = times[0]
+    timestamps = []
+
+    for i in range(1, len(times)):
+        if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(dirs.get_second_for_edit() / 10)):
+            temp_end = times[i - 1]
+            timestamps.append((temp_start, temp_end))
+            temp_end = 0
+            temp_start = times[i]
+
+    temp_end = times[-1]
+    timestamps.append((temp_start, temp_end))
+
+    return timestamps
+
+
 # TODO Needs tests
 def set_audio_infos_edit_by_image():
     global infosEdit
@@ -91,6 +111,7 @@ def set_audio_infos_edit_by_image():
     print(infosEdit)
     print(average)
     print(real_second)
+
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     return float(getDuration(file)) - seconds
