@@ -71,6 +71,8 @@ def auto_edit_by_images():
 
 	audio_info.set_audio_infos_edit_by_image()
 
+	chopper.final_chop(dirs.dir_trimmed_stream, dirs.dir_edited_stream, audio_info.infosEdit)
+
 
 def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_output, dir_clip):
 	global correct_trim

@@ -1,9 +1,9 @@
 seconds = [3, 1, 0.5]
 phase = 0
-seconds_edit = [3, 0.5]
+seconds_edit = [1, 0.5]
 phase_edit = 0
 transition_offset = 1
-scale_edit = 10
+scale_edit = 40
 scale_trim = 3
 
 dir_temp_files = "clip_generator/editter/temp/"
@@ -25,6 +25,7 @@ last_dir_clip = dir_clip_folder
 
 dir_clip = dir_clip_folder + "clip.mkv"
 dir_stream = dir_clip_folder + "stream.mkv"
+dir_edited_stream = dir_clip_folder + "edited_stream.mkv"
 dir_worstaudio_stream = dir_clip_folder + "worstaudio_stream.mkv"
 dir_trimmed_stream = dir_clip_folder + "trimmed_stream.mkv"
 

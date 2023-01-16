@@ -103,11 +103,12 @@ def set_audio_infos_edit_by_image():
         cropped_clip = offset.crop_width_image(clip_image, x, width)
         cropped_clip.save(str(x)+".png")
         line_accuracy, line_average, line_amount = offset.compare_images(cropped_clip, stream_image)
-        infosEdit.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
+#        infosEdit.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
         average.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
         real_second.append(offset.pixels_into_seconds(x))
 #        offset.save_data(line_accuracy, line_average, line_amount, "typical_test/"+str(x))
 
+    infosEdit = get_timestamps_from_times(average)
     print(infosEdit)
     print(average)
     print(real_second)
