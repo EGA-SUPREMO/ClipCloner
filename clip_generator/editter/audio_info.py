@@ -68,7 +68,8 @@ def set_audio_infos_trim_end(dir_stream):
     infosTrim[1] = get_alignment_info([dirs.dir_current_end_clip, dir_stream])
 
 
-# TODO needs tests, what happens if one of the times it's just a loner, or rather, a bug and those around them are close together?
+# TODO needs tests, what happens if one of the times it's just a loner, or rather, a bug and those around them are close
+#  together? maybe make another function like intuir timestamp
 def get_timestamps_from_times(times):
     temp_end = 0
     temp_start = times[0]
@@ -109,9 +110,9 @@ def set_audio_infos_edit_by_image():
 #        offset.save_data(line_accuracy, line_average, line_amount, "typical_test/"+str(x))
 
     infosEdit = get_timestamps_from_times(average)
-    print(infosEdit)
-    print(average)
-    print(real_second)
+    #print(infosEdit)
+    #print(average)
+    #print(real_second)
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
