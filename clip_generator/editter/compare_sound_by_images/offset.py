@@ -71,14 +71,14 @@ def compare_images(clip_image: Image, stream_image: Image) -> tuple[
     clip_image = crop_height_image(clip_image, 256, 256)
     stream_image = crop_height_image(stream_image, 256, 256)
 
-    offsets = range(stream_image.width)
+    offsets = range(stream_image.width - clip_image.width)
 
     for offset in offsets:
         blended_image = image_blend(clip_image, stream_image, offset)
         pixels = blended_image.getdata()
         result = count_colored_pixels(pixels)
 
-        similarity, accuracy = calculate_similarity_and_accuracy(result, offset, clip_image.height)
+        similarity, accuracy = calculate_similarity_and_accuracy(result)
 
         x += 1
         indexes_similarity.append(similarity)
@@ -118,8 +118,8 @@ def pixels_into_seconds(seconds: int):
     return seconds / dirs.scale_edit
 
 
-# TODO update tests, make them tests the results itself!!!!!1
-def calculate_similarity_and_accuracy(result, x_offset, image_height):
+# TODO update tests, make them tests the results itself!!!!!1, needs compare the files pregenerated
+def calculate_similarity_and_accuracy(result):
     # Calculate the similarity
     match_pixels = result["purple"]
     mismatch_pixels = result["red"] + result["blue"] + result["other"]
@@ -128,9 +128,9 @@ def calculate_similarity_and_accuracy(result, x_offset, image_height):
     # Calculate the accuracy, this has a bug where the higher the mismatch, the higher the accuracy, that's because
     # when there is a mismatch, there is more red and blue, a potencial solution is to multiply by two purple pixels and
     # or divide by two red and blue
-    match_mismatch = match_pixels + mismatch_pixels
-    null = result["none"]# + (x_offset * image_height) this part is necesarry to calculate when we are aproaching the
-                         # edges of the image
+    match_mismatch = match_pixels*2 + mismatch_pixels/2
+    null = result["none"]
+
     accuracy = relation_percentage(match_mismatch, null)
 
     return similarity, accuracy
@@ -149,9 +149,10 @@ def crop_width_image(image, x_offset, width):
 
     return image
 
+
 if __name__ == '__main__':
     stream_image = Image.open('stream.png')
-    clip_image = Image.open('clip_540.png')
+    clip_image = Image.open('330.png')
 
     indexes_similarity, indexes_accuracy, indexes_average = compare_images(clip_image, stream_image)
     save_data(indexes_similarity, indexes_accuracy, indexes_average, "typical_test/")
