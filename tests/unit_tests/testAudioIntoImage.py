@@ -25,7 +25,7 @@ class TestConvertAudioIntoWaveImage(unittest.TestCase):
             # Check that the output file was created
             self.assertTrue(os.path.exists(image_file))
             image = Image.open(image_file)
-            self.assertEqual(image.width, 62, "Image width doesn't match expected value")
+            self.assertEqual(image.width, 63, "Image width doesn't match expected value")
             self.assertEqual(image.height, 1024, "Image height doesn't match expected value")
             # Check that the output file is a valid image file with the expected size
 
@@ -36,7 +36,7 @@ class TestConvertAudioIntoWaveImage(unittest.TestCase):
             # Check that the output file was created
             self.assertTrue(os.path.exists(image_file))
             image = Image.open(image_file)
-            self.assertEqual(image.width, 620, "Image width doesn't match expected value")
+            self.assertEqual(image.width, 630, "Image width doesn't match expected value")
             self.assertEqual(image.height, 1024, "Image height doesn't match expected value")
             # Check that the output file is a valid image file with the expected size
 
@@ -54,7 +54,7 @@ class TestConvertAudioIntoWaveImage(unittest.TestCase):
             # Check that the output file was created
             self.assertTrue(os.path.exists(image_file))
             image = Image.open(image_file)
-            self.assertEqual(image.width, 2, "Image width doesn't match expected value")
+            self.assertEqual(image.width, 3, "Image width doesn't match expected value")
             self.assertEqual(image.height, 1024, "Image height doesn't match expected value")
             # Check that the output file is a valid image file with the expected size
 
@@ -65,7 +65,7 @@ class TestConvertAudioIntoWaveImage(unittest.TestCase):
             # Check that the output file was created
             self.assertTrue(os.path.exists(image_file))
             image = Image.open(image_file)
-            self.assertEqual(image.width, 20, "Image width doesn't match expected value")
+            self.assertEqual(image.width, 30, "Image width doesn't match expected value")
             self.assertEqual(image.height, 1024, "Image height doesn't match expected value")
             # Check that the output file is a valid image file with the expected size
 

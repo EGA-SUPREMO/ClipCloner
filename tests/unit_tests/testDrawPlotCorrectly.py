@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from clip_generator.editter.compare_sound_by_images.offset import draw_average_plot_lines
+from clip_generator.editter.compare_sound_by_images.offset import draw_plot_indexes
 
 
 class TestDrawAveragePlotLines(unittest.TestCase):
@@ -10,7 +10,7 @@ class TestDrawAveragePlotLines(unittest.TestCase):
         line_amount = [1, 2, 3, 4, 5]
         line_average = [0.5, 0.6, 0.7, 0.8, 0.9]
         filename = "test_image.png"
-        draw_average_plot_lines(line_accuracy, line_amount, line_average, filename)
+        draw_plot_indexes(line_accuracy, line_amount, line_average, filename)
         # Check that the file was created
         self.assertTrue(os.path.exists(filename))
         # Delete the file after the test

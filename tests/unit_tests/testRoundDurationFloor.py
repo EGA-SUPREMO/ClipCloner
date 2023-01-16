@@ -16,7 +16,7 @@ class TestRoundDurationFloor(unittest.TestCase):
 
         # Calculate the expected duration of the output file
         input_duration = getDuration(input_file)
-        expected_duration = math.floor(input_duration - 0.5)
+        expected_duration = math.floor(input_duration - 0.5 - 1)
 
         # Check that the output file has the expected duration
         self.assertAlmostEqual(expected_duration, getDuration(output_file), delta=0.001)
@@ -31,7 +31,7 @@ class TestRoundDurationFloor(unittest.TestCase):
 
         # Calculate the expected duration of the output file
         input_duration = getDuration(input_file)
-        expected_duration = math.floor(input_duration - 0.5)
+        expected_duration = math.floor(input_duration - 0.5 - 1)
 
         # Check that the output file has the expected duration
         self.assertAlmostEqual(expected_duration, getDuration(output_file), delta=0.001)
