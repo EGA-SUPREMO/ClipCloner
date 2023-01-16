@@ -71,7 +71,7 @@ def compare_images(clip_image: Image, stream_image: Image) -> tuple[
     clip_image = crop_height_image(clip_image, 256, 256)
     stream_image = crop_height_image(stream_image, 256, 256)
 
-    offsets = range(stream_image.width - clip_image.width)
+    offsets = range(stream_image.width - round(clip_image.width/2))
 
     for offset in offsets:
         blended_image = image_blend(clip_image, stream_image, offset)

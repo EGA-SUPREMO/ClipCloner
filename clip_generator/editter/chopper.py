@@ -30,8 +30,9 @@ def cut_audio(input_file: str, output_file: str, start_time: float, duration: in
 
 def round_duration_cutting_existing_video_for_compare_image(input_file: str, output_file: str) -> int:
     duration = getDuration(input_file)
-    cut_audio(input_file, output_file, 0.5, math.floor(duration-0.5))
+    cut_audio(input_file, output_file, 0.5, math.floor(duration-0.5-1))
     final_duration = getDuration(output_file)
+
     return round(final_duration)
 
 
@@ -64,12 +65,11 @@ def cutLastSecondsAudio(seconds: int, offset_credits=0):
 
 
 def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str, scale: int, filters=""):
-    temp_audio_file = dirs.dir_temp_files+"audio_file.mkv"
-    duration = round_duration_cutting_existing_video_for_compare_image(audio_file, temp_audio_file)
+    duration = round(getDuration(audio_file))
     command = [
         "ffmpeg", "-y",
         "-loglevel", "error",
-        "-i", temp_audio_file,
+        "-i", audio_file,
         "-lavfi", "showwavespic=s=" + str(duration * scale) + "x1024:draw=scale:colors=" + color + filters,
         image_file
     ]

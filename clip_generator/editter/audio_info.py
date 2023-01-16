@@ -76,16 +76,20 @@ def set_audio_infos_edit_by_image():
     stream_image.save("stream.png")
     clip_image.save("clip.png")
     real_second = []
+    average = []
     for x in range(0, clip_image.width, dirs.get_second_for_edit() * dirs.scale_edit):
         print(x)
-        cropped_clip = offset.crop_width_image(clip_image, x, dirs.get_second() * dirs.scale_edit)
+        width = min(dirs.get_second_for_edit() * dirs.scale_edit, clip_image.width - x)
+        cropped_clip = offset.crop_width_image(clip_image, x, width)
         cropped_clip.save(str(x)+".png")
         line_accuracy, line_average, line_amount = offset.compare_images(cropped_clip, stream_image)
         infosEdit.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
+        average.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
         real_second.append(offset.pixels_into_seconds(x))
 #        offset.save_data(line_accuracy, line_average, line_amount, "typical_test/"+str(x))
 
     print(infosEdit)
+    print(average)
     print(real_second)
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
