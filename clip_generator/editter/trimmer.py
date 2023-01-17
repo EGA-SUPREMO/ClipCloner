@@ -70,7 +70,9 @@ def auto_edit_by_images():
 	chopper.convert_audio_into_wave_image(dirs.dir_audio_stream_rounded, dirs.dir_audio_stream_image, "blue", dirs.scale_edit)
 
 	audio_info.set_audio_infos_edit_by_image()
-
+	audio_info.offset_edit_info()
+	
+	# TODO write the results in the timestamps json file
 	chopper.final_chop(dirs.dir_trimmed_stream, dirs.dir_edited_stream, audio_info.infosEdit)
 
 

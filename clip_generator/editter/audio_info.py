@@ -69,7 +69,7 @@ def set_audio_infos_trim_end(dir_stream):
 
 
 # TODO needs tests, what happens if one of the times it's just a loner, or rather, a bug and those around them are close
-#  together? maybe make another function like intuir timestamp
+#  together? maybe make another function like intuir timestamp, don't know it end times are correct because of getsecond for edit?
 def get_timestamps_from_times(times):
     temp_end = 0
     temp_start = times[0]
@@ -77,15 +77,20 @@ def get_timestamps_from_times(times):
 
     for i in range(1, len(times)):
         if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(dirs.get_second_for_edit() / 10)):
-            temp_end = times[i - 1]
+            temp_end = times[i - 1] + dirs.get_second_for_edit() 
             timestamps.append((temp_start, temp_end))
             temp_end = 0
             temp_start = times[i]
 
-    temp_end = times[-1]
+    temp_end = times[-1] + dirs.get_second_for_edit()
     timestamps.append((temp_start, temp_end))
 
     return timestamps
+
+
+# TODO add the offset at the begining of 0.5, and at the end 1s, must make those variables in the other places
+def offset_info_edit():
+    pass
 
 
 # TODO Needs tests
