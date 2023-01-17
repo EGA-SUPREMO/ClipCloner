@@ -88,7 +88,7 @@ def get_timestamps_from_times(times):
     return timestamps
 
 
-# TODO add the offset at the begining of 0.5, and at the end 1s, must make those variables in the other places
+# TODO add the offset at the begining of 0.5, and at the end 1s, must make those variables in the other places, NEEDS TESTS
 def offset_info_edit():
     pass
 
