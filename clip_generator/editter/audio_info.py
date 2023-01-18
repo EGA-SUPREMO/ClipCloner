@@ -19,8 +19,7 @@ data = {}
 data['logs'] = []
 
 infosEdit = list()
-infosTrim = list()
-
+infosTrim = [0, 0]
 
 def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
@@ -28,7 +27,7 @@ def get_alignment_info(fps: list):
     # changing it to 6000 improved results although seems to make it run slower.
     # Have to test if max_misalignment=1800 is good enough
     # Seems changing sample_rate could make more precise results
-    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=misalignment)
+    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=misalignment, sample_rate=24000)
     with SyncDetector(params=summarizer_params, clear_cache=False) as det:
         result = det.align(file_specs, known_delay_map={})
     return list(zip(file_specs, result))
