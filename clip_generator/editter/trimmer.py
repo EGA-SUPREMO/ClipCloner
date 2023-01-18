@@ -66,8 +66,8 @@ def auto_edit_by_images():
 	chopper.round_duration_cutting_existing_video_for_compare_image(dirs.dir_audio_clip, dirs.dir_audio_clip_rounded)
 	chopper.round_duration_cutting_existing_video_for_compare_image(dirs.dir_audio_trimmed_stream, dirs.dir_audio_stream_rounded)
 
-	chopper.convert_audio_into_wave_image(dirs.dir_audio_clip_rounded, dirs.dir_audio_clip_image, "red", dirs.scale_edit)
-	chopper.convert_audio_into_wave_image(dirs.dir_audio_stream_rounded, dirs.dir_audio_stream_image, "blue", dirs.scale_edit)
+	chopper.convert_audio_into_wave_image(dirs.dir_audio_clip_rounded, dirs.dir_audio_clip_image, "red", dirs.scale_edit, ":filter=peak:scale=sqrt")
+	chopper.convert_audio_into_wave_image(dirs.dir_audio_stream_rounded, dirs.dir_audio_stream_image, "blue", dirs.scale_edit, ":filter=peak:scale=sqrt")
 
 	audio_info.set_audio_infos_edit_by_image()
 	#audio_info.offset_info_edit()
