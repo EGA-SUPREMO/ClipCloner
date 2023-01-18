@@ -70,7 +70,7 @@ def auto_edit_by_images():
 	chopper.convert_audio_into_wave_image(dirs.dir_audio_stream_rounded, dirs.dir_audio_stream_image, "blue", dirs.scale_edit)
 
 	audio_info.set_audio_infos_edit_by_image()
-	audio_info.offset_edit_info()
+	#audio_info.offset_info_edit()
 	
 	# TODO write the results in the timestamps json file
 	chopper.final_chop(dirs.dir_trimmed_stream, dirs.dir_edited_stream, audio_info.infosEdit)
@@ -135,7 +135,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 		if start_correlation < 0.8:
 			audio_info.set_audio_infos_trim_start(input_stream)
 			start_correlation = check_correlation_for_trim("only_start", input_stream, dirs.dir_current_start_stream, dirs.dir_current_start_clip)
-		elif not os.path.exists(dirs.dir_start_only_untrimmed_stream):
+		if start_correlation > 0.8 and not os.path.exists(dirs.dir_start_only_untrimmed_stream):
 			from_second, to_second = find_limits_for_trim("only_start")
 			chopper.chop(current_stream, dirs.dir_start_only_untrimmed_stream, from_second, to_second)
 			input_stream = dirs.dir_start_only_untrimmed_stream
@@ -143,7 +143,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 		if end_correlation < 0.8:
 			audio_info.set_audio_infos_trim_end(input_stream)
 			end_correlation = check_correlation_for_trim("only_end", input_stream, dirs.dir_current_end_stream, dirs.dir_current_end_clip)
-		elif not os.path.exists(dirs.dir_end_only_untrimmed_stream):
+		if end_correlation > 0.8 and not os.path.exists(dirs.dir_end_only_untrimmed_stream):
 			from_second, to_second = find_limits_for_trim("only_end")
 			chopper.chop(current_stream, dirs.dir_end_only_untrimmed_stream, from_second, to_second)
 			input_stream = dirs.dir_end_only_untrimmed_stream
