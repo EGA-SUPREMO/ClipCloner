@@ -75,7 +75,7 @@ def get_timestamps_from_times(times):
     timestamps = []
 
     for i in range(1, len(times)):
-        if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(dirs.get_second_for_edit() / 10)):
+        if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit()*2, abs_tol=(dirs.get_second_for_edit() / 10)):
             temp_end = times[i - 1] + dirs.get_second_for_edit() 
             timestamps.append((temp_start, temp_end))
             temp_end = 0
@@ -102,7 +102,7 @@ def set_audio_infos_edit_by_image():
     clip_image.save("clip.png")
     real_second = []
     average = []
-    for x in range(0, clip_image.width, dirs.get_second_for_edit() * dirs.scale_edit):
+    for x in range(0, clip_image.width, int(dirs.get_second_for_edit() * dirs.scale_edit * 2)):
         print(x)
         width = min(dirs.get_second_for_edit() * dirs.scale_edit, clip_image.width - x)
         cropped_clip = offset.crop_width_image(clip_image, x, width)
@@ -114,8 +114,8 @@ def set_audio_infos_edit_by_image():
 #        offset.save_data(line_accuracy, line_average, line_amount, "typical_test/"+str(x))
 
     infosEdit = get_timestamps_from_times(average)
-    #print(infosEdit)
-    #print(average)
+    print(infosEdit)
+    print(average)
     #print(real_second)
 
 
