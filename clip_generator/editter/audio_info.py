@@ -14,6 +14,7 @@ from clip_generator.common_functions import getDuration
 import clip_generator.editter.compare_sound_by_images.offset as offset
 
 misalignment=6000
+sample_rate=8000
 
 data = {}
 data['logs'] = []
@@ -27,7 +28,7 @@ def get_alignment_info(fps: list):
     # changing it to 6000 improved results although seems to make it run slower.
     # Have to test if max_misalignment=1800 is good enough
     # Seems changing sample_rate could make more precise results
-    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=misalignment, sample_rate=24000)
+    summarizer_params = SyncDetectorSummarizerParams(max_misalignment=misalignment, sample_rate=sample_rate)
     with SyncDetector(params=summarizer_params, clear_cache=False) as det:
         result = det.align(file_specs, known_delay_map={})
     return list(zip(file_specs, result))

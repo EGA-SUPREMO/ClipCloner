@@ -130,6 +130,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 	input_stream = dirs.dir_worstaudio_stream
 	if contains_video:
 		input_stream = dirs.dir_audio_stream
+		audio_info.sample_rate = 24000
 
 	while True:
 		if start_correlation < 0.8:
