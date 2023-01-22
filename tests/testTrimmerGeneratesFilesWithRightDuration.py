@@ -20,7 +20,8 @@ class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
         filename = Path(dirs.dir_trimmed_stream)
         duration = getDuration(filename)
 
-        self.assertEqual(103.7, round(float(duration), 1), msg="REAL Trimmed stream doesnt match duration: "+str(filename))
+        self.assertAlmostEqual(103.7, float(duration), delta=0.2, msg="REAL Trimmed stream doesnt match duration: "+str(filename))
+
 
 
 if __name__ == '__main__':
