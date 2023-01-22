@@ -68,8 +68,8 @@ def compare_images(clip_image: Image, stream_image: Image) -> tuple[
     indexes_average = []
     x = 0
 
-    clip_image = crop_height_image(clip_image, 256, 256)
-    stream_image = crop_height_image(stream_image, 256, 256)
+    #clip_image = crop_height_image(clip_image, 256, 256)
+    #stream_image = crop_height_image(stream_image, 256, 256)
 
     offsets = range(stream_image.width - round(clip_image.width/2))
 

@@ -81,7 +81,7 @@ def get_timestamps_from_times(times):
             temp_end = 0
             temp_start = times[i]
 
-    temp_end = times[-1] + dirs.get_second_for_edit()
+    temp_end = times[-1] + dirs.get_second_for_edit() + 1 # el offset, conviertelo en una variable
     timestamps.append((temp_start, temp_end))
 
     return timestamps
@@ -98,27 +98,44 @@ def set_audio_infos_edit_by_image():
 
     clip_image = Image.open(dirs.dir_audio_clip_image)
     stream_image = Image.open(dirs.dir_audio_stream_image)
+    clip_image = offset.crop_height_image(clip_image, 512, 512)
+    stream_image = offset.crop_height_image(stream_image, 512, 512)
+
     stream_image.save("stream.png")
     clip_image.save("clip.png")
-    real_second = []
-    average = []
+    average_max = []
+    similarity_max = []
+    similarity_line = []
+    accuracy_line = []
+    average_line = []
     for x in range(0, clip_image.width, int(dirs.get_second_for_edit() * dirs.scale_edit)):
         print(x)
         width = min(dirs.get_second_for_edit() * dirs.scale_edit, clip_image.width - x)
         cropped_clip = offset.crop_width_image(clip_image, x, width)
-        cropped_clip.save(str(x)+".png")
-        line_accuracy, line_average, line_amount = offset.compare_images(cropped_clip, stream_image)
-#        infosEdit.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
-        average.append(offset.pixels_into_seconds(line_accuracy.index(max(line_accuracy))))
-        real_second.append(offset.pixels_into_seconds(x))
-#        offset.save_data(line_accuracy, line_average, line_amount, "typical_test/"+str(x))
+        #cropped_clip.save(str(x)+".png")
+        
+        similarity_indexes, accuracy_indexes, average_indexes = offset.compare_images(cropped_clip, stream_image)
 
-    infosEdit = get_timestamps_from_times(average)
+        similarity_max.append(offset.pixels_into_seconds(similarity_indexes.index(max(similarity_indexes))))
+        average_max.append(offset.pixels_into_seconds(average_indexes.index(max(average_indexes))))
+
+        #similarity_max_index = similarity_indexes.index(max(similarity_indexes))
+        #@similarity_line.append(max(similarity_indexes))
+        #print(accuracy_indexes)
+        #print(average_indexes)
+        #accuracy_line.append(max(accuracy_indexes.index(similarity_max_index)))
+        #average_line.append(max(average_indexes.index(similarity_max_index)))
+    
+    #offset.save_data(similarity_line, accuracy_line, average_line, "typical_test/")
+
+    infosEdit = get_timestamps_from_times(similarity_max)
     print(infosEdit)
-    print(average)
+    print(similarity_max)
+    print("Average:")
+    print(average_max)
 
 # TODO update tests of appendJSON
-    write_infos_edit(average)
+    write_infos_edit(similarity_max)
     #print(real_second)
 
 
