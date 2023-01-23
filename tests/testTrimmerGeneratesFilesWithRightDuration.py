@@ -26,11 +26,11 @@ class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
 
         self.assertAlmostEqual(103.7, float(duration), delta=0.1, msg="REAL Trimmed stream doesnt match duration: "+str(filename))
 
-    def test_trim_to_clip_match_duration_as_example_from_worstaudio(self):
+    def test_trim_to_clip_match_duration_as_example_from_worstaudio_with_1_second(self):
         dirs.dir_clip = configs.example_test_folder + "clip_fubu.mkv"
         dirs.dir_worstaudio_stream = configs.example_test_folder + "worstaudio_stream.mkv"
 
-        from_second, to_second = trimmer.trim_to_clip(False)
+        from_second, to_second = trimmer.trim_to_clip(False, 0, 1)
         self.assertAlmostEqual(2853.94, from_second, delta=0.1, msg="REAL Trimmed stream from worstaudio doesnt match duration: ")
         self.assertAlmostEqual(3092.89, to_second, delta=0.1, msg="REAL Trimmed stream from worstaudio doesnt match duration: ")
 
