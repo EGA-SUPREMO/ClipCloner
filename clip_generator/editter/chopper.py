@@ -56,13 +56,13 @@ def cutAudioIntoXSecondsParts(x: str):
 
 # Input: Int: length of cut audio from the last seconds
 def cutLastSecondsAudio(seconds: int, offset_credits=0):
-    cutted_seconds = str(
+    cut_seconds = str(
         seconds + offset_credits + dirs.transition_offset)  # Usually the last second is a transition from the clip to credits or it simply loses volume to zero in the span of 1-2 seconds, this could interfere with the comparasons, so it gets left out
     real_seconds = str(seconds)
     os.system(
-        f"ffmpeg -loglevel error -stats -y -sseof -{cutted_seconds} -i '{dirs.dir_audio_clip}' -c copy '{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4'")
-    os.system(# TODO SEEMS Like this only works if its only 3 seconds the cut
-        "ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:03 -i '" + dirs.dirAudioParts + "temp_last_S" + real_seconds + "_clip_audio.mp4' -c copy '" + dirs.dirAudioParts + "last_S" + real_seconds + "_clip_audio.mp4'")
+        f"ffmpeg -loglevel error -stats -y -sseof -{cut_seconds} -i '{dirs.dir_audio_clip}' -c copy '{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4'")
+    os.system(
+        f"ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:0{real_seconds} -i '{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4' -c copy '{dirs.dirAudioParts}last_S{real_seconds}_clip_audio.mp4'")
 
 
 def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str, scale: int, filters=""):

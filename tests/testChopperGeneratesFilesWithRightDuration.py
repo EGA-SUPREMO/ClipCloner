@@ -52,6 +52,14 @@ class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
 
         self.assertEqual(round(3.0, 1), round(float(duration), 1), msg="Last 3 sec audio clip doesnt match duration: "+str(filename))
 
+    def test_cut_last_second_audio_file_is_being_generated(self):
+        chopper.cutLastSecondsAudio(1)
+        filename = Path(f"{dirs.dirAudioParts}last_S1_clip_audio.mp4")
+        duration = getDuration(filename)
+
+        self.assertEqual(round(1.0, 1), round(float(duration), 1),
+                         msg="Last sec audio clip doesnt match expected duration: " + str(filename))
+
     def test_slow_audio_is_being_generated(self):
         dir_output = chopper.slow_audio(dirs.dirFixedAudioParts+"S01_clip_audio0.mp4")
 

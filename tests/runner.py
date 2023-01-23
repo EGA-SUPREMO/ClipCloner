@@ -41,6 +41,8 @@ def run_tests(options="ni"):
         testChopper.TestChopperGeneratesFilesWithRightDuration('test_cut_last_seconds_audio_file_is_right_duration'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration(
         'test_cut_audio_into_x_seconds_fixed_file_is_right_duration'))
+    suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration(
+        'test_cut_last_second_audio_file_is_being_generated'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_generates_video'))
     suite.addTest(testChopper.TestChopperGeneratesFilesWithRightDuration('test_chop_right_duration'))
     suite.addTest(

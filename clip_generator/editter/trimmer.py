@@ -11,11 +11,11 @@ correct_trim = True
 current_stream = dirs.dir_worstaudio_stream
 
 
-def trim_to_clip(is_stream_a_video=False, offset_credits=0):
+def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 	global current_stream
 
 	common_functions.removeAll(dirs.dir_temp_files)
-	dirs.update_phase(0)
+	dirs.update_phase(phase)
 
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
 
