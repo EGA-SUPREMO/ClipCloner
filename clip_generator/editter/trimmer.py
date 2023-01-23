@@ -13,6 +13,8 @@ current_stream = dirs.dir_worstaudio_stream
 
 def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 	global current_stream
+
+	common_functions.removeAll(dirs.dir_temp_files)
 	dirs.update_phase(0)
 
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
@@ -33,7 +35,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0):
 		from_second, to_second = find_limits_for_trim("full")
 		chopper.chop(current_stream, dirs.dir_trimmed_stream, from_second, to_second)
 
-	#common_functions.removeAll(dirs.dir_temp_files)
+	common_functions.removeAll(dirs.dir_temp_files)
 	return find_limits_for_trim("full")
 
 
@@ -113,8 +115,6 @@ def find_limits_for_trim(limit_type: str):
 							# We chop 0.5 after clip starts because it may have some transiction,
 							# if you change this, change at the begining also
 
-	return from_second, to_second
-
 
 def check_correlation_for_trim(limit_type: str, dir_input_stream: str, dir_output_stream: str, dir_clip: str):
 	from_second, to_second = find_limits_for_trim(limit_type)
@@ -150,6 +150,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 			input_stream = dirs.dir_end_only_untrimmed_stream
 
 		audio_info.misalignment = audio_info.misalignment + 2000
+		audio_info.sample_rate += 4000
 
 		from_second, to_second = find_limits_for_trim("full")
 		stream_duration = to_second - from_second

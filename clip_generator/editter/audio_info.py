@@ -135,24 +135,13 @@ def set_audio_infos_edit_by_image():
     print("Average:")
     print(average_max)
 
-# TODO update tests of appendJSON
+# TODO update tests of write info edit
     write_infos_edit(similarity_max)
     #print(real_second)
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     return float(getDuration(file)) - seconds
-
-
-# TODO BORRAR
-def write_infoeuoeos_edit():
-    for info in infosEdit:
-        # format
-        # appendJSON({'edit': [[from_second, to_second], [from2, to2],...]})
-        f = open(dirs.dir_clip_folder + "timestamps.txt", "a")
-        f.write(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']) + "\n")
-        f.close()
-        print(str(info[0][1]['pad']) + " - " + str(info[0][1]['pad_post']))
 
 
 def write_infos_trim(from_second: float, to_second: float):
