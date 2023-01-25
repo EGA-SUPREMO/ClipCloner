@@ -41,21 +41,27 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 
 # To copy clip's edition
 def auto_edit(credits_offset=0):
-	trim_to_clip(True, credits_offset)
+	common_functions.removeAll(dirs.dir_temp_files)
 
-	rounded_duration_stream = round(common_functions.getDuration(dirs.dir_trimmed_stream))
+	rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
 	rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
-	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):
+
+	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.1):
 		print("festejo")
 		return
 
-	print(rounded_duration_clip_without_credits)
-	print(rounded_duration_stream)
+	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
+	chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
-	audio_info.set_audio_infos_edit(3)
+	dirs.update_phase(1)
+	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
+	chopper.fixAudioParts()
+
+	#	audio_info.set_audio_infos_edit("3", "video_align", 0, 20)
+	audio_info.set_audio_infos_edit(str(dirs.get_second()), "corr", 0, rounded_duration_clip_without_credits)
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
-	#audio_info.write_infos_edit()
+
 
 	#common_functions.removeAll(dirs.dirAudioParts)
 	#common_functions.removeAll(dirs.dirFixedAudioParts)

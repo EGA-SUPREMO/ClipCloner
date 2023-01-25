@@ -12,6 +12,7 @@ from align_videos_by_soundtrack.utils import *
 import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
 import clip_generator.editter.compare_sound_by_images.offset as offset
+from clip_generator.editter import auto_edit_by_audalign
 
 misalignment=6000
 sample_rate=8000
@@ -24,7 +25,7 @@ infosTrim = [0, 0]
 
 def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
-    # defauflt max_misalignment=1800. But this produced inaccurate results for some videos.
+    # default max_misalignment=1800. But this produced inaccurate results for some videos.
     # changing it to 6000 improved results although seems to make it run slower.
     # Have to test if max_misalignment=1800 is good enough
     # Seems changing sample_rate could make more precise results
@@ -34,10 +35,26 @@ def get_alignment_info(fps: list):
     return list(zip(file_specs, result))
 
 
-def set_audio_infos_edit(seconds: str, fromAudio, toAudio):
-    for x in range(fromAudio, toAudio + 1):
-        infosEdit.append(get_alignment_info(
-            [dirs.dirFixedAudioParts + "S" + seconds + "_clip_audio" + str(x) + ".mp4", dirs.dir_stream]))
+# TODO needs tests
+def set_audio_infos_edit(seconds: str, recognizer, fromAudio, toAudio):
+    global infosEdit
+    times = []
+    for x in range(fromAudio, toAudio):
+        filename = "S" + seconds + "_clip_audio" + str(x) + ".mp4"
+        match recognizer:
+            case "corr":
+                offset = auto_edit_by_audalign.get_offset(filename)
+                times.append(offset)
+            case "video_align":
+                try:
+                    times.append(get_alignment_info(
+                        [dirs.dirFixedAudioParts + filename, dirs.dir_stream])[0][1]['pad'])
+                except Exception:
+                    times.append(99999999)
+
+    infosEdit = get_timestamps_from_times(times)
+
+    write_infos_edit(times)
 
 
 # TODO borrar, es inutil, ya hay otras funcitones que las replazan
@@ -76,7 +93,7 @@ def get_timestamps_from_times(times):
     timestamps = []
 
     for i in range(1, len(times)):
-        if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(dirs.get_second_for_edit() / 10)):
+        if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(max(dirs.get_second_for_edit() / 10, 0.1))):
             temp_end = times[i - 1] + dirs.get_second_for_edit() 
             timestamps.append((temp_start, temp_end))
             temp_end = 0
@@ -147,6 +164,7 @@ def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
 def write_infos_trim(from_second: float, to_second: float):
     print(str(from_second) + " - " + str(to_second))
     appendJSON({'trim': [from_second, to_second]})
+
 
 def write_infos_edit(average):
     print(infosEdit)
