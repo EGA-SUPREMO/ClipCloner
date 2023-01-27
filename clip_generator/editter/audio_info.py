@@ -50,7 +50,7 @@ def set_audio_infos_edit(seconds: str, recognizer, fromAudio, toAudio):
 
     infosEdit = get_timestamps_from_times(times)
 
-    write_infos_edit(times)
+    write_infos_edit(infosEdit, times)
 
 
 # TODO borrar, es inutil, ya hay otras funcitones que las replazan
@@ -111,7 +111,7 @@ def set_audio_infos_edit_by_image():
     print(average_max)
 
 # TODO update tests of write info edit
-    write_infos_edit(similarity_max)
+    write_infos_edit(infosEdit, similarity_max)
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):

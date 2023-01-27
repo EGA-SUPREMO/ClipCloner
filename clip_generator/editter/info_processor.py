@@ -3,7 +3,6 @@ import math
 import os
 
 from clip_generator.editter import dirs as dirs
-from clip_generator.editter.audio_info import infosEdit
 
 
 def curate_results(audio_offsets):
@@ -59,9 +58,9 @@ def write_infos_trim(from_second: float, to_second: float):
     append_json({'trim': [from_second, to_second]})
 
 
-def write_infos_edit(average):
-    print(infosEdit)
-    append_json({'edit': infosEdit, 'times': average})
+def write_infos_edit(infos_edit, times):
+    print(infos_edit)
+    append_json({'edit': infos_edit, 'times': times})
 
 
 def write_correlation(start: float, end: float):
