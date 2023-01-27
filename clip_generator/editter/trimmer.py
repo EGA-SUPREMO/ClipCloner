@@ -45,6 +45,7 @@ def auto_edit(credits_offset=0):
 
 	rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
 	rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
+	audio_parts = round(rounded_duration_clip_without_credits/3)
 
 	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):
 		print("The clip duration is the same as trimmed stream duration")
@@ -58,7 +59,7 @@ def auto_edit(credits_offset=0):
 	chopper.fixAudioParts()
 
 	#	audio_info.set_audio_infos_edit("3", "video_align", 0, 20)
-	audio_info.set_audio_infos_edit(str(dirs.get_second()), "corr", 0, rounded_duration_clip_without_credits)
+	audio_info.set_audio_infos_edit(str(dirs.get_second()), "corr", 0, audio_parts)
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
 
