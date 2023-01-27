@@ -46,9 +46,9 @@ def auto_edit(credits_offset=0):
 	rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
 	rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
 
-	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.1):
-		print("festejo")
-		return
+	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):
+		print("The clip duration is the same as trimmed stream duration")
+	#	return
 
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
 	chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
@@ -62,12 +62,11 @@ def auto_edit(credits_offset=0):
 
 	#audio_info.set_audio_infos_edit("0.5", 0, 2)
 
+	chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, audio_info.infosEdit)
+	common_functions.removeAll(dirs.dir_temp_files)
 
-	#common_functions.removeAll(dirs.dirAudioParts)
-	#common_functions.removeAll(dirs.dirFixedAudioParts)
 
-
-# TODO Needs tests
+# TODO Needs no tests
 def auto_edit_by_images():
 	chopper.remove_video(dirs.dir_trimmed_stream, dirs.dir_audio_trimmed_stream)
 

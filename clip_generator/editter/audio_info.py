@@ -96,7 +96,6 @@ def get_timestamps_from_times(times):
         if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(max(dirs.get_second_for_edit() / 10, 0.1))):
             temp_end = times[i - 1] + dirs.get_second_for_edit() 
             timestamps.append((temp_start, temp_end))
-            temp_end = 0
             temp_start = times[i]
 
     temp_end = times[-1] + dirs.get_second_for_edit() + 1 # el offset, conviertelo en una variable

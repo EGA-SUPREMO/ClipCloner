@@ -13,11 +13,8 @@ def get_offset(filename: str):
     # ad.convert_audio_file("../clip.mkv", "../test_borrar/clip.wav")
     ad.convert_audio_file("../stream.mkv", "../test_borrar/stream.wav")
 
-    results = ad.target_align(
-        dirs.dirFixedAudioParts + filename,
-        directory_path="../test_borrar/",
-        recognizer=fingerprint_rec
-    )
+    results = ad.align_files(dirs.dirFixedAudioParts + filename, dirs.dir_audio_stream, recognizer=fingerprint_rec)
+
     return results[filename]
     # ad.pretty_print_alignment(results)
     # fingerprint_rec.save_fingerprinted_files("../test_borrar/save_file.json")
