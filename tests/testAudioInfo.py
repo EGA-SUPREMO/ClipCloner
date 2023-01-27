@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import clip_generator.editter.audio_info as audio_info
 import clip_generator.editter.dirs as dirs
+import clip_generator.editter.info_processor
 
 from clip_generator.common_functions import checkTwoFilesAreTheSame
 
@@ -40,8 +41,8 @@ class TestAudioInfo(unittest.TestCase):
         self.assertEqual(117.0, round(last_seconds, 1), msg="Failed to get last 3 seconds right for ffmpeg -to format: "+filename)
 
     def test_write_infos(self):
-        audio_info.write_infos_trim(11.048, 111.72033333333333)
-        audio_info.write_correlation(0.1594182825484764, 0.1481770833333333)
+        clip_generator.editter.info_processor.write_infos_trim(11.048, 111.72033333333333)
+        clip_generator.editter.info_processor.write_correlation(0.1594182825484764, 0.1481770833333333)
 
         #timefile = dirs.dir_clip_folder+"timestamps.json"
         #f = open(timefile, "r")

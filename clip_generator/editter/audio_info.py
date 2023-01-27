@@ -1,9 +1,3 @@
-import time
-import subprocess
-import json
-import os.path
-import math
-
 from PIL import Image
 from align_videos_by_soundtrack.align import SyncDetector
 from align_videos_by_soundtrack.align_params import *
@@ -13,6 +7,7 @@ import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
 import clip_generator.editter.compare_sound_by_images.offset as offset
 from clip_generator.editter import auto_edit_by_audalign
+from clip_generator.editter.info_processor import get_timestamps_from_times, write_infos_edit
 
 misalignment=6000
 sample_rate=8000
@@ -22,6 +17,7 @@ data['logs'] = []
 
 infosEdit = list()
 infosTrim = [0, 0]
+
 
 def get_alignment_info(fps: list):
     file_specs = check_and_decode_filenames(fps, min_num_files=2)
@@ -85,31 +81,7 @@ def set_audio_infos_trim_end(dir_stream):
     infosTrim[1] = get_alignment_info([dirs.dir_current_end_clip, dir_stream])
 
 
-# TODO needs tests, what happens if one of the times it's just a loner, or rather, a bug and those around them are close
-#  together? maybe make another function like intuir timestamp, don't know it end times are correct because of getsecond for edit?
-def get_timestamps_from_times(times):
-    temp_end = 0
-    temp_start = times[0]
-    timestamps = []
-
-    for i in range(1, len(times)):
-        if not math.isclose(times[i] - times[i - 1], dirs.get_second_for_edit(), abs_tol=(max(dirs.get_second_for_edit() / 10, 0.1))):
-            temp_end = times[i - 1] + dirs.get_second_for_edit() 
-            timestamps.append((temp_start, temp_end))
-            temp_start = times[i]
-
-    temp_end = times[-1] + dirs.get_second_for_edit() + 1 # el offset, conviertelo en una variable
-    timestamps.append((temp_start, temp_end))
-
-    return timestamps
-
-
-# TODO add the offset at the begining of 0.5, and at the end 1s, must make those variables in the other places, NEEDS TESTS
-def offset_info_edit():
-    pass
-
-
-# TODO Needs tests
+# TODO Needs no tests
 def set_audio_infos_edit_by_image():
     global infosEdit
 
@@ -122,28 +94,15 @@ def set_audio_infos_edit_by_image():
     clip_image.save("clip.png")
     average_max = []
     similarity_max = []
-    similarity_line = []
-    accuracy_line = []
-    average_line = []
     for x in range(0, clip_image.width, int(dirs.get_second_for_edit() * dirs.scale_edit)):
         print(x)
         width = min(dirs.get_second_for_edit() * dirs.scale_edit, clip_image.width - x)
         cropped_clip = offset.crop_width_image(clip_image, x, width)
-        #cropped_clip.save(str(x)+".png")
         
         similarity_indexes, accuracy_indexes, average_indexes = offset.compare_images(cropped_clip, stream_image)
 
         similarity_max.append(offset.pixels_into_seconds(similarity_indexes.index(max(similarity_indexes))))
         average_max.append(offset.pixels_into_seconds(average_indexes.index(max(average_indexes))))
-
-        #similarity_max_index = similarity_indexes.index(max(similarity_indexes))
-        #@similarity_line.append(max(similarity_indexes))
-        #print(accuracy_indexes)
-        #print(average_indexes)
-        #accuracy_line.append(max(accuracy_indexes.index(similarity_max_index)))
-        #average_line.append(max(average_indexes.index(similarity_max_index)))
-    
-    #offset.save_data(similarity_line, accuracy_line, average_line, "typical_test/")
 
     infosEdit = get_timestamps_from_times(similarity_max)
     print(infosEdit)
@@ -153,37 +112,9 @@ def set_audio_infos_edit_by_image():
 
 # TODO update tests of write info edit
     write_infos_edit(similarity_max)
-    #print(real_second)
 
 
 def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     return float(getDuration(file)) - seconds
 
 
-def write_infos_trim(from_second: float, to_second: float):
-    print(str(from_second) + " - " + str(to_second))
-    appendJSON({'trim': [from_second, to_second]})
-
-
-def write_infos_edit(average):
-    print(infosEdit)
-    appendJSON({'edit': infosEdit, 'times': average})
-
-
-def write_correlation(start: float, end: float):
-    print({'correlation': {'trim': [start, end]}})
-    appendJSON({'correlation': {'trim': [start, end]}})
-
-
-def appendJSON(value):
-    filepath = dirs.dir_clip_folder + "timestamps.json"
-    dic = value
-
-    if os.path.isfile(filepath):
-        with open(filepath, 'r') as f:
-            dic = json.load(f)
-            dic.update(value)
-
-    with open(filepath, 'w') as f:
-        json.dump(dic, f)
-        f.close()

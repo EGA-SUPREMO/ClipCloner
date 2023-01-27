@@ -6,6 +6,7 @@ import clip_generator.editter.audio_info as audio_info
 import clip_generator.editter.dirs as dirs
 import clip_generator.common_functions as common_functions
 import clip_generator.editter.correlation as correlation
+import clip_generator.editter.info_processor
 
 correct_trim = True
 current_stream = dirs.dir_worstaudio_stream
@@ -172,7 +173,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 			audio_info.misalignment = 6000
 			from_second, to_second = find_limits_for_trim("full")
 			if not contains_video:
-				audio_info.write_infos_trim(from_second, to_second)
-				audio_info.write_correlation(start_correlation, end_correlation)
+				clip_generator.editter.info_processor.write_infos_trim(from_second, to_second)
+				clip_generator.editter.info_processor.write_correlation(start_correlation, end_correlation)
 
 			return from_second, to_second, start_correlation, end_correlation
