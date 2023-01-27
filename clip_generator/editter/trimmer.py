@@ -42,10 +42,11 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 # To copy clip's edition
 def auto_edit(credits_offset=0):
 	common_functions.removeAll(dirs.dir_temp_files)
+	dirs.update_phase(1)
 
 	rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
 	rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
-	audio_parts = round(rounded_duration_clip_without_credits/3)
+	audio_parts = round(rounded_duration_clip_without_credits/dirs.get_second_for_edit())
 
 	if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):
 		print("The clip duration is the same as trimmed stream duration")
@@ -54,7 +55,6 @@ def auto_edit(credits_offset=0):
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
 	chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
-	dirs.update_phase(1)
 	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
 	chopper.fixAudioParts()
 
