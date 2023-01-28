@@ -20,7 +20,7 @@ def curate_results(offsets):
             current_range = current_start - current_end
             i_range = j - i
             expected_range = i_range * dirs.get_second_for_edit()
-            if math.isclose(current_range, expected_range, rel_tol=expected_range/10):
+            if math.isclose(current_range, expected_range, abs_tol=expected_range/10):
                 for k in range(i_range):
                     wrong_match_range.append(offsets[i + k + 1])
                     wrong_match_range_indexes.append(i + k + 1)
@@ -31,8 +31,9 @@ def curate_results(offsets):
 
     for k in wrong_match_range:
         offsets.remove(k)
-    offsets.pop(wrong_match_range_indexes[0]-1)
-    offsets = [(start, offsets[0][1]), *offsets[1:]]
+    if len(wrong_match_range_indexes):
+        offsets.pop(wrong_match_range_indexes[0]-1)
+        offsets = [(start, offsets[0][1]), *offsets[1:]]
     print(wrong_match_range_indexes)
     print(offsets)
     return offsets
