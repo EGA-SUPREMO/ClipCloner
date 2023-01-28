@@ -5,30 +5,37 @@ import os
 from clip_generator.editter import dirs as dirs
 
 
-def curate_results(audio_offsets):
-    curated_offsets = []
-    current_start = audio_offsets[0][0]
-    current_end = audio_offsets[0][1]
-    for offset in audio_offsets:
-        if offset[0] <= current_end:
-            current_end = max(current_end, offset[1])
-        else:
-            curated_offsets.append((current_start, current_end))
-            current_start = offset[0]
-            current_end = offset[1]
-    curated_offsets.append((current_start, current_end))
-    final_offsets = []
-    for i in range(len(curated_offsets)):
-        for j in range(i+1, len(curated_offsets)):
-            if curated_offsets[i][1] >= curated_offsets[j][0]:
-                curated_offsets[i] = (curated_offsets[i][0], max(curated_offsets[i][1], curated_offsets[j][1]))
-                curated_offsets[j] = (0,0)
-    for offset in curated_offsets:
-        if offset != (0,0):
-            final_offsets.append(offset)
-    if len(final_offsets) > 1:
-        final_offsets = [(min([offset[0] for offset in final_offsets]), max([offset[1] for offset in final_offsets]))]
-    return final_offsets
+def curate_results(offsets):
+    print(offsets)
+    start = offsets[0][0]
+    wrong_match = 0
+
+    wrong_match_range = []
+    wrong_match_range_indexes = []
+    for i in range(len(offsets) - 1):
+        for j in range(i, len(offsets) - 1):
+            current_end = offsets[i][1]
+            current_start = offsets[j + 1][0]
+
+            current_range = current_start - current_end
+            i_range = j - i
+            expected_range = i_range * dirs.get_second_for_edit()
+            if math.isclose(current_range, expected_range, rel_tol=expected_range/10):
+                for k in range(i_range):
+                    wrong_match_range.append(offsets[i + k + 1])
+                    wrong_match_range_indexes.append(i + k + 1)
+                wrong_match += 1
+
+    wrong_match_range = list(set(wrong_match_range))
+    wrong_match_range_indexes = list(set(wrong_match_range_indexes))
+
+    for k in wrong_match_range:
+        offsets.remove(k)
+    offsets.pop(wrong_match_range_indexes[0]-1)
+    offsets = [(start, offsets[0][1]), *offsets[1:]]
+    print(wrong_match_range_indexes)
+    print(offsets)
+    return offsets
 
 
 def get_timestamps_from_times(times):
