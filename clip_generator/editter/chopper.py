@@ -103,3 +103,14 @@ def final_chop(input_file, output_file, time_intervals):
     # Call FFmpeg with the select and aselect filters
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_file, "-preset", "veryfast",
                     "-vf", select_filter, "-af", aselect_filter, output_file])
+
+
+def cut_video_into_separate_files(input_video: str, cut_times):
+    for i, cut_time in enumerate(cut_times):
+        start_time, end_time = cut_time
+        start_time = str(start_time)
+        end_time = str(end_time)
+
+        output_video = f"{dirs.dir_clip_folder}cut_{i}.mkv"
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_video, "-ss", start_time, "-to", end_time,
+                        output_video])
