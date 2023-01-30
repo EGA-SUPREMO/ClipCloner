@@ -6,9 +6,13 @@ from clip_generator.editter import dirs as dirs
 
 
 def curate_results(offsets):
+    offsets_old = offsets[:]
     print(offsets)
     start = offsets[0][0]
-    wrong_match = 0
+    #wrong_match = 0
+    to_be_merged_range = []
+
+    new_timestamp = []
 
     wrong_match_range = []
     wrong_match_range_indexes = []
@@ -21,22 +25,55 @@ def curate_results(offsets):
             i_range = j - i
             expected_range = i_range * dirs.get_second_for_edit()
             if math.isclose(current_range, expected_range, abs_tol=expected_range/10):
+                to_be_merged_range.append([i, j+1])
+                print(to_be_merged_range)
+
+                #offsets = offsets[:i] + [(offsets[i][0], offsets[j+1][1])] + offsets[i+1:]
+                #offsets = offsets[:j+1] + [(offsets[i][0], offsets[j+1][1])] + offsets[j+2:]
+
                 for k in range(i_range):
                     wrong_match_range.append(offsets[i + k + 1])
                     wrong_match_range_indexes.append(i + k + 1)
-                wrong_match += 1
+                # wrong_match += 1
 
     wrong_match_range = list(set(wrong_match_range))
     wrong_match_range_indexes = list(set(wrong_match_range_indexes))
 
-    for k in wrong_match_range:
-        offsets.remove(k)
-    if len(wrong_match_range_indexes):
-        offsets.pop(wrong_match_range_indexes[0]-1)
-        offsets = [(start, offsets[0][1]), *offsets[1:]]
-    print(wrong_match_range_indexes)
+    #print(to_be_merged_range)
+
+    #for k in wrong_match_range:
+    #    offsets.remove(k)
+
+    #if len(wrong_match_range_indexes):
+    #    print(merge_tuple(to_be_merged_range, offsets_old))
+    #    offsets.pop(wrong_match_range_indexes[0] - 1)
+    #    offsets = [(start, offsets[0][1]), *offsets[1:]]
+
+    #print(wrong_match_range_indexes)
     print(offsets)
     return offsets
+
+
+def merge_tuple(indexes, times):
+    result = [indexes[0]]
+
+    for i in range(1, len(indexes)):
+        if indexes[i][0] == result[-1][1]:
+            result[-1][1] = indexes[i][1]
+        elif indexes[i][0] < result[-1][1] and (indexes[i][0] == result[-1][0] or indexes[i][1] == result[-1][1]):
+            result[-1][1] = indexes[i][1]
+        else:
+            if indexes[i][0] > result[-1][1]:
+                result.append(indexes[i])
+            else:
+                difference_start = times[indexes[i][0]][1] - times[indexes[i][0]][0]
+                difference_end = times[indexes[i][1]][1] - times[indexes[i][1]][0]
+                difference_start = times[result[-1][0]][1] - times[result[-1][0]][0]
+                difference_end = times[result[-1][1]][1] - times[result[-1][1]][0]
+                if min(difference_start, difference_end) > min(difference_start, difference_end):
+                    pass
+
+    return result
 
 
 def get_timestamps_from_times(times):
