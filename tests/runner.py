@@ -4,6 +4,7 @@ import sys
 
 from tests.order_tests import load_ordered_tests
 import tests.testChopperGeneratesFilesWithRightDuration as testChopper
+import tests.testCutVideoIntoSeparateFiles as cutVideoIntoSeparateFiles
 import tests.testTrimmerGeneratesFilesWithRightDuration as testTrimmer
 import tests.unit_tests.testCorrelationForTrim as testUnitTrimmer
 import tests.unit_tests.testOffsetImageBlend as testOffsetImageBlend
@@ -57,6 +58,8 @@ def run_tests(options="ni"):
         suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
 
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
+    suite.addTest(unittest.makeSuite(cutVideoIntoSeparateFiles.TestCutVideoIntoSeparateFiles))
+    
     if "fast" not in options:
         suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
     runner = unittest.TextTestRunner()
