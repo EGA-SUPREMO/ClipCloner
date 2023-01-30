@@ -14,12 +14,12 @@ class TestCutVideoIntoSeparateFiles(unittest.TestCase):
         chopper.cut_video_into_separate_files(stream_video, cut_times)
 
         # Check that 4 videos were created
-        video_files = [f for f in os.listdir(dirs.dir_clip_folder) if f.startswith("cut_") and f.endswith(".mkv")]
+        video_files = [f for f in os.listdir(dirs.dir_clip_folder+"cuts/") if f.endswith(".mkv")]
         self.assertEqual(len(video_files), len(cut_times), f"Expected 4 video files but got {len(video_files)}")
 
         # Check that each video has the expected duration
         for i, video_file in enumerate(video_files):
-            duration = getDuration(dirs.dir_clip_folder + video_file)
+            duration = getDuration(dirs.dir_clip_folder + "cuts/" + video_file)
             expected_duration = cut_times[i][1] - cut_times[i][0]
             self.assertAlmostEqual(duration, expected_duration, delta=0.2, msg=
                     f"Expected duration of {expected_duration} but got {duration}")

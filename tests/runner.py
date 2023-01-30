@@ -59,7 +59,7 @@ def run_tests(options="ni"):
 
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
     suite.addTest(unittest.makeSuite(cutVideoIntoSeparateFiles.TestCutVideoIntoSeparateFiles))
-    
+
     if "fast" not in options:
         suite.addTest(unittest.makeSuite(testTrimmer.TestTrimmerGeneratesFilesWithRightDuration))
     runner = unittest.TextTestRunner()
