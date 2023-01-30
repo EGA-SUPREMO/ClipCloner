@@ -68,10 +68,16 @@ def merge_tuple(indexes, times):
             else:
                 difference_start = times[indexes[i][0]][1] - times[indexes[i][0]][0]
                 difference_end = times[indexes[i][1]][1] - times[indexes[i][1]][0]
-                difference_start = times[result[-1][0]][1] - times[result[-1][0]][0]
-                difference_end = times[result[-1][1]][1] - times[result[-1][1]][0]
-                if min(difference_start, difference_end) > min(difference_start, difference_end):
-                    pass
+                difference_start_inserted = times[result[-1][0]][1] - times[result[-1][0]][0]
+                difference_end_inserted = times[result[-1][1]][1] - times[result[-1][1]][0]
+                if math.isclose(min(difference_start, difference_end),
+                                 min(difference_start_inserted, difference_end_inserted), abs_tol=0.4):
+                    if (difference_start + difference_end) > (difference_start_inserted + difference_end_inserted):
+                        result.pop()
+                        result.append(indexes[i])
+                elif min(difference_start, difference_end) > min(difference_start_inserted, difference_end_inserted):
+                    result.pop()
+                    result.append(indexes[i])
 
     return result
 

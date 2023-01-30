@@ -28,7 +28,12 @@ class TestCurateResults(unittest.TestCase):
 
     def test_merge_multiple_tuples_do_not_support_multi_pov_stream_or_non_chronological_order(self):
         offset2 = [[0, 3], [3, 6], [6, 9], [10, 15], [15, 18], [18, 21], [7, 16]]
-        offset_times = [(2.372125, 5.39225)]
+        offset_times = [(2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225),
+                        (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225),
+                        (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225),
+                        (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225),
+                        (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225), (2.372125, 5.39225),
+                        (2.372125, 5.39225), (2.372125, 5.39225)]
         expected_output2 = [[0, 9], [10, 21]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
@@ -39,9 +44,21 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
     def test_merge_tuple_overlaps_with_false_tuple1(self):
-        offset_times = [(9,10), (19, 21), (11, 13), (22, 24)]
+        offset_times = [(9, 10), (19, 21), (11, 13), (22, 24)]
         offset2 = [[0, 2], [1, 3]]
         expected_output2 = [[1, 3]]
+        self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
+
+    def test_merge_tuple_overlaps_with_false_tuple2(self):
+        offset_times = [(8, 10), (19, 21), (11, 13), (22, 25)]
+        offset2 = [[0, 2], [1, 3]]
+        expected_output2 = [[1, 3]]
+        self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
+
+    def test_merge_tuple_overlaps_with_false_tuple3(self):
+        offset_times = [(8, 10), (19, 21), (11, 14), (22, 24)]
+        offset2 = [[0, 2], [1, 3]]
+        expected_output2 = [[0, 2]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
 
