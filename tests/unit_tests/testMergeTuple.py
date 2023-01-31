@@ -4,7 +4,7 @@ from clip_generator.editter import dirs
 from clip_generator.editter.info_processor import merge_tuple
 
 
-class TestCurateResults(unittest.TestCase):
+class TestMergeTuple(unittest.TestCase):
     def test_merge_tuple_with_overlaps(self):
         offset_times = [(5.14, 7.14), (29.10, 30.10), (24.38, 25.38), (9.16, 10.16), (23.1, 24.1), (11.16, 54.17)]
         offset1 = [[0, 3], [0, 5], [3, 5]]
