@@ -61,6 +61,11 @@ class TestMergeTuple(unittest.TestCase):
         expected_output2 = [[0, 2]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
+    def test_merge_tuple_returns_if_index_is_empty(self):
+        offset_times = []
+        offset2 = []
+        self.assertEqual(merge_tuple(offset2, offset_times), None)
+
 
 if __name__ == '__main__':
     unittest.main()

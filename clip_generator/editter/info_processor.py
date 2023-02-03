@@ -26,7 +26,6 @@ def curate_results(offsets):
             expected_range = i_range * dirs.get_second_for_edit()
             if math.isclose(current_range, expected_range, abs_tol=expected_range/10):
                 to_be_merged_range.append([i, j+1])
-                print(to_be_merged_range)
 
                 #offsets = offsets[:i] + [(offsets[i][0], offsets[j+1][1])] + offsets[i+1:]
                 #offsets = offsets[:j+1] + [(offsets[i][0], offsets[j+1][1])] + offsets[j+2:]
@@ -39,7 +38,10 @@ def curate_results(offsets):
     wrong_match_range = list(set(wrong_match_range))
     wrong_match_range_indexes = list(set(wrong_match_range_indexes))
 
-    #print(to_be_merged_range)
+    print("to be merged")
+    print(to_be_merged_range)
+    merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
+    print(merged_tuple_range)
 
     #for k in wrong_match_range:
     #    offsets.remove(k)
@@ -55,6 +57,9 @@ def curate_results(offsets):
 
 
 def merge_tuple(indexes, times):
+    if not indexes:
+        return
+
     result = [indexes[0]]
 
     for i in range(1, len(indexes)):
