@@ -15,13 +15,12 @@ def curate_results(offsets):
 
             current_range = current_start - current_end
 
-            consecutive_number = get_consecutive_number(offsets, i, j)
-            if consecutive_number > 0:
-                consecutive_number += 1
-            i_range = j - i# + consecutive_number
-            print(f"{offsets}\ni: {i} - j: {j}\ni_range:{i_range} - consecutive: {consecutive_number}")
+            consecutive_number = get_consecutive_number(offsets, i, j+1)
+            # i_range = j - i
 
-            expected_range = i_range * dirs.get_second_for_edit()
+            # print(f"{offsets}\ni: {i} - j: {j}\ni_range:{i_range} - consecutive: {consecutive_number}")
+
+            expected_range = consecutive_number * dirs.get_second_for_edit()
             if math.isclose(current_range, expected_range, abs_tol=dirs.get_second_for_edit()/10):
                 to_be_merged_range.append([i, j+1])
     print(to_be_merged_range)
@@ -43,7 +42,9 @@ def get_consecutive_number(offsets, i, j):
 def merge_tuple(indexes, times):
     if not indexes:
         return
-
+    print(indexes)
+    indexes = remove_tuples_with_starts_below_previous_ends(indexes)
+    print(indexes)
     result = [indexes[0]]
 
     for i in range(1, len(indexes)):
@@ -106,7 +107,7 @@ def remove_tuples_with_starts_below_previous_ends(tuples_input):
     ends = []
     result = []
     for t in tuples_input:
-        if t[0] not in ends:
+        if t[0] not in ends or t[1] not in ends:
             ends.append(t[1])
             result.append(t)
     return result
