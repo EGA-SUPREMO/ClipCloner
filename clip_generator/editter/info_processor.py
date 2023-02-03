@@ -18,18 +18,7 @@ def curate_results(offsets):
 
             current_range = current_start - current_end
 
-            for x in range(i+1, j):
-                current_end_to_be_tested = offsets[x][1]
-                current_start_to_be_tested = offsets[x][0]
-
-                current_range_to_be_tested = current_end_to_be_tested - current_start_to_be_tested
-                if round(current_range_to_be_tested) > 1:
-                    consecutive_number += round(current_range_to_be_tested) - 1
-                print(x)
-                print("ranges in between:")
-                print(current_range_to_be_tested)
-                print("ranges diferences:")
-                print(current_range)
+            consecutive_number = get_consecutive_number(offsets, i, j)
 
             i_range = j - i# + consecutive_number
             expected_range = i_range * dirs.get_second_for_edit()
@@ -39,11 +28,25 @@ def curate_results(offsets):
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
 
     offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
-
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
 
     return offsets
 
+
+def get_consecutive_number(offsets, i, j):
+    consecutive_number = 0
+    for x in range(i + 1, j):
+        current_end_to_be_tested = offsets[x][1]
+        current_start_to_be_tested = offsets[x][0]
+
+        current_range_to_be_tested = current_end_to_be_tested - current_start_to_be_tested
+        if round(current_range_to_be_tested) > 1:
+            consecutive_number += round(current_range_to_be_tested) - 1
+        print(x)
+        print("ranges in between:")
+        print(current_range_to_be_tested)
+
+    return consecutive_number
 
 def merge_tuple(indexes, times):
     if not indexes:
