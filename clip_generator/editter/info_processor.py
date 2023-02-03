@@ -8,10 +8,7 @@ from clip_generator.editter import dirs as dirs
 def curate_results(offsets):
     to_be_merged_range = []
 
-    print(offsets)
-
     for i in range(len(offsets) - 1):
-        consecutive_number = 0
         for j in range(i, len(offsets) - 1):
             current_end = offsets[i][1]
             current_start = offsets[j + 1][0]
@@ -19,34 +16,29 @@ def curate_results(offsets):
             current_range = current_start - current_end
 
             consecutive_number = get_consecutive_number(offsets, i, j)
-
+            if consecutive_number > 0:
+                consecutive_number += 1
             i_range = j - i# + consecutive_number
+            print(f"{offsets}\ni: {i} - j: {j}\ni_range:{i_range} - consecutive: {consecutive_number}")
+
             expected_range = i_range * dirs.get_second_for_edit()
-            if math.isclose(current_range, expected_range, abs_tol=expected_range/10):
+            if math.isclose(current_range, expected_range, abs_tol=dirs.get_second_for_edit()/10):
                 to_be_merged_range.append([i, j+1])
-
+    print(to_be_merged_range)
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
-
+    print(merged_tuple_range)
     offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
-
+    print(offsets)
     return offsets
 
 
 def get_consecutive_number(offsets, i, j):
-    consecutive_number = 0
-    for x in range(i + 1, j):
-        current_end_to_be_tested = offsets[x][1]
-        current_start_to_be_tested = offsets[x][0]
+    count = 0
+    for start, end in offsets[i+1:j]:
+        count += end - start
+    return round(count)
 
-        current_range_to_be_tested = current_end_to_be_tested - current_start_to_be_tested
-        if round(current_range_to_be_tested) > 1:
-            consecutive_number += round(current_range_to_be_tested) - 1
-        print(x)
-        print("ranges in between:")
-        print(current_range_to_be_tested)
-
-    return consecutive_number
 
 def merge_tuple(indexes, times):
     if not indexes:
