@@ -30,22 +30,34 @@ def curate_results(offsets):
                 #offsets = offsets[:i] + [(offsets[i][0], offsets[j+1][1])] + offsets[i+1:]
                 #offsets = offsets[:j+1] + [(offsets[i][0], offsets[j+1][1])] + offsets[j+2:]
 
-                for k in range(i_range):
-                    wrong_match_range.append(offsets[i + k + 1])
-                    wrong_match_range_indexes.append(i + k + 1)
+                #for k in range(i_range):
+                    #wrong_match_range.append(offsets[i + k + 1])
+                    #wrong_match_range_indexes.append(i + k + 1)
                 # wrong_match += 1
 
-    wrong_match_range = list(set(wrong_match_range))
-    wrong_match_range_indexes = list(set(wrong_match_range_indexes))
+    #wrong_match_range = list(set(wrong_match_range))
+    #wrong_match_range_indexes = list(set(wrong_match_range_indexes))
 
     print("to be merged")
     print(to_be_merged_range)
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
     print(merged_tuple_range)
+    if not not merged_tuple_range:
+        for merged_tuple in merged_tuple_range:
+            offsets = offsets[:merged_tuple[0]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
+                      offsets[merged_tuple[0]+1:]
+            offsets = offsets[:merged_tuple[1]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
+                      offsets[merged_tuple[1]+1:]
 
-    #for k in wrong_match_range:
-    #    offsets.remove(k)
+        for x in range(len(merged_tuple_range)):
+            for index in range(merged_tuple_range[x][0] + 1, merged_tuple_range[x][1]):
+                wrong_match_range.append(offsets[index])
 
+    for k in wrong_match_range:
+        print(k)
+        offsets.remove(k)
+
+    #offsets = list(set(offsets))
     #if len(wrong_match_range_indexes):
     #    print(merge_tuple(to_be_merged_range, offsets_old))
     #    offsets.pop(wrong_match_range_indexes[0] - 1)
