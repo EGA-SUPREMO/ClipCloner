@@ -102,6 +102,16 @@ def remove_wrong_matches(offsets, merged_tuple_range):
     return list(dict.fromkeys(offsets))
 
 
+def remove_tuples_with_starts_below_previous_ends(tuples_input):
+    ends = []
+    result = []
+    for t in tuples_input:
+        if t[0] not in ends:
+            ends.append(t[1])
+            result.append(t)
+    return result
+
+
 def get_timestamps_from_times(times):
     temp_end = 0
     temp_start = times[0]
