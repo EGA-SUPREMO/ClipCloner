@@ -17,6 +17,12 @@ class TestCurateResults(unittest.TestCase):
         expected_output1 = [(5, 13), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
+    def test_curate_results_when_there_is_two_consecutive_numbers_wrong(self):
+        dirs.update_phase(1)
+        offset1 = [(8, 10), (19, 21), (12, 14), (22, 23)]
+        expected_output1 = [(8, 14), (22, 23)]
+        self.assertEqual(curate_results(offset1), expected_output1)
+
     def test_curate_results_do_not_remove_wrong_match_if_there_isnt_enough_items_in_between(self):
         dirs.update_phase(1)
         offset1 = [(2.372125, 5.39225), (7.124125, 11.1195), (13.117875, 17.11325), (26.895125, 28.8935),

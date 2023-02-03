@@ -49,14 +49,27 @@ class TestMergeTuple(unittest.TestCase):
         expected_output2 = [[1, 3]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
+    def test_merge_tuple_overlaps_with_false_tuple5(self):
+        offset_times = [(9, 10), (19, 21), (11, 13), (23, 24)]
+        offset2 = [[0, 2], [1, 3]]
+        expected_output2 = [[1, 3]]
+        self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
+
     def test_merge_tuple_overlaps_with_false_tuple2(self):
         offset_times = [(8, 10), (19, 21), (11, 13), (22, 25)]
         offset2 = [[0, 2], [1, 3]]
         expected_output2 = [[1, 3]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
+    # TODO PARece que sta mal el valor esperado
     def test_merge_tuple_overlaps_with_false_tuple3(self):
         offset_times = [(8, 10), (19, 21), (11, 14), (22, 24)]
+        offset2 = [[0, 2], [1, 3]]
+        expected_output2 = [[0, 2]]
+        self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
+
+    def test_merge_tuple_overlaps_with_false_tuple4(self):
+        offset_times = [(8, 10), (19, 21), (12, 15), (22, 24)]
         offset2 = [[0, 2], [1, 3]]
         expected_output2 = [[0, 2]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
