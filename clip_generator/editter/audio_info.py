@@ -80,7 +80,6 @@ def set_audio_infos_trim_end(dir_stream):
 
     infosTrim[1] = get_alignment_info([dirs.dir_current_end_clip, dir_stream])
 
-
 # TODO Needs no tests
 def set_audio_infos_edit_by_image():
     global infosEdit

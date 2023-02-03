@@ -80,8 +80,8 @@ def get_max_corr(corr, source, target):
 	#	print(('%s and %s match with correlation of %.4f at offset %i' % (source, target, corr[max_corr_index], max_corr_offset)))
 	return corr[max_corr_index]
 
-def correlate(source, target):	
+def correlate(source, target):
 	fingerprint_source = calculate_fingerprints(source)	
 	fingerprint_target = calculate_fingerprints(target)		
-	corr = compare(fingerprint_source, fingerprint_target, span, step)	
+	corr = compare(fingerprint_source, fingerprint_target, span, step)
 	return get_max_corr(corr, source, target)
