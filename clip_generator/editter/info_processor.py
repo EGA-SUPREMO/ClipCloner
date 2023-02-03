@@ -57,7 +57,7 @@ def curate_results(offsets):
         print(k)
         offsets.remove(k)
 
-    #offsets = list(set(offsets))
+    offsets = list(dict.fromkeys(offsets))
     #if len(wrong_match_range_indexes):
     #    print(merge_tuple(to_be_merged_range, offsets_old))
     #    offsets.pop(wrong_match_range_indexes[0] - 1)
