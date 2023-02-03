@@ -10,13 +10,30 @@ def curate_results(offsets):
 
     wrong_match_range = []
 
+    print(offsets)
+
     for i in range(len(offsets) - 1):
+        consecutive_number = 0
         for j in range(i, len(offsets) - 1):
             current_end = offsets[i][1]
             current_start = offsets[j + 1][0]
 
             current_range = current_start - current_end
-            i_range = j - i
+
+            for x in range(i+1, j):
+                current_end_to_be_tested = offsets[x][1]
+                current_start_to_be_tested = offsets[x][0]
+
+                current_range_to_be_tested = current_end_to_be_tested - current_start_to_be_tested
+                if round(current_range_to_be_tested) > 1:
+                    consecutive_number += round(current_range_to_be_tested) - 1
+                print(x)
+                print("ranges in between:")
+                print(current_range_to_be_tested)
+                print("ranges diferences:")
+                print(current_range)
+
+            i_range = j - i# + consecutive_number
             expected_range = i_range * dirs.get_second_for_edit()
             if math.isclose(current_range, expected_range, abs_tol=expected_range/10):
                 to_be_merged_range.append([i, j+1])
