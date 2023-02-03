@@ -16,7 +16,7 @@ def getTitle(link):
 
 
 def getTitleWithoutSpecialChars(title):
-    return re.sub('[^A-Za-z0-9 ]+', '', title)
+    return re.sub('[^A-Za-z0-9 ]+', '', title).strip()
 
 
 def downloadSmallFiles(dirClips, link):
@@ -116,8 +116,7 @@ def setChannels():
 
 def setRecruitmentAd():
     global fullDescr
-    fullDescr += "\n\n" + """Editor y traductor: 
-Te interesa formar parte del equipo? Escribenos en: usadatranslations@gmail.com
+    fullDescr += "\n\n" + """Te interesa formar parte del equipo? Escribenos en: usadatranslations@gmail.com
 Discord: ElNo Studió # 5137"""
 
 
