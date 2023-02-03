@@ -6,16 +6,10 @@ from clip_generator.editter import dirs as dirs
 
 
 def curate_results(offsets):
-    offsets_old = offsets[:]
-    print(offsets)
-    start = offsets[0][0]
-    #wrong_match = 0
     to_be_merged_range = []
 
-    new_timestamp = []
-
     wrong_match_range = []
-    wrong_match_range_indexes = []
+
     for i in range(len(offsets) - 1):
         for j in range(i, len(offsets) - 1):
             current_end = offsets[i][1]
@@ -27,21 +21,8 @@ def curate_results(offsets):
             if math.isclose(current_range, expected_range, abs_tol=expected_range/10):
                 to_be_merged_range.append([i, j+1])
 
-                #offsets = offsets[:i] + [(offsets[i][0], offsets[j+1][1])] + offsets[i+1:]
-                #offsets = offsets[:j+1] + [(offsets[i][0], offsets[j+1][1])] + offsets[j+2:]
-
-                #for k in range(i_range):
-                    #wrong_match_range.append(offsets[i + k + 1])
-                    #wrong_match_range_indexes.append(i + k + 1)
-                # wrong_match += 1
-
-    #wrong_match_range = list(set(wrong_match_range))
-    #wrong_match_range_indexes = list(set(wrong_match_range_indexes))
-
-    print("to be merged")
-    print(to_be_merged_range)
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
-    print(merged_tuple_range)
+
     if not not merged_tuple_range:
         for merged_tuple in merged_tuple_range:
             offsets = offsets[:merged_tuple[0]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
@@ -54,17 +35,10 @@ def curate_results(offsets):
                 wrong_match_range.append(offsets[index])
 
     for k in wrong_match_range:
-        print(k)
         offsets.remove(k)
 
     offsets = list(dict.fromkeys(offsets))
-    #if len(wrong_match_range_indexes):
-    #    print(merge_tuple(to_be_merged_range, offsets_old))
-    #    offsets.pop(wrong_match_range_indexes[0] - 1)
-    #    offsets = [(start, offsets[0][1]), *offsets[1:]]
 
-    #print(wrong_match_range_indexes)
-    print(offsets)
     return offsets
 
 
