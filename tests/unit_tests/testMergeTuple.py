@@ -20,6 +20,15 @@ class TestMergeTuple(unittest.TestCase):
         expected_output2 = [[0, 9]]
         self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
 
+    def test_merge_multiple_tuples1(self):
+        offset2 = [[0, 3], [0, 6], [0, 9], [3, 6], [3, 9], [6, 9]]
+        offset_times = [(2.372125, 5.39225), (7.124125, 11.1195), (13.117875, 17.11325), (26.895125, 28.8935),
+                   (30.758625, 37.772625), (40.43775, 44.433125), (49.664875, 55.65725), (69.781125, 70.781125),
+                   (50.30375, 51.30375), (53.418, 54.418), (71.660125, 72.660125), (42.76025, 43.76025),
+                   (65.521125, 74.508875), (69.247625, 70.247625), (68.871625, 69.871625), (34.316625, 36.316625)]
+        expected_output2 = [[0, 9]]
+        self.assertEqual(merge_tuple(offset2, offset_times), expected_output2)
+
     def test_merge_multiple_tuples_without_using_times(self):
         offset2 = [[0, 3], [3, 6], [6, 9], [10, 15], [15, 18], [18, 21]]
         offset_times = [(2.372125, 5.39225)]
