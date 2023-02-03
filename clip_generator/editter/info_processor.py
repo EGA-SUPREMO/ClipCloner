@@ -16,19 +16,16 @@ def curate_results(offsets):
             current_range = current_start - current_end
 
             consecutive_number = get_consecutive_number(offsets, i, j+1)
-            # i_range = j - i
-
-            # print(f"{offsets}\ni: {i} - j: {j}\ni_range:{i_range} - consecutive: {consecutive_number}")
-
             expected_range = consecutive_number * dirs.get_second_for_edit()
+
             if math.isclose(current_range, expected_range, abs_tol=dirs.get_second_for_edit()/10):
                 to_be_merged_range.append([i, j+1])
-    print(to_be_merged_range)
+
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
-    print(merged_tuple_range)
+
     offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
-    print(offsets)
+
     return offsets
 
 
@@ -42,9 +39,8 @@ def get_consecutive_number(offsets, i, j):
 def merge_tuple(indexes, times):
     if not indexes:
         return
-    print(indexes)
+
     indexes = remove_tuples_with_starts_below_previous_ends(indexes)
-    print(indexes)
     result = [indexes[0]]
 
     for i in range(1, len(indexes)):
