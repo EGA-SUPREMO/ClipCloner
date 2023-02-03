@@ -8,8 +8,6 @@ from clip_generator.editter import dirs as dirs
 def curate_results(offsets):
     to_be_merged_range = []
 
-    wrong_match_range = []
-
     print(offsets)
 
     for i in range(len(offsets) - 1):
@@ -47,14 +45,7 @@ def curate_results(offsets):
             offsets = offsets[:merged_tuple[1]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
                       offsets[merged_tuple[1]+1:]
 
-        for x in range(len(merged_tuple_range)):
-            for index in range(merged_tuple_range[x][0] + 1, merged_tuple_range[x][1]):
-                wrong_match_range.append(offsets[index])
-
-    for k in wrong_match_range:
-        offsets.remove(k)
-
-    offsets = list(dict.fromkeys(offsets))
+    offsets = remove_wrong_matches(offsets, merged_tuple_range)
 
     return offsets
 
@@ -88,6 +79,23 @@ def merge_tuple(indexes, times):
                     result.append(indexes[i])
 
     return result
+
+
+# TODO NEEDS TESTS
+def remove_wrong_matches(offsets, merged_tuple_range):
+    if not merged_tuple_range:
+        return offsets
+
+    wrong_match_range = []
+
+    for x in range(len(merged_tuple_range)):
+            for index in range(merged_tuple_range[x][0] + 1, merged_tuple_range[x][1]):
+                wrong_match_range.append(offsets[index])
+
+    for k in wrong_match_range:
+        offsets.remove(k)
+
+    return list(dict.fromkeys(offsets))
 
 
 def get_timestamps_from_times(times):
