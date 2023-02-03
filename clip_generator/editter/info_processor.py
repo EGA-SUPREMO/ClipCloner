@@ -38,12 +38,7 @@ def curate_results(offsets):
 
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
 
-    if not not merged_tuple_range:
-        for merged_tuple in merged_tuple_range:
-            offsets = offsets[:merged_tuple[0]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
-                      offsets[merged_tuple[0]+1:]
-            offsets = offsets[:merged_tuple[1]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
-                      offsets[merged_tuple[1]+1:]
+    offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
 
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
 
@@ -79,6 +74,20 @@ def merge_tuple(indexes, times):
                     result.append(indexes[i])
 
     return result
+
+
+# TODO NEEDS TESTS
+def duplicate_tuples_to_be_merged(offsets, merged_tuple_range):
+    if not merged_tuple_range:
+        return offsets
+
+    for merged_tuple in merged_tuple_range:
+        offsets = offsets[:merged_tuple[0]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
+                  offsets[merged_tuple[0]+1:]
+        offsets = offsets[:merged_tuple[1]] + [(offsets[merged_tuple[0]][0], offsets[merged_tuple[1]][1])] +\
+                  offsets[merged_tuple[1]+1:]
+
+    return offsets
 
 
 # TODO NEEDS TESTS
