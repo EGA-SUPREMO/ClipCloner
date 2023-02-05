@@ -141,6 +141,13 @@ class TestCurateResults(unittest.TestCase):
         expected_output1 = [(0, 9), (10, 11), (20, 41), (11, 15), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
+
+    def test_curate_results_artificial_offset4(self):
+        dirs.update_phase(1)
+        offset1 = [(8, 10), (19, 21), (11, 13), (23, 24)]
+        expected_output1 = [(8, 10), (19, 24)]
+        self.assertEqual(curate_results(offset1), expected_output1)
+
     def test_curate_results_artificial_offset_do_not_merge_if_there_is_coincidence_in_between(self):
         dirs.update_phase(1)
         offset1 = [(0, 9), (10, 11), (20, 41), (22, 23), (22, 23)]
