@@ -18,7 +18,7 @@ def curate_results(offsets):
             consecutive_number = get_consecutive_number(offsets, i, j+1)
             expected_range = consecutive_number * dirs.get_second_for_edit()
 
-            if math.isclose(current_range, expected_range, abs_tol=dirs.get_second_for_edit()/10):
+            if math.isclose(current_range, expected_range, abs_tol=dirs.get_second_for_edit()/5):
                 to_be_merged_range.append([i, j+1])
 
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
