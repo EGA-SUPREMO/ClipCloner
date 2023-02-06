@@ -19,7 +19,14 @@ def curate_results(offsets):
             expected_range = consecutive_number * dirs.get_second_for_edit()
 
             if math.isclose(current_range, expected_range, abs_tol=dirs.get_second_for_edit()/5):
-                to_be_merged_range.append([i, j+1])
+                difference_inbetween_merge_tuple = 0
+                difference_between_merge_tuple_ends = offsets[i][1] - offsets[i][0] + offsets[j+1][1] - offsets[j+1][0]
+                for to_be_merge_index in range(i+1, j+1):
+                    if should_count(to_be_merged_range, to_be_merge_index):
+                        difference_inbetween_merge_tuple += offsets[to_be_merge_index][1] - offsets[to_be_merge_index][
+                            0] - 1
+                if difference_inbetween_merge_tuple < difference_between_merge_tuple_ends:
+                    to_be_merged_range.append([i, j+1])
 
     merged_tuple_range = merge_tuple(to_be_merged_range, offsets)
 
@@ -27,6 +34,15 @@ def curate_results(offsets):
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
 
     return offsets
+
+
+# TODO TESTS????
+def should_count(to_be_merged_range, to_be_merge_index):
+    should_get_counted = True
+    for i in range(len(to_be_merged_range)):
+        if to_be_merge_index == to_be_merged_range[i][0] or to_be_merge_index == to_be_merged_range[i][1]:
+            should_get_counted = False
+    return should_get_counted
 
 
 def get_consecutive_number(offsets, i, j):
