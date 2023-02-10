@@ -57,11 +57,11 @@ def auto_edit(credits_offset=0):
 	chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
 	chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
-	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
+	chopper.cutAudioIntoXSecondsParts(str(dirs.get_second_for_edit()))
 	chopper.fixAudioParts()
 
 	# audio_info.set_audio_infos_edit("3", "video_align", 0, 20)
-	audio_info.set_audio_infos_edit(str(dirs.get_second()), "corr", 0, audio_parts)
+	audio_info.set_audio_infos_edit(str(dirs.get_second_for_edit()), "corr", 0, audio_parts)
 	# audio_info.set_audio_infos_edit("0.5", 0, 2)
 
 	chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, audio_info.infosEdit)

@@ -1,4 +1,4 @@
-seconds = [3, 1, 0.5]
+seconds = [5, 3, 1, 0.5]
 phase = 0
 seconds_edit = [3, 1, 0.5]
 phase_edit = 0
