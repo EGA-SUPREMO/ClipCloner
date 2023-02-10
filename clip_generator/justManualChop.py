@@ -8,7 +8,6 @@ time_intervals = []
 if __name__ == '__main__':
     try:
         time_intervals = ast.literal_eval(sys.argv[1:][0])
-        print(time_intervals)
     except IndexError:
         pass
 
