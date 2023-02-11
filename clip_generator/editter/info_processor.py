@@ -142,6 +142,29 @@ def get_timestamps_from_times(times):
     return timestamps
 
 
+def set_transitions(times):
+    new_times = []
+    skip = False
+    for i in range(len(times)):
+        start, end = times[i]
+        if skip:
+            skip = False
+            continue
+        if end - start == 1:
+            if i > 0 and i < len(times) - 1:
+                if (times[i-1][1] - times[i-1][0] > 1) and (times[i+1][1] - times[i+1][0] > 1):
+                    new_times.pop()
+                    new_times.append((times[i-1][0], times[i-1][1] + 0.5))
+                    new_times.append((times[i+1][0] - 0.5, times[i+1][1]))
+                    skip = True
+                else:
+                    new_times.append((start, end))
+            else:
+                new_times.append((start, end))
+        else:
+            new_times.append((start, end))
+    return new_times
+
 # TODO add the offset at the begining of 0.5,and at the end 1s,must make those variables in the other places,NEEDS TESTS
 def offset_info_edit():
     pass

@@ -7,7 +7,7 @@ import clip_generator.editter.dirs as dirs
 from clip_generator.common_functions import getDuration
 import clip_generator.editter.compare_sound_by_images.offset as offset
 from clip_generator.editter import auto_edit_by_audalign
-from clip_generator.editter.info_processor import get_timestamps_from_times, write_infos_edit, curate_results
+from clip_generator.editter.info_processor import get_timestamps_from_times, write_infos_edit, curate_results, set_transitions
 
 misalignment=6000
 sample_rate=8000
@@ -50,6 +50,7 @@ def set_audio_infos_edit(seconds: str, recognizer, fromAudio, toAudio):
 
     infosEdit = get_timestamps_from_times(times)
     infosEdit = curate_results(infosEdit)
+    infosEdit = set_transitions(infosEdit)
 
     write_infos_edit(infosEdit, times)
 
