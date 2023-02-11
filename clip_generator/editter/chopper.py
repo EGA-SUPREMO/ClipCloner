@@ -23,7 +23,7 @@ def cut_audio(input_file: str, output_file: str, start_time: float, duration: in
         "-i", input_file,
         "-ss", str(start_time),
         "-t", str(duration),
-        "-preset", "veryfast",
+        "-preset", "ultrafast",
         output_file
     ]
     subprocess.run(command)
@@ -46,7 +46,7 @@ def slow_audio(input_audio):
     elif dirs.get_second() == 5:
         slowness = "atempo=0.5,atempo=0.5,atempo=0.5"
 
-    os.system(f'ffmpeg  -loglevel error -stats -y -i "{input_audio}" -preset veryfast -filter:a "{slowness}" -vn "{output_audio}"')
+    os.system(f'ffmpeg  -loglevel error -stats -y -i "{input_audio}" -preset ultrafast -filter:a "{slowness}" -vn "{output_audio}"')
     return output_audio
 
 
@@ -54,7 +54,7 @@ def slow_audio(input_audio):
 # Input: String: seconds
 def cutAudioIntoXSecondsParts(x: str):
     os.system(
-        f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_clip}' -preset veryfast -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}S{x}_clip_audio%01d.mp4'")
+        f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_clip}' -preset ultrafast -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}S{x}_clip_audio%01d.mp4'")
 
 
 # Input: Int: length of cut audio from the last seconds
@@ -83,12 +83,12 @@ def fixAudioParts():
     filenames = next(os.walk(dirs.dirAudioParts), (None, None, []))[2]
     for filename in filenames:
         os.system(
-            "ffmpeg -loglevel error -stats -y -ss 00:00:00 -i '" + dirs.dirAudioParts + filename + "' -preset veryfast '" + dirs.dirFixedAudioParts + filename + "'")
+            "ffmpeg -loglevel error -stats -y -ss 00:00:00 -i '" + dirs.dirAudioParts + filename + "' -preset ultrafast '" + dirs.dirFixedAudioParts + filename + "'")
 
 
 def chop(input_file, output_file, from_second: str, to_second: str):
     os.system(
-        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i '{input_file}' -preset veryfast '{output_file}'")
+        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i '{input_file}' -preset ultrafast '{output_file}'")
 
 
 # Given a array, it will make the edits given timestamps
@@ -104,7 +104,7 @@ def final_chop(input_file, output_file, time_intervals):
     aselect_filter = aselect_filter[:-1] + "',asetpts=N/SR/TB"
 
     # Call FFmpeg with the select and aselect filters
-    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_file, "-preset", "veryfast",
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_file, "-preset", "ultrafast",
                     "-vf", select_filter, "-af", aselect_filter, output_file])
 
 
@@ -115,5 +115,6 @@ def cut_video_into_separate_files(input_video: str, cut_times):
         end_time = str(end_time)
         os.makedirs(dirs.dir_clip_folder+"cuts", exist_ok=True)
         output_video = f"{dirs.dir_clip_folder}cuts/{i}.mkv"
-        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_video, "-ss", start_time, "-to", end_time,
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_video,"-preset", "ultrafast",
+                        "-ss", start_time, "-to", end_time,
                         output_video])

@@ -89,7 +89,6 @@ def auto_edit_by_images():
 
 def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_output, dir_clip):
 	global correct_trim
-
 	chopper.chop(dir_stream_input, dir_stream_output, from_second, to_second)
 
 	slowed_stream = chopper.slow_audio(dir_stream_output)

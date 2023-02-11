@@ -68,7 +68,10 @@ class TestChopperGeneratesFilesWithRightDuration(unittest.TestCase):
         self.assertTrue(path_audio.is_file(), 'Audio slowed not found: '+dir_output)
 
     def test_slow_audio_is_being_slowed(self):
+        dirs.dir_current_end_clip = dirs.dirFixedAudioParts + "last_S3_clip_audio.mp4"
+        dirs.phase = 1
         dir_output = chopper.slow_audio(dirs.dir_current_end_clip)
+        dirs.phase = 0
         self.assertEqual(getDuration(dir_output), 47.8, 'Audio slowed not match expected duration: '+dir_output)
 
     def test_chop_generates_video(self):
