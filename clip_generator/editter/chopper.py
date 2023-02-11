@@ -43,6 +43,9 @@ def slow_audio(input_audio):
     slowness = "atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5"
     if dirs.get_second() == 3:
         slowness = "atempo=0.5,atempo=0.5,atempo=0.5,atempo=0.5"
+    elif dirs.get_second() == 5:
+        slowness = "atempo=0.5,atempo=0.5,atempo=0.5"
+
     os.system(f'ffmpeg  -loglevel error -stats -y -i "{input_audio}" -preset veryfast -filter:a "{slowness}" -vn "{output_audio}"')
     return output_audio
 
