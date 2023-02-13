@@ -9,7 +9,7 @@ def get_offset(filename: str):
     #fingerprint_rec = ad.FingerprintRecognizer()
     corr_rec = ad.CorrelationRecognizer()
     #corr_rec = ad.VisualRecognizer()
-    #corr_rec.config.normalize = True
+    corr_rec.config.normalize = True
     corr_rec.config.sample_rate = 4000
     #fingerprint_rec.config.set_accuracy(3)
 
