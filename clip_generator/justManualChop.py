@@ -11,5 +11,5 @@ if __name__ == '__main__':
     except IndexError:
         pass
 
-    chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, time_intervals)
+    #chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, time_intervals)
     chopper.cut_video_into_separate_files(dirs.dir_stream, time_intervals)
