@@ -16,8 +16,8 @@ def download_clip(link: str):
 
 
 def download_stream(link: str, from_second: int, to_second: int):
-    if to_second - from_second > 300:
-        print("SON MAS DE 5 MINUTOS LA DESCARGA, SALTANDO DESCARGA DE STREAM: " + str(to_second - from_second))
+    if to_second - from_second > 900:
+        print("SON MAS DE 15 MINUTOS LA DESCARGA, SALTANDO DESCARGA DE STREAM: " + str(to_second - from_second))
         return
     print("Stream duration: " + str(to_second - from_second))
     # para descargar el estream siempre tiene que ser unos segundos antes y unos despues de lo contrario no se descarga

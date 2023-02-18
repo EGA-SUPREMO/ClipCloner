@@ -42,7 +42,7 @@ class TestCorrectDownload(unittest.TestCase):
     def test_stream_download_is_too_long(self):
         dirs.dir_stream = dirs.dir_temp_files + "stream1.mkv"
 
-        clip_generator.downloader.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 741)
+        clip_generator.downloader.download_stream("https://www.youtube.com/watch?v=6puvpOmoqZY", 235, 1141)
 
         self.assertTrue(not os.path.isfile(dirs.dir_stream), "Stream file found: " + dirs.dir_stream)
         dirs.dir_stream = "tests/Examples/stream.mkv"

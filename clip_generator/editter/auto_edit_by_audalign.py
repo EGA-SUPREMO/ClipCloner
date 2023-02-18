@@ -15,5 +15,8 @@ def get_offset(filename: str):
 
     results = ad.align_files(dirs.dirFixedAudioParts + filename, dirs.dir_audio_stream, recognizer=corr_rec)
 
-    return results[filename]
+    try:
+        return results[filename]
+    except Exception:
+        return 9999999
     # fingerprint_rec.save_fingerprinted_files("../test_borrar/save_file.json")
