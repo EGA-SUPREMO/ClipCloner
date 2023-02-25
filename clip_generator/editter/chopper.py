@@ -116,5 +116,6 @@ def cut_video_into_separate_files(input_video: str, cut_times):
         os.makedirs(dirs.dir_clip_folder+"cuts", exist_ok=True)
         output_video = f"{dirs.dir_clip_folder}cuts/{i}.mkv"
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_video,"-preset", "ultrafast",
+                        "-filter_complex", "[0:v]setpts=0.9*PTS,subtitles=sub_output.ass[v];[0:a]atempo=1.1[a]",
                         "-ss", start_time, "-to", end_time,
                         output_video])

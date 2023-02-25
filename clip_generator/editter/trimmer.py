@@ -27,7 +27,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 		chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 		
 	#chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
-	chopper.cut_audio(dirs.dir_audio_clip, dirs.dir_current_start_clip, 0.5, 3)
+	chopper.cut_audio(dirs.dir_audio_clip, dirs.dir_current_start_clip, 0.5, dirs.get_second())
 	chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
 	chopper.fixAudioParts()
 
