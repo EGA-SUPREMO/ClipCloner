@@ -12,4 +12,4 @@ if __name__ == '__main__':
         pass
 
     #chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, time_intervals)
-    chopper.cut_video_into_separate_files(dirs.dir_stream, time_intervals)
+    chopper.cut_video_into_separate_files_with_increased_speed(dirs.dir_stream, time_intervals)

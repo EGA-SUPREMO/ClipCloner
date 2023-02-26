@@ -4,6 +4,7 @@ import unittest
 from clip_generator.editter import chopper, dirs
 from clip_generator.common_functions import getDuration
 from tests.configs import setUpModule
+import tests.configs as configs
 
 
 class TestCutVideoIntoSeparateFiles(unittest.TestCase):
@@ -11,7 +12,7 @@ class TestCutVideoIntoSeparateFiles(unittest.TestCase):
         stream_video = dirs.dir_stream
         cut_times = [[10.0835, 31.099125], [61.495875, 71.48375], [78.005375, 96.002375], [99.800875, 114.804]]
 
-        chopper.cut_video_into_separate_files(stream_video, cut_times)
+        chopper.cut_video_into_separate_files_with_increased_speed(stream_video, cut_times)
 
         # Check that 4 videos were created
         video_files = [f for f in os.listdir(dirs.dir_clip_folder+"cuts/") if f.endswith(".mkv")]
@@ -21,9 +22,7 @@ class TestCutVideoIntoSeparateFiles(unittest.TestCase):
         for i, video_file in enumerate(video_files):
             duration = getDuration(dirs.dir_clip_folder + "cuts/" + video_file)
             expected_duration = (cut_times[i][1] - cut_times[i][0]) * 0.9
-            print(duration)
-            print(expected_duration)
-            self.assertAlmostEqual(duration, expected_duration, delta=0.2, msg=
+            self.assertAlmostEqual(duration, expected_duration, delta=0.15, msg=
                     f"Expected duration of {expected_duration} but got {duration}")
 
 
