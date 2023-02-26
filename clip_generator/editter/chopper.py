@@ -57,24 +57,18 @@ def slow_audio(input_audio):
 # Input: String: seconds
 def cutAudioIntoXSecondsParts(x: str):
     os.system(
-        f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_clip}' -preset ultrafast -segment_time 00:00:{x}"
-        f"-f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}S{x}_clip_audio%01d.mp4'")
+        f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_clip}' -preset ultrafast -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}S{x}_clip_audio%01d.mp4'")
 
 
 # Input: Int: length of cut audio from the last seconds
 def cutLastSecondsAudio(seconds: int, offset_credits=0):
     cut_seconds = str(
-        seconds + offset_credits + dirs.transition_offset)  # Usually the last second is a transition from the clip to
-    # credits or it simply loses volume to zero in the span of 1-2 seconds, this could interfere with the comparasons,
-    # so it gets left out
+        seconds + offset_credits + dirs.transition_offset)  # Usually the last second is a transition from the clip to credits or it simply loses volume to zero in the span of 1-2 seconds, this could interfere with the comparasons, so it gets left out
     real_seconds = str(seconds)
     os.system(
-        f"ffmpeg -loglevel error -stats -y -sseof -{cut_seconds} -i '{dirs.dir_audio_clip}' -c copy"
-        f"'{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4'")
+        f"ffmpeg -loglevel error -stats -y -sseof -{cut_seconds} -i '{dirs.dir_audio_clip}' -c copy '{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4'")
     os.system(
-        f"ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:0{real_seconds} -i"
-        f"'{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4' -c copy"
-        f"'{dirs.dirAudioParts}last_S{real_seconds}_clip_audio.mp4'")
+        f"ffmpeg -loglevel error -stats -y -ss 0 -to 00:00:0{real_seconds} -i '{dirs.dirAudioParts}temp_last_S{real_seconds}_clip_audio.mp4' -c copy '{dirs.dirAudioParts}last_S{real_seconds}_clip_audio.mp4'")
 
 
 def convert_audio_into_wave_image(audio_file: str, image_file: str, color: str, scale: int, filters=""):
@@ -92,14 +86,12 @@ def fixAudioParts():
     filenames = next(os.walk(dirs.dirAudioParts), (None, None, []))[2]
     for filename in filenames:
         os.system(
-            "ffmpeg -loglevel error -stats -y -ss 00:00:00 -i '" + dirs.dirAudioParts + filename +
-            "' -preset ultrafast '" + dirs.dirFixedAudioParts + filename + "'")
+            "ffmpeg -loglevel error -stats -y -ss 00:00:00 -i '" + dirs.dirAudioParts + filename + "' -preset ultrafast '" + dirs.dirFixedAudioParts + filename + "'")
 
 
 def chop(input_file, output_file, from_second: str, to_second: str):
     os.system(
-        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i '{input_file}' -preset ultrafast"
-        f"'{output_file}'")
+        f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i '{input_file}' -preset ultrafast '{output_file}'")
 
 
 # Given a array, it will make the edits given timestamps, it does not increase speed unlike cut videos into separate
