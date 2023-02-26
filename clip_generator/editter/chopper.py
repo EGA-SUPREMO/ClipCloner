@@ -91,7 +91,8 @@ def chop(input_file, output_file, from_second: str, to_second: str):
         f"ffmpeg -loglevel error -stats -y -ss {from_second} -to {to_second} -i '{input_file}' -preset ultrafast '{output_file}'")
 
 
-# Given a array, it will make the edits given timestamps
+# Given a array, it will make the edits given timestamps, it does not increase speed unlike cut videos into separate
+# files
 def final_chop(input_file, output_file, time_intervals):
     # Create the select and aselect filters for FFmpeg
     select_filter = "select='"
@@ -111,11 +112,13 @@ def final_chop(input_file, output_file, time_intervals):
 def cut_video_into_separate_files(input_video: str, cut_times):
     for i, cut_time in enumerate(cut_times):
         start_time, end_time = cut_time
-        start_time = str(start_time)
-        end_time = str(end_time)
-        os.makedirs(dirs.dir_clip_folder+"cuts", exist_ok=True)
+        start_time = str(round(start_time * 0.9, 2))
+        end_time = str(round(end_time * 0.9, 2))
+        print(float(end_time) - float(start_time))
+        os.makedirs(dirs.dir_clip_folder + "cuts", exist_ok=True)
         output_video = f"{dirs.dir_clip_folder}cuts/{i}.mkv"
-        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_video,"-preset", "ultrafast",
-                        "-filter_complex", "[0:v]setpts=0.9*PTS,subtitles=sub_output.ass[v];[0:a]atempo=1.1[a]",
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", input_video, "-preset", "ultrafast",
+                        "-filter_complex", "[0:v]setpts=0.9*PTS[v];[0:a]atempo=1.1[a]", "-map", '[v]', "-map",
+                        '[a]', "-c:v", "libx265", "-c:a", "aac", "-b:a", "128k",
                         "-ss", start_time, "-to", end_time,
                         output_video])

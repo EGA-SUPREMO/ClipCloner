@@ -20,7 +20,9 @@ class TestCutVideoIntoSeparateFiles(unittest.TestCase):
         # Check that each video has the expected duration
         for i, video_file in enumerate(video_files):
             duration = getDuration(dirs.dir_clip_folder + "cuts/" + video_file)
-            expected_duration = cut_times[i][1] - cut_times[i][0]
+            expected_duration = (cut_times[i][1] - cut_times[i][0]) * 0.9
+            print(duration)
+            print(expected_duration)
             self.assertAlmostEqual(duration, expected_duration, delta=0.2, msg=
                     f"Expected duration of {expected_duration} but got {duration}")
 

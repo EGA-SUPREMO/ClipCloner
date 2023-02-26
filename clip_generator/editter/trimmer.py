@@ -64,7 +64,7 @@ def auto_edit(credits_offset=0):
 	audio_info.set_audio_infos_edit(str(dirs.get_second_for_edit()), "corr", 0, audio_parts)
 	# audio_info.set_audio_infos_edit("0.5", 0, 2)
 
-	chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, audio_info.infosEdit)
+	#chopper.final_chop(dirs.dir_stream, dirs.dir_edited_stream, audio_info.infosEdit)
 	chopper.cut_video_into_separate_files(dirs.dir_stream, audio_info.infosEdit)
 
 	common_functions.removeAll(dirs.dir_temp_files)
