@@ -55,6 +55,7 @@ class TestGetCorrelationTrimmer(unittest.TestCase):
 
         def mock_chop(*args):
             pass
+
         def mock_exist(*args):
             return False
 
