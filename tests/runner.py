@@ -1,5 +1,4 @@
 import unittest
-import os
 import sys
 
 from tests.order_tests import load_ordered_tests
@@ -7,19 +6,13 @@ import tests.testChopperGeneratesFilesWithRightDuration as testChopper
 import tests.testCutVideoIntoSeparateFiles as cutVideoIntoSeparateFiles
 import tests.testTrimmerGeneratesFilesWithRightDuration as testTrimmer
 import tests.unit_tests.testCorrelationForTrim as testUnitTrimmer
-import tests.unit_tests.testOffsetImageBlend as testOffsetImageBlend
-import tests.unit_tests.testOffsetCountPixels as testOffsetCountPixels
-import tests.unit_tests.testOffsetRelationPercentage as testOffsetRelationPercentage
 import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
-import tests.unit_tests.testDrawPlotCorrectly as testDrawPlotCorrectly
-import tests.unit_tests.testImageCropHeight as testImageCropHeight
-import tests.unit_tests.testImageCropWidth as testImageCropWidth
 import tests.unit_tests.testCutAudio as testCutAudio
 import tests.unit_tests.testCurateResultsTimes as testCurateResultsTimes
 import tests.unit_tests.testMergeTuple as testMergeTuple
 import tests.unit_tests.testRoundDurationFloor as testRoundDurationFloor
-import tests.unit_tests.testAudioIntoImage as testAudioIntoImage
 import tests.unit_tests.testSetTransitions as testSetTransititons
+import tests.unit_tests.testGetCorrelationTrimmer as testGetCorrelationTrimmer
 import tests.testDescriptCorrect as testDescript
 import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
@@ -76,19 +69,13 @@ def run_unit_tests():
     load_tests = load_ordered_tests
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
-#    suite.addTest(unittest.makeSuite(testOffsetRelationPercentage.TestRelationPercentage))
-#    suite.addTest(unittest.makeSuite(testOffsetImageBlend.TestOffsetWriteSortedValues))
-#    suite.addTest(unittest.makeSuite(testOffsetCountPixels.TestOffsetCountPixels))
     suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
-#    suite.addTest(unittest.makeSuite(testDrawPlotCorrectly.TestDrawAveragePlotLines))
-#    suite.addTest(unittest.makeSuite(testImageCropHeight.TestCropHeightImage))
-#    suite.addTest(unittest.makeSuite(testImageCropWidth.TestCropWidthImage))
     suite.addTest(unittest.makeSuite(testCutAudio.TestCutAudioChopper))
     suite.addTest(unittest.makeSuite(testRoundDurationFloor.TestRoundDurationFloor))
-#    suite.addTest(unittest.makeSuite(testAudioIntoImage.TestConvertAudioIntoWaveImage))
     suite.addTest(unittest.makeSuite(testMergeTuple.TestMergeTuple))
     suite.addTest(unittest.makeSuite(testCurateResultsTimes.TestCurateResults))
     suite.addTest(unittest.makeSuite(testSetTransititons.TestSetTransitions))
+    suite.addTest(unittest.makeSuite(testGetCorrelationTrimmer.TestGetCorrelationTrimmer))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 
