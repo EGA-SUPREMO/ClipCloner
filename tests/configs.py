@@ -7,6 +7,7 @@ example_test_folder = "tests/Examples/"
 
 
 def setUpModule():
+    common_functions.removeAll(dirs.dir_clip_folder)
     dirs.dir_temp_files = "tests/Clips/temp/"
 
     dirs.dir_clip = "tests/Examples/clip.mkv"
@@ -22,6 +23,7 @@ def setUpModule():
 
     dirs.update_phase(0)
 
+    common_functions.removeAll(dirs.dir_clip_folder)
     os.makedirs(dirs.dirAudioParts, exist_ok=True)
     os.makedirs(dirs.dirFixedAudioParts, exist_ok=True)
 

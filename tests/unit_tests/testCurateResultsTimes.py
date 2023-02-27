@@ -9,13 +9,13 @@ class TestCurateResults(unittest.TestCase):
         self.maxDiff = None
 
     def test_curate_results(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(5.14, 7.14), (29.10, 30.10), (24.38, 25.38), (9.16, 10.16), (23.1, 24.1), (11.16, 54.17)]
         expected_output1 = [(5.14, 54.17)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results1(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(0.03675, 1.03675), (16.63275, 17.63275), (2.056875, 10.046125), (11.971, 12.971),
                    (11.043, 22.05075), (12.986875, 13.986875), (23.04775, 25.046125), (8.074625, 9.074625),
                    (26.043125, 27.043125), (31.563375, 32.563375), (28.04, 42.04325), (16.23925, 17.23925),
@@ -28,14 +28,14 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results2(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(6.149875, 7.149875), (29.108, 30.108), (24.38575, 25.38575), (9.168375, 10.168375),
                    (14.41475, 15.41475), (23.1, 24.1), (12.16375, 54.17175)]
         expected_output1 = [(6.149875, 54.17175)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results3(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(0.07325, 6.08875), (27.153125, 28.153125), (65.282, 66.282), (8.08425, 12.07975), (57.529, 58.529),
                    (33.321125, 34.321125), (21.441625, 22.441625), (59.02475, 60.02475), (26.559375, 27.559375),
                    (24.46025, 30.4525), (31.03425, 41.043625), (26.789625, 27.789625), (42.040375, 43.040375),
@@ -55,7 +55,7 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results4(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(0.594125, 1.594125), (76.107875, 77.107875), (2.61425, 8.6065), (75.679125, 76.679125),
                    (23.08675, 26.083625), (26.932125, 27.932125), (144.94, 145.94), (77.40175, 78.40175),
                    (31.594125, 32.594125), (213.292375, 214.292375), (145.212625, 146.212625), (40.979375, 42.977875),
@@ -79,7 +79,7 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results5(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(9.4985, 35.506375), (171.554125, 172.554125), (36.50325, 46.512625), (183.549125, 184.549125),
                    (41.2155, 42.2155), (48.508, 50.5065), (171.302125, 172.302125), (203.87725, 204.87725),
                    (21.678625, 22.678625), (53.500375, 55.49875), (179.64575, 180.64575), (56.518875, 60.51425),
@@ -99,7 +99,7 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results6(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(10.017, 13.037125), (17.241625, 18.241625), (143.850875, 144.850875), (17.396, 18.396),
                    (17.16075, 18.16075), (17.029375, 23.02175), (17.36425, 18.36425), (99.996875, 100.996875),
                    (25.017125, 26.017125), (17.718625, 18.718625), (51.2205, 53.219), (17.700125, 18.700125),
@@ -116,37 +116,37 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_artificial_offset(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(5, 10), (20, 22), (12, 15), (22, 23), (16, 18), (48, 50), (20, 24), (26, 28)]
         expected_output1 = [(5, 24), (26, 28)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_artificial_offset_do_not_merge_if_there_is_not_an_appropriate_range_in_between(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(8, 10), (19, 21), (11, 13), (22, 23)]
         expected_output1 = [(8, 10), (19, 21), (11, 13), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_artificial_offset2(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(8, 9), (5, 10), (20, 21), (11, 15), (22, 23)]
         expected_output1 = [(8, 9), (5, 15), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_artificial_offset3(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(0, 9), (10, 11), (20, 41), (11, 15), (22, 23)]
         expected_output1 = [(0, 9), (10, 11), (20, 41), (11, 15), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_artificial_offset4(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(8, 10), (19, 21), (11, 13), (23, 24)]
         expected_output1 = [(8, 10), (19, 24)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_artificial_offset_do_not_merge_if_there_is_coincidence_in_between(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(0, 9), (10, 11), (20, 41), (22, 23), (22, 23)]
         expected_output1 = [(0, 9), (10, 11), (20, 41), (22, 23), (22, 23)]
         offset2 = [(4, 13), (10, 11), (20, 41), (35, 36), (31, 32)]
@@ -155,7 +155,7 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset2), expected_output2)
 
     def test_curate_results_artificial_offset_merge_when_appropriate(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
 
         offset3 = [(4, 6), (10, 12), (40, 42), (9, 11), (12, 14)]
         expected_output3 = [(4, 14)]
@@ -168,38 +168,38 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset5), expected_output5)
 
     def test_curate_results_artificial_offset_merge_when_appropriate1(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
 
         offset3 = [(4, 6), (10, 12), (40, 42), (9, 11), (12, 14), (46, 58)]
         expected_output3 = [(4, 6), (10, 12), (40, 58)]
         self.assertEqual(curate_results(offset3), expected_output3)
 
     def test_curate_results_artificial_offset_do_not_merge_if_there_is_coincidence_in_between1(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(0, 9), (10, 11), (20, 41), (23, 24), (21, 22)]
         expected_output1 = [(0, 9), (10, 11), (20, 41), (23, 24), (21, 22)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_when_there_is_two_separate_consecutive_numbers(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(5, 10), (20, 21), (11, 13), (22, 23)]
         expected_output1 = [(5, 13), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_when_there_is_two_consecutive_numbers_wrong(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(8, 10), (19, 21), (12, 14), (22, 23)]
         expected_output1 = [(8, 14), (22, 23)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_when_there_is_two_consecutive_numbers_wrong1(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(9, 10), (19, 21), (11, 13), (23, 24)]
         expected_output1 = [(9, 10), (19, 24)]
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_do_not_remove_wrong_match_if_there_isnt_enough_items_in_between(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
         offset1 = [(2.372125, 5.39225), (7.124125, 11.1195), (13.117875, 17.11325), (26.895125, 28.8935),
                    (30.758625, 37.772625), (40.43775, 44.433125), (49.664875, 55.65725), (69.781125, 70.781125),
                    (50.30375, 51.30375), (53.418, 54.418), (71.660125, 72.660125), (42.76025, 43.76025),
@@ -211,14 +211,14 @@ class TestCurateResults(unittest.TestCase):
         self.assertEqual(curate_results(offset1), expected_output1)
 
     def test_curate_results_ignore_consecutive_numbers_if_they_can_be_merged(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
 
         offset2 = [(0.915125, 3.93525), (12.295875, 13.295875), (48.928, 49.928), (5.930625, 19.933875), (11.7425, 12.7425), (66.926875, 67.926875), (21.92925, 44.9185), (48.462125, 49.462125), (48.97725, 49.97725), (46.937125, 63.93725)]
         expected_output2 = [(0.915125, 63.93725)]
         self.assertEqual(curate_results(offset2), expected_output2)
 
     def test_curate_results_do_not_merge_if_there_is_not_an_appropriate_items_between_numbers(self):
-        dirs.update_phase(1)
+        dirs.update_phase_edit(1)
 
         offset3 = [(5.14, 7.14), (9.16, 10.16), (11.16, 54.17)]
         expected_output3 = [(5.14, 7.14), (9.16, 10.16), (11.16, 54.17)]

@@ -55,14 +55,17 @@ class TestGetCorrelationTrimmer(unittest.TestCase):
 
         def mock_chop(*args):
             pass
+        def mock_exist(*args):
+            return False
 
         with unittest.mock.patch("clip_generator.editter.trimmer.check_correlation_for_trim", side_effect=mock_check_correlation_for_trim):
             with unittest.mock.patch("clip_generator.editter.trimmer.find_limits_for_trim", side_effect=mock_find_limits_for_trim):
                 with unittest.mock.patch("clip_generator.editter.chopper.chop", side_effect=mock_chop):
                     with unittest.mock.patch("clip_generator.editter.audio_info.set_audio_infos_trim_start", side_effect=mock_set_audio_infos_trim_start):
                         with unittest.mock.patch("clip_generator.editter.audio_info.set_audio_infos_trim_end", side_effect=mock_set_audio_infos_trim_end):
-                            # Call the function with the given inputs
-                            output = get_correlation(end_correlation, input_stream, start_correlation)
+                            with unittest.mock.patch("os.path.exists", side_effect=mock_exist):
+                                # Call the function with the given inputs
+                                output = get_correlation(end_correlation, input_stream, start_correlation)
 
         # Check that the output matches the expected output
         self.assertEqual(output, expected_output)

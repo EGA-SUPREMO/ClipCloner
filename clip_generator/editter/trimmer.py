@@ -7,7 +7,6 @@ import clip_generator.editter.dirs as dirs
 import clip_generator.common_functions as common_functions
 import clip_generator.editter.correlation as correlation
 import clip_generator.editter.info_processor
-from clip_generator.editter import info_processor
 
 correct_trim = True
 current_stream = dirs.dir_worstaudio_stream
@@ -44,7 +43,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 # To copy clip's edition
 def auto_edit(credits_offset=0):
     common_functions.removeAll(dirs.dir_temp_files)
-    dirs.update_phase(1)
+    dirs.update_phase_edit(1)
 
     rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
     rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
@@ -121,8 +120,8 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
     input_stream = set_input_stream(contains_video)
 
     while True:
-        start_correlation, end_correlation, input_stream = get_correlation(end_correlation, start_correlation,
-                                                                           input_stream)
+        start_correlation, end_correlation, input_stream = get_correlation(end_correlation, input_stream,
+                                                                           start_correlation)
 
         audio_info.misalignment = audio_info.misalignment + 2000
         audio_info.sample_rate += 4000

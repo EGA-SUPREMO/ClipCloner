@@ -24,8 +24,8 @@ def removeAll(folder_path):
         elif path.is_dir():
             rmtree(path)
 
-    os.makedirs(dirs.dirAudioParts)
-    os.makedirs(dirs.dirFixedAudioParts)
+    os.makedirs(dirs.dirAudioParts, exist_ok=True)
+    os.makedirs(dirs.dirFixedAudioParts, exist_ok=True)
 
 
 def checkTwoFilesAreTheSame(filename1, filename2):
