@@ -26,6 +26,36 @@ class TestSetTransitions(unittest.TestCase):
 
         self.assertEqual(set_transitions(times), expected_output)
 
+    def test_set_transitions3(self):
+        times = [(10, 11), (122, 123), (144, 145), (109, 112), (103, 104), (145, 146)]
+        expected_output = [(10, 11), (122, 123), (144, 145), (109, 112), (103, 104), (145, 146)]
+
+        self.assertEqual(set_transitions(times), expected_output)
+
+    def test_set_transitions4(self):
+        times = [(210, 213), (24, 25), (256, 257), (508, 509), (216, 219)]
+        expected_output = [(210, 213), (24, 25), (256, 257), (508, 509), (216, 219)]
+
+        self.assertEqual(set_transitions(times), expected_output)
+
+    def test_set_transitions5(self):
+        times = [(100, 101), (104, 107), (110, 113), (116, 119), (320, 321)]
+        expected_output = [(100, 101), (104, 107), (110, 113), (116, 119), (320, 321)]
+
+        self.assertEqual(set_transitions(times), expected_output)
+
+    def test_set_transitions6(self):
+        times = [(200, 201), (42, 43), (407, 409), (412, 415), (418, 421)]
+        expected_output = [(200, 201), (42, 43), (407, 409), (412, 415), (418, 421)]
+
+        self.assertEqual(set_transitions(times), expected_output)
+
+    def test_set_transitions7(self):
+        times = [(500, 503), (506, 509), (512, 515), (518, 519), (520, 521)]
+        expected_output = [(500, 503), (506, 509), (512, 515), (518, 519), (520, 521)]
+
+        self.assertEqual(set_transitions(times), expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()
