@@ -7,7 +7,7 @@ example_test_folder = "tests/Examples/"
 
 
 def setUpModule():
-    common_functions.removeAll(dirs.dir_clip_folder)
+    common_functions.removeAll(dirs.dir_temp_files)
     dirs.dir_temp_files = "tests/Clips/temp/"
 
     dirs.dir_clip = "tests/Examples/clip.mkv"
@@ -29,4 +29,5 @@ def setUpModule():
 
 
 def tearDownModule():
+    dirs.dir_clip_folder = "tests/Clips/"
     common_functions.removeAll(dirs.dir_clip_folder)

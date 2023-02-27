@@ -1,7 +1,7 @@
 seconds = [5, 3, 1, 0.5]
 phase = 0
 seconds_edit = [3, 1, 0.5]
-phase_edit = 0
+phase_edit = 1
 transition_offset = 1
 scale_edit = 20
 scale_trim = 3
@@ -52,7 +52,6 @@ def update_phase(new_phase):
     global dir_current_start_clip, dir_current_end_clip, phase, phase_edit
 
     phase = new_phase
-    phase_edit = new_phase
     dir_current_start_clip = dirFixedAudioParts + "S" + str(seconds[phase]) + "_clip_audio0.mp4"
     dir_current_end_clip = dirFixedAudioParts + "last_S" + str(seconds[phase]) + "_clip_audio.mp4"
 

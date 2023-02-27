@@ -32,6 +32,8 @@ def curate_results(offsets):
 
     offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
+    print(offsets)
+    offsets = deduce_timestamps_ends(offsets)
 
     return offsets
 
@@ -168,6 +170,20 @@ def set_transitions(times):
 # TODO add the offset at the begining of 0.5,and at the end 1s,must make those variables in the other places,NEEDS TESTS
 def offset_info_edit():
     pass
+
+
+def deduce_timestamps_ends(timestamps):
+    first_sequence = 0
+    for i in range(1, len(timestamps)):
+        start, end = timestamps[i]
+        if end - start >= dirs.get_second_for_edit() * 2:
+            first_sequence = i
+            break
+    if math.isclose(first_sequence * dirs.get_second_for_edit(), timestamps[first_sequence][0], abs_tol=0.5):
+        timestamps = [(timestamps[first_sequence][0] - first_sequence, timestamps[first_sequence][1])] +\
+                     timestamps[first_sequence + 1:]
+
+    return timestamps
 
 
 def write_infos_trim(from_second: float, to_second: float):
