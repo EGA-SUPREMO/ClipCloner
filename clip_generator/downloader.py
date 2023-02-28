@@ -6,9 +6,8 @@ import clip_generator.descript.maini as maini
 import clip_generator.editter.dirs as dirs
 
 
-# TODO Needs test
 def download_video(format: str, dir_video: str, link: str):
-    os.system("yt-dlp -q --progress -f \"" + format + "\" --merge-output-format mkv -k -o \"" + dir_video + "\" " + link)
+    os.system("yt-dlp -q --progress -f \"" + format + "\" --merge-output-format mkv -o \"" + dir_video + "\" " + link)
 
 
 def download_clip(link: str):
@@ -24,7 +23,7 @@ def download_stream(link: str, from_second: int, to_second: int):
     # al 100 %
     from_second = str(from_second - 1)
     to_second = str(to_second + 1)
-    noice = subprocess.run(['yt-dlp', '-q', '--progress', '-R', 'infinite', '--no-warnings', '-o', dirs.dir_stream,
+    noice = subprocess.run(['yt-dlp', '-q', '--progress', '-R', 'infinite', '--force-keyframes-at-cuts', '--no-warnings', '-o', dirs.dir_stream,
                             '--merge-output-format', 'mkv',  '--download-sections',
                             '*' + from_second + '-' + to_second + '', link],
                            stdout=subprocess.PIPE).stdout.decode('utf-8')

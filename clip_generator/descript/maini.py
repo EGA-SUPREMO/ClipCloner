@@ -11,7 +11,7 @@ import clip_generator.editter.dirs as dirs
 
 def getTitle(link):
     return subprocess.run(
-        ['youtube-dl', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', link],
+        ['yt-dlp', '--skip-download', '--get-title', '--no-warnings', '--youtube-skip-dash-manifest', link],
         stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 
@@ -23,9 +23,9 @@ def downloadSmallFiles(dirClips, link):
     Path(dirClips).mkdir(parents=True, exist_ok=True)
 
     os.system(
-        "youtube-dl --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + link)
+        "yt-dlp --write-thumbnail --skip-download  --no-warnings --youtube-skip-dash-manifest -o \"" + dirClips + "thumb\"" + " " + link)
     os.system(
-        "youtube-dl --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + link)
+        "yt-dlp --skip-download --no-warnings --write-description --youtube-skip-dash-manifest -o desc " + link)
 
 
 descrClip = "- Clip original: "
