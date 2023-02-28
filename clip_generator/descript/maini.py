@@ -123,7 +123,8 @@ Discord: ElNo Studió # 5137"""
 def setTags():
     global tags, fullDescr
     for i in range(len(getmembers.membersInClip)):
-        tags.insert(i + 1, "#" + getmembers.members[getmembers.membersInClip[i]].name[1].lower())
+        if len(getmembers.members[getmembers.membersInClip[i]].name[1].lower())>1:
+            tags.insert(i + 1, "#" + getmembers.members[getmembers.membersInClip[i]].name[1].lower())
     fullDescr += "\n"
     fullDescr += "\n"
     for tag in tags:

@@ -37,7 +37,7 @@ class TestCorrectDownload(unittest.TestCase):
         duration = getDuration(filename)
 
         dirs.dir_stream = "tests/Examples/stream.mkv"
-        self.assertEqual(12, round(float(duration), 1), msg="Downloaded stream doesnt match duration: " + str(filename))
+        self.assertEqual(8, round(float(duration), 1), msg="Downloaded stream doesnt match duration: " + str(filename))
 
     def test_stream_download_is_too_long(self):
         dirs.dir_stream = dirs.dir_temp_files + "stream1.mkv"

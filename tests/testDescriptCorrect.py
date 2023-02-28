@@ -20,7 +20,7 @@ class TestDescriptCorrect(unittest.TestCase):
 		title_without_special_chars = maini.getTitleWithoutSpecialChars(maini.title)
 		self.assertTrue(checkTwoFilesAreTheSame(f"tests/Clips/{title_without_special_chars}/descr.txt", 'tests/Examples/descr.txt'))
 		self.assertTrue(
-			check_two_large_files_are_equal(f"tests/Clips/{title_without_special_chars}/thumb.jpg", 'tests/Examples/thumb.jpg'), msg="Thumbnails aren't equals")
+			check_two_large_files_are_equal(f"tests/Clips/{title_without_special_chars}/thumb.webp", 'tests/Examples/thumb.webp'), msg="Thumbnails aren't equals")
 
 		clip_generator.editter.dirs.dir_clip_folder = "tests/Clips/"
 		maini.filename = "tests/Clips/"
