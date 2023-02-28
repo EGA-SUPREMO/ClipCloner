@@ -34,6 +34,7 @@ dir_current_start_clip = dirFixedAudioParts + "S" + str(seconds[0]) + "_clip_aud
 dir_current_end_clip = dirFixedAudioParts + "last_S" + str(seconds[0]) + "_clip_audio.mp4"
 dir_current_end_stream = dir_temp_files + "end_stream.mp4"
 
+current_duration_clip = 0
 
 # TODO Needs tests
 def update_clip_dirs(title):

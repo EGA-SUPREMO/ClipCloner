@@ -47,6 +47,7 @@ def auto_edit(credits_offset=0):
 
     rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
     rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
+    dirs.current_duration_clip = rounded_duration_clip_without_credits
     audio_parts = round(rounded_duration_clip_without_credits / dirs.get_second_for_edit())
 
     if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):

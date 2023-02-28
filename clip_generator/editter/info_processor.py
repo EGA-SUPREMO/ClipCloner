@@ -33,7 +33,8 @@ def curate_results(offsets):
     offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
     print(offsets)
-    offsets = deduce_timestamps_ends(offsets)
+    offsets = deduce_timestamps_start(offsets)
+    offsets = deduce_timestamps_end(offsets)
 
     return offsets
 
@@ -172,7 +173,24 @@ def offset_info_edit():
     pass
 
 
-def deduce_timestamps_ends(timestamps):
+def deduce_timestamps_end(timestamps):
+    last_sequence = 0
+    for i in range(1, len(timestamps)):
+        start, end = timestamps[i]
+        if end - start >= dirs.get_second_for_edit() * 2:
+            last_sequence = i
+
+    number_timestamps = len(timestamps) - 1
+    residue = (number_timestamps - last_sequence) * dirs.get_second_for_edit()
+
+    if math.isclose((number_timestamps - last_sequence) * dirs.get_second_for_edit(),
+                    dirs.current_duration_clip - (timestamps[last_sequence][1] - 1), abs_tol=0.5):
+        timestamps = timestamps[:last_sequence] + [(timestamps[last_sequence][0], timestamps[last_sequence][1] - 1 + residue)]
+
+
+    return timestamps
+
+def deduce_timestamps_start(timestamps):
     first_sequence = 0
     for i in range(1, len(timestamps)):
         start, end = timestamps[i]
