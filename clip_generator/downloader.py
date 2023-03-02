@@ -21,8 +21,8 @@ def download_stream(link: str, from_second: int, to_second: int):
     print("Stream duration: " + str(to_second - from_second))
     # para descargar el estream siempre tiene que ser unos segundos antes y unos despues de lo contrario no se descarga
     # al 100 %
-    from_second = str(from_second - 1)
-    to_second = str(to_second + 1)
+    from_second = str(from_second - 0)
+    to_second = str(to_second + 0)
     noice = subprocess.run(['yt-dlp', '-q', '--progress', '-R', 'infinite', '--force-keyframes-at-cuts', '--no-warnings', '-o', dirs.dir_stream,
                             '--merge-output-format', 'mkv',  '--download-sections',
                             '*' + from_second + '-' + to_second + '', link],

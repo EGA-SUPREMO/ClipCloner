@@ -80,20 +80,20 @@ def setStream(file, dirClips):
     for match in matchLinks:
         if len(re.findall(".*channel.*", match)) == 1 or len(re.findall(".*twitter.*", match)) == 1 or len(
                 re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1 or len(
-                re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1:
+                re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1 or len(re.findall(".*item.fril.jp*", match)) == 1:
             # checking if matchs contains "twitter", channel, dova, if so, dont write it in the file
             pass
         else:
-            fileMatch.write(match + "\n")
-            stream_links.append(match + "")
+            fileMatch.write("https://" + match + "\n")
+            stream_links.append("https://" + match + "")
 
     for match in matchs:
         if len(re.findall(".*channel.*", match)) == 1 or len(re.findall(".*twitter.*", match)) == 1 or len(
                 re.findall(".*dova-s.jp.*", match)) == 1 or len(re.findall(".*pixiv.*", match)) == 1 or len(
-                re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1:
+                re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1 or len(re.findall(".*item.fril.jp*", match)) == 1:
             continue
         if len(re.findall(".*youtu*", match)) == 1:
-            realMatchs.append(match + "")
+            realMatchs.append("https://" + match + "")
 
     fileMatch.close()
     f.close()
