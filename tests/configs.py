@@ -16,6 +16,7 @@ def setUpModule():
     dirs.dir_worstaudio_stream = dirs.dir_clip_folder + "worstaudio_stream.mkv"
     dirs.dir_trimmed_stream = dirs.dir_clip_folder + "trimmed_stream.mkv"
 
+    dirs.dir_clip_with_speed = dirs.dir_temp_files + "clip_with_speed.mkv"
     dirs.dirAudioParts = dirs.dir_temp_files + "audio_parts/"
     dirs.dirFixedAudioParts = dirs.dir_temp_files + "fixed_audio_parts/"
     dirs.dir_audio_clip = dirs.dir_temp_files + "clip_audio.mp4"

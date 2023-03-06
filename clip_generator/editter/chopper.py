@@ -70,6 +70,11 @@ def slow_audio(input_audio):
     return output_audio
 
 
+def increase_speed_video(input_video, output_video):
+    cut_video(input_video, output_video, 0, 999999, ["-filter_complex",
+                                                     "[0:v]setpts=0.9*PTS[v];[0:a]atempo=1.1[a]",
+                                                     "-map", '[v]', "-map", '[a]'])
+
 # TODO get total audio parts number and set it in a local var
 # Input: String: seconds
 def cutAudioIntoXSecondsParts(x: str):
