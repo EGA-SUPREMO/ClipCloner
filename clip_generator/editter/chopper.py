@@ -22,8 +22,25 @@ def cut_audio(input_file: str, output_file: str, start_time: float, duration: fl
     command = [
         "ffmpeg", "-y",
         "-loglevel", "error",
-        "-ss", str(start_time),
         "-i", input_file,
+        "-ss", str(start_time),
+        "-t", str(duration),
+        "-preset", "ultrafast",
+        *filter_complex,
+        output_file
+    ]
+    subprocess.run(command)
+
+
+# TDOO Needs tessts also duplicate
+def cut_video(input_file: str, output_file: str, start_time: float, duration: float, filter_complex=None):
+    if filter_complex is None:
+        filter_complex = []
+    command = [
+        "ffmpeg", "-y",
+        "-loglevel", "error",
+        "-i", input_file,
+        "-ss", str(start_time),
         "-t", str(duration),
         "-preset", "ultrafast",
         *filter_complex,
@@ -120,6 +137,6 @@ def cut_video_into_separate_files_with_increased_speed(input_video: str, cut_tim
         duration = end_time - start_time
         os.makedirs(dirs.dir_clip_folder + "cuts", exist_ok=True)
         output_video = f"{dirs.dir_clip_folder}cuts/{i}.mkv"
-        cut_audio(input_video, output_video, start_time, duration, ["-filter_complex",
+        cut_video(input_video, output_video, start_time, duration, ["-filter_complex",
                                                                     "[0:v]setpts=0.9*PTS[v];[0:a]atempo=1.1[a]",
                                                                     "-map", '[v]', "-map", '[a]'])
