@@ -93,7 +93,7 @@ def setStream(file, dirClips):
                 re.findall(".*facebook.*", match)) == 1 or len(re.findall(".*youtube.com/c/.*", match)) == 1 or len(re.findall(".*item.fril.jp*", match)) == 1:
             continue
         if len(re.findall(".*youtu*", match)) == 1:
-            realMatchs.append("https://" + match + "")
+            realMatchs.append(match + "")
 
     fileMatch.close()
     f.close()
