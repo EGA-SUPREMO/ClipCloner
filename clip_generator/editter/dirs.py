@@ -37,13 +37,15 @@ current_duration_clip = 0
 
 # TODO Needs tests
 def update_clip_dirs(title):
-    global dir_clip_folder, last_dir_clip, dir_clip, dir_stream, dir_worstaudio_stream, dir_trimmed_stream
+    global dir_clip_folder, last_dir_clip, dir_clip, dir_stream, dir_worstaudio_stream, dir_trimmed_stream, dir_clip_with_speed, dir_edited_stream
 
     dir_clip_folder = "../Clips/" + title + "/"
     last_dir_clip = dir_clip_folder
 
     dir_clip = dir_clip_folder + "clip.mkv"
     dir_stream = dir_clip_folder + "stream.mkv"
+    dir_clip_with_speed = dir_clip_folder + "clip_with_speed.mkv"
+    dir_edited_stream = dir_clip_folder + "edited_stream.mkv"
     dir_worstaudio_stream = dir_clip_folder + "worstaudio_stream.mkv"
     dir_trimmed_stream = dir_clip_folder + "trimmed_stream.mkv"
 
