@@ -183,7 +183,7 @@ def remove_credits_offsets(start_offset: str, end_offset: str):
     new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
 
     chopper.cut_video(dirs.dir_clip, new_clip_dir, dirs.offset_clip_start, dirs.offset_clip_end)
-    chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
+    chopper.remove_video(dirs.dir_clip, new_audio_clip_dir)
 
     dirs.dir_clip = new_clip_dir
     dirs.dir_audio_clip = new_audio_clip_dir
