@@ -18,8 +18,6 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
     common_functions.removeAll(dirs.dir_temp_files)
     dirs.update_phase(phase)
 
-    chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
-
     current_stream = dirs.dir_worstaudio_stream
     if is_stream_a_video:
         current_stream = dirs.dir_stream
@@ -41,11 +39,10 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 
 
 # To copy clip's edition
-def auto_edit(credits_offset=0):
+def auto_edit():
     common_functions.removeAll(dirs.dir_temp_files)
     dirs.update_phase_edit(1)
 
-    chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
     chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
     rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
@@ -55,7 +52,6 @@ def auto_edit(credits_offset=0):
     if math.isclose(rounded_duration_stream, dirs.current_duration_clip, abs_tol=0.5):
         print("The clip duration is the same as trimmed stream duration")
     #	return
-
 
     chopper.cutAudioIntoXSecondsParts(str(dirs.get_second_for_edit()))
     chopper.fixAudioParts()
@@ -187,7 +183,7 @@ def remove_credits_offsets(start_offset: str, end_offset: str):
     new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
 
     chopper.cut_video(dirs.dir_clip, new_clip_dir, dirs.offset_clip_start, dirs.offset_clip_end)
-    chopper.cut_audio(dirs.dir_audio_clip, new_audio_clip_dir, dirs.offset_clip_start, dirs.offset_clip_end)
+    chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
 
     dirs.dir_clip = new_clip_dir
     dirs.dir_audio_clip = new_audio_clip_dir

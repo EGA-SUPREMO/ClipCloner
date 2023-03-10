@@ -5,8 +5,8 @@ credits_offset = 0
 
 if __name__ == '__main__':
     try:
-        credits_offset = int(sys.argv[1:][0])
+        trimmer.remove_credits_offsets(sys.argv[1:][0], sys.argv[1:][1])
     except IndexError:
         pass
 
-    trimmer.auto_edit(credits_offset)
+    trimmer.auto_edit()

@@ -7,9 +7,9 @@ phase=0
 
 if __name__ == '__main__':
 	is_video = sys.argv[1:][0].lower() == "true"
-	credits_offset = int(sys.argv[1:][1])
 	
-	if len(sys.argv[1:])>2:
-		phase = int(sys.argv[1:][2])
+	if len(sys.argv[1:])>3:
+		phase = int(sys.argv[1:][3])
 
-	trimmer.trim_to_clip(is_video, offset_credits=credits_offset, phase=phase)
+	trimmer.remove_credits_offsets(sys.argv[1:][1], sys.argv[1:][2])
+	trimmer.trim_to_clip(is_video, offset_credits=0, phase=phase)

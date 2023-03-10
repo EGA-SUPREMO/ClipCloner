@@ -16,4 +16,4 @@ if __name__ == '__main__':
     from_second, to_second = trimmer.trim_to_clip(False)
     downloader.download_stream(maini.stream_links[0], from_second, to_second)
 
-    trimmer.auto_edit(sys.argv[1:][1])
+    trimmer.auto_edit()
