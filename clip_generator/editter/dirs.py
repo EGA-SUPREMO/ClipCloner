@@ -5,6 +5,8 @@ phase_edit = 1
 transition_offset = 1
 scale_edit = 20
 scale_trim = 3
+offset_clip_end = 0
+offset_clip_start = 0
 
 dir_temp_files = "clip_generator/editter/temp/"
 
@@ -13,10 +15,6 @@ dirFixedAudioParts = dir_temp_files + "fixed_audio_parts/"
 dir_audio_clip = dir_temp_files + "clip_audio.mp4"
 dir_audio_stream = dir_temp_files + "stream_audio.mp4"
 dir_audio_trimmed_stream = dir_temp_files + "trimmed_stream_audio.mp4"
-dir_audio_clip_rounded = dir_temp_files + "clip_audio_rounded.mp4"
-dir_audio_stream_rounded = dir_temp_files + "stream_audio_rounded.mp4"
-dir_audio_clip_image = dir_temp_files + "clip_audio.png"
-dir_audio_stream_image = dir_temp_files + "stream_audio.png"
 dir_start_only_untrimmed_stream = dir_temp_files + "start_untrimmed_stream.mp4"
 dir_end_only_untrimmed_stream = dir_temp_files + "end_untrimmed_stream.mp4"
 

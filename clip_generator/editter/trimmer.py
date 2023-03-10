@@ -50,7 +50,7 @@ def auto_edit(credits_offset=0):
     dirs.current_duration_clip = rounded_duration_clip_without_credits
     audio_parts = round(rounded_duration_clip_without_credits / dirs.get_second_for_edit())
 
-    if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, rel_tol=0.01):
+    if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, abs_tol=0.5):
         print("The clip duration is the same as trimmed stream duration")
     #	return
 
@@ -176,3 +176,18 @@ def get_correlation(end_correlation, input_stream, start_correlation):
         input_stream = dirs.dir_end_only_untrimmed_stream
 
     return start_correlation, end_correlation, input_stream
+
+
+# TODO NEEDS TESTS
+def remove_credits_offsets(start_offset: str, end_offset: str):
+    dirs.offset_clip_start = int(start_offset)
+    dirs.offset_clip_end = int(end_offset)
+
+    new_clip_dir = dirs.dir_temp_files + "clip_with_offsets.mkv"
+    new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
+
+    chopper.cut_video(dirs.dir_clip, new_clip_dir, dirs.offset_clip_start, dirs.offset_clip_end)
+    chopper.cut_audio(dirs.dir_audio_clip, new_audio_clip_dir, dirs.offset_clip_start, dirs.offset_clip_end)
+
+    dirs.dir_clip = new_clip_dir
+    dirs.dir_audio_clip = new_audio_clip_dir
