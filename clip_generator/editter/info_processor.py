@@ -184,8 +184,8 @@ def deduce_timestamps_end(timestamps):
     residue = (number_timestamps - last_sequence) * dirs.get_second_for_edit()
 
     if math.isclose((number_timestamps - last_sequence) * dirs.get_second_for_edit(),
-                    dirs.current_duration_clip - (timestamps[last_sequence][1] - 1), abs_tol=0.5):
-        timestamps = timestamps[:last_sequence] + [(timestamps[last_sequence][0], timestamps[last_sequence][1] - 1 + residue)]
+                    dirs.current_duration_clip - (timestamps[last_sequence][1]), abs_tol=0.5):
+        timestamps = timestamps[:last_sequence] + [(timestamps[last_sequence][0], timestamps[last_sequence][1] + residue)]
 
 
     return timestamps
