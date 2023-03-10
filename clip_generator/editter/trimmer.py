@@ -45,17 +45,17 @@ def auto_edit(credits_offset=0):
     common_functions.removeAll(dirs.dir_temp_files)
     dirs.update_phase_edit(1)
 
-    rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
-    rounded_duration_clip_without_credits = round(common_functions.getDuration(dirs.dir_clip)) - credits_offset
-    dirs.current_duration_clip = rounded_duration_clip_without_credits
-    audio_parts = round(rounded_duration_clip_without_credits / dirs.get_second_for_edit())
+    chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
+    chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
-    if math.isclose(rounded_duration_stream, rounded_duration_clip_without_credits, abs_tol=0.5):
+    rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
+    dirs.current_duration_clip = round(common_functions.getDuration(dirs.dir_audio_clip))
+    audio_parts = math.ceil(dirs.current_duration_clip / dirs.get_second_for_edit())
+
+    if math.isclose(rounded_duration_stream, dirs.current_duration_clip, abs_tol=0.5):
         print("The clip duration is the same as trimmed stream duration")
     #	return
 
-    chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
-    chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
     chopper.cutAudioIntoXSecondsParts(str(dirs.get_second_for_edit()))
     chopper.fixAudioParts()
