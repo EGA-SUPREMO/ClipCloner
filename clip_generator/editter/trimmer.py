@@ -23,7 +23,6 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
         current_stream = dirs.dir_stream
         chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
-    # chopper.cutAudioIntoXSecondsParts(str(dirs.get_second()))
     chopper.cut_audio(dirs.dir_audio_clip, dirs.dir_current_start_clip, 0.5, dirs.get_second())
     chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
     chopper.fixAudioParts()
@@ -45,11 +44,11 @@ def auto_edit():
 
     chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
-    rounded_duration_stream = round(common_functions.getDuration(dirs.dir_stream))
-    dirs.current_duration_clip = round(common_functions.getDuration(dirs.dir_audio_clip))
+    duration_stream = common_functions.getDuration(dirs.dir_stream)
+    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_audio_clip)
     audio_parts = math.ceil(dirs.current_duration_clip / dirs.get_second_for_edit())
 
-    if math.isclose(rounded_duration_stream, dirs.current_duration_clip, abs_tol=0.5):
+    if math.isclose(duration_stream, dirs.current_duration_clip, abs_tol=0.5):
         print("The clip duration is the same as trimmed stream duration")
     #	return
 
@@ -182,7 +181,10 @@ def remove_credits_offsets(start_offset: str, end_offset: str):
     new_clip_dir = dirs.dir_temp_files + "clip_with_offsets.mkv"
     new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
 
-    chopper.cut_video(dirs.dir_clip, new_clip_dir, dirs.offset_clip_start, dirs.offset_clip_end)
+    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_audio_clip)
+    print(dirs.offset_clip_start)
+    chopper.chop(dirs.dir_clip, new_clip_dir, str(dirs.offset_clip_start),
+                 str(dirs.current_duration_clip - dirs.offset_clip_end))
     chopper.remove_video(dirs.dir_clip, new_audio_clip_dir)
 
     dirs.dir_clip = new_clip_dir
