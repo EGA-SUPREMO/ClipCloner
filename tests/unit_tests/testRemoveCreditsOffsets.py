@@ -22,7 +22,7 @@ class TestRemoveCreditsOffsets(unittest.TestCase):
         mock_chop.assert_called_once_with(*expected_chop_args)
 
         # Check that chopper.remove_video() was called with the expected arguments
-        expected_remove_video_args = ('tests/Examples/clip.mkv', 'tests/Clips/temp/clip_audio_with_offsets.mp4')
+        expected_remove_video_args = ('tests/Clips/temp/clip_with_offsets.mkv', 'tests/Clips/temp/clip_audio_with_offsets.mp4')
         actual_remove_video_args = mock_remove_video.call_args[0]
 
         self.assertEqual(actual_remove_video_args, expected_remove_video_args)

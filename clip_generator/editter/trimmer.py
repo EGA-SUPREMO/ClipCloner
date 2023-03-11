@@ -15,7 +15,6 @@ current_stream = dirs.dir_worstaudio_stream
 def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
     global current_stream
 
-    common_functions.removeAll(dirs.dir_temp_files)
     dirs.update_phase(phase)
 
     current_stream = dirs.dir_worstaudio_stream
@@ -188,7 +187,7 @@ def remove_credits_offsets(start_offset: str, end_offset: str):
 
     chopper.chop(dirs.dir_clip, new_clip_dir, str(dirs.offset_clip_start),
                  str(dirs.current_duration_clip - dirs.offset_clip_end))
-    chopper.remove_video(dirs.dir_clip, new_audio_clip_dir)
+    chopper.remove_video(new_clip_dir, new_audio_clip_dir)
 
     dirs.dir_clip = new_clip_dir
     dirs.dir_audio_clip = new_audio_clip_dir
