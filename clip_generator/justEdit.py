@@ -7,6 +7,6 @@ if __name__ == '__main__':
     try:
         trimmer.remove_credits_offsets(sys.argv[1:][0], sys.argv[1:][1])
     except IndexError:
-        pass
+        print("error. Not enough arguments")
 
     trimmer.auto_edit()

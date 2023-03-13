@@ -38,7 +38,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 
 # To copy clip's edition
 def auto_edit():
-    common_functions.removeAll(dirs.dir_temp_files)
+    #common_functions.removeAll(dirs.dir_temp_files)
     dirs.update_phase_edit(1)
 
     chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
@@ -173,6 +173,8 @@ def get_correlation(end_correlation, input_stream, start_correlation):
 
 
 def remove_credits_offsets(start_offset: str, end_offset: str):
+    common_functions.removeAll(dirs.dir_temp_files)
+    
     dirs.offset_clip_start = int(start_offset)
     dirs.offset_clip_end = int(end_offset)
 

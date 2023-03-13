@@ -49,14 +49,6 @@ def cut_video(input_file: str, output_file: str, start_time: float, duration: fl
     subprocess.run(command)
 
 
-def round_duration_cutting_existing_video_for_compare_image(input_file: str, output_file: str) -> int:
-    duration = getDuration(input_file)
-    cut_audio(input_file, output_file, 0.5, math.floor(duration-0.5-1))
-    final_duration = getDuration(output_file)
-
-    return round(final_duration)
-
-
 def slow_audio(input_audio):
     output_audio = str(remove_file_extension(input_audio)) + "_slowed.mp4"
 
