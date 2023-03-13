@@ -28,10 +28,6 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 
     find_timestamps_for_trim(is_stream_a_video, int(offset_credits))
 
-    if is_stream_a_video:
-        from_second, to_second = find_limits_for_trim("full")
-        chopper.chop(current_stream, dirs.dir_trimmed_stream, from_second, to_second)
-
     common_functions.removeAll(dirs.dir_temp_files)
     return find_limits_for_trim("full")
 

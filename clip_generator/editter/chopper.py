@@ -67,11 +67,16 @@ def increase_speed_video(input_video, output_video):
                                                      "[0:v]setpts=0.9*PTS[v];[0:a]atempo=1.1[a]",
                                                      "-map", '[v]', "-map", '[a]'])
 
-# TODO get total audio parts number and set it in a local var
-# Input: String: seconds
+
 def cutAudioIntoXSecondsParts(x: str):
     os.system(
         f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_clip}' -preset ultrafast -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}S{x}_clip_audio%01d.mp4'")
+
+
+# TODO needs tests
+def cut_audio_into_x_time_parts():
+    os.system(
+        f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_stream}' -preset ultrafast -segment_time {dirs.hh_mm_ss_for_trimmer} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}stream_audio%01d.mp4'")
 
 
 # Input: Int: length of cut audio from the last seconds
