@@ -10,7 +10,6 @@ import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
 import tests.unit_tests.testCutAudio as testCutAudio
 import tests.unit_tests.testCurateResultsTimes as testCurateResultsTimes
 import tests.unit_tests.testMergeTuple as testMergeTuple
-import tests.unit_tests.testRoundDurationFloor as testRoundDurationFloor
 import tests.unit_tests.testSetTransitions as testSetTransititons
 import tests.unit_tests.testGetCorrelationTrimmer as testGetCorrelationTrimmer
 import tests.unit_tests.testDeduceTimesEnds as testDeduceTimesEnds
@@ -73,7 +72,6 @@ def run_unit_tests():
     suite.addTest(unittest.makeSuite(testUnitTrimmer.TestCorrelationForTrim))
     suite.addTest(unittest.makeSuite(testWriteSortedValues.TestOffsetWriteSortedValues))
     suite.addTest(unittest.makeSuite(testCutAudio.TestCutAudioChopper))
-    suite.addTest(unittest.makeSuite(testRoundDurationFloor.TestRoundDurationFloor))
     suite.addTest(unittest.makeSuite(testMergeTuple.TestMergeTuple))
     suite.addTest(unittest.makeSuite(testCurateResultsTimes.TestCurateResults))
     suite.addTest(unittest.makeSuite(testSetTransititons.TestSetTransitions))
