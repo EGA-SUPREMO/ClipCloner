@@ -28,7 +28,7 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 
     find_timestamps_for_trim(is_stream_a_video, int(offset_credits))
 
-    common_functions.removeAll(dirs.dir_temp_files)
+    #common_functions.removeAll(dirs.dir_temp_files)
     return find_limits_for_trim("full")
 
 
