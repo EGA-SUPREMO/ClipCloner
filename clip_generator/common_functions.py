@@ -1,3 +1,4 @@
+import math
 import subprocess
 import difflib
 import os
@@ -54,3 +55,7 @@ def check_two_large_files_are_equal(filepath1, filepath2):
 def remove_file_extension(file):
     filepath = Path(file)
     return filepath.with_suffix('')
+
+
+def calculate_part_audio_files(total_duration, part_duration):
+    return math.ceil(total_duration / part_duration)

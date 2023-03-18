@@ -14,6 +14,7 @@ import tests.unit_tests.testSetTransitions as testSetTransititons
 import tests.unit_tests.testGetCorrelationTrimmer as testGetCorrelationTrimmer
 import tests.unit_tests.testDeduceTimesEnds as testDeduceTimesEnds
 import tests.unit_tests.testRemoveCreditsOffsets as testRemoveCreditsOffsets
+import tests.unit_tests.testCutAudioIntoXTime as testCutAudioXTime
 import tests.testDescriptCorrect as testDescript
 import tests.testCorrectDownload as testDownload
 import tests.testAudioInfo as testAudio
@@ -78,6 +79,7 @@ def run_unit_tests():
     suite.addTest(unittest.makeSuite(testGetCorrelationTrimmer.TestGetCorrelationTrimmer))
     suite.addTest(unittest.makeSuite(testDeduceTimesEnds.TestDeduceTimesEnds))
     suite.addTest(unittest.makeSuite(testRemoveCreditsOffsets.TestRemoveCreditsOffsets))
+    suite.addTest(unittest.makeSuite(testCutAudioXTime.TestCutAudioIntoXTime))
     runner = unittest.TextTestRunner()
     runner.run(suite)
 

@@ -3,6 +3,7 @@ import os
 import subprocess
 
 import clip_generator.editter.dirs as dirs
+from clip_generator import common_functions
 from clip_generator.common_functions import remove_file_extension
 from clip_generator.common_functions import getDuration
 
@@ -73,10 +74,19 @@ def cutAudioIntoXSecondsParts(x: str):
         f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_clip}' -preset ultrafast -segment_time 00:00:{x} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}S{x}_clip_audio%01d.mp4'")
 
 
-# TODO needs tests
 def cut_audio_into_x_time_parts():
-    os.system(
-        f"ffmpeg -loglevel error -stats -y -i '{dirs.dir_audio_stream}' -preset ultrafast -segment_time {dirs.hh_mm_ss_for_trimmer} -f segment -strict -2  -map 0 -c:a aac '{dirs.dirAudioParts}stream_audio%01d.mp4'")
+    # Get the duration of the input video file
+    input_duration = common_functions.getDuration(dirs.dir_audio_stream)
+    offset = dirs.get_second()
+
+    # Calculate the number of parts to split the video into
+    num_parts = common_functions.calculate_part_audio_files(input_duration, dirs.max_duration_for_stream_trimmer)
+
+    # Cut the video into parts of duration `duration + offset`
+    for i in range(num_parts):
+        start_time = i * dirs.max_duration_for_stream_trimmer
+        part_file = f"{dirs.dirAudioParts}stream_audio_{i}.mp4"
+        cut_video(dirs.dir_audio_stream, part_file, start_time, dirs.max_duration_for_stream_trimmer + offset)
 
 
 # Input: Int: length of cut audio from the last seconds
