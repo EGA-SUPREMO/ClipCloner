@@ -5,6 +5,7 @@ from tests.order_tests import load_ordered_tests
 import tests.testChopperGeneratesFilesWithRightDuration as testChopper
 import tests.testCutVideoIntoSeparateFiles as cutVideoIntoSeparateFiles
 import tests.testTrimmerGeneratesFilesWithRightDuration as testTrimmer
+import tests.testChopperCutsWithRightDuration as testChopperCutWithRightDuration
 import tests.unit_tests.testCorrelationForTrim as testUnitTrimmer
 import tests.unit_tests.testOffsetWriteSortedValues as testWriteSortedValues
 import tests.unit_tests.testCutAudio as testCutAudio
@@ -56,6 +57,7 @@ def run_tests(options="ni"):
         suite.addTest(unittest.makeSuite(testDownload.TestCorrectDownload))
 
     suite.addTest(unittest.makeSuite(testAudio.TestAudioInfo))
+    suite.addTest(unittest.makeSuite(testChopperCutWithRightDuration.TestChopperCutsWithRightDuration))
     suite.addTest(unittest.makeSuite(cutVideoIntoSeparateFiles.TestCutVideoIntoSeparateFiles))
 
     if "fast" not in options:
