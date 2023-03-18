@@ -33,7 +33,7 @@ def cut_audio(input_file: str, output_file: str, start_time: float, duration: fl
     subprocess.run(command)
 
 
-# TDOO Needs tessts also duplicate
+# TODO duplicate, but it has tests
 def cut_video(input_file: str, output_file: str, start_time: float, duration: float, filter_complex=None):
     if filter_complex is None:
         filter_complex = []

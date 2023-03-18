@@ -23,7 +23,7 @@ def removeAll(folder_path):
         if path.is_file():
             path.unlink()
         elif path.is_dir():
-            rmtree(path)
+            rmtree(path, ignore_errors=True)
 
     os.makedirs(dirs.dirAudioParts, exist_ok=True)
     os.makedirs(dirs.dirFixedAudioParts, exist_ok=True)
