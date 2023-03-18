@@ -170,9 +170,10 @@ def get_correlation(end_correlation, input_stream, start_correlation):
 
 def remove_credits_offsets(start_offset: str, end_offset: str):
     common_functions.removeAll(dirs.dir_temp_files)
-    
+
     dirs.offset_clip_start = int(start_offset)
     dirs.offset_clip_end = int(end_offset)
+    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)
 
     if dirs.offset_clip_start == 0 and dirs.offset_clip_end == 0:
         chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
@@ -181,7 +182,6 @@ def remove_credits_offsets(start_offset: str, end_offset: str):
     new_clip_dir = dirs.dir_temp_files + "clip_with_offsets.mkv"
     new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
 
-    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)
 
     chopper.chop(dirs.dir_clip, new_clip_dir, str(dirs.offset_clip_start),
                  str(dirs.current_duration_clip - dirs.offset_clip_end))
@@ -189,3 +189,5 @@ def remove_credits_offsets(start_offset: str, end_offset: str):
 
     dirs.dir_clip = new_clip_dir
     dirs.dir_audio_clip = new_audio_clip_dir
+
+    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)

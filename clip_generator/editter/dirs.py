@@ -8,7 +8,7 @@ scale_trim = 3
 offset_clip_end = 0
 offset_clip_start = 0
 
-hh_mm_ss_for_trimmer = "01:30:00"
+hh_mm_ss_for_trimmer = "01:20:00"
 
 dir_temp_files = "clip_generator/editter/temp/"
 
