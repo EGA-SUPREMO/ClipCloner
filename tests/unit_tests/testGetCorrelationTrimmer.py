@@ -17,14 +17,14 @@ class TestGetCorrelationTrimmer(unittest.TestCase):
         def mock_chop(*args):
             pass
 
-        def mock_find_limits_for_trim(*args):
+        def mock_get_timestamps_for(*args):
             return 0, 10
 
         def mock_exist(*args):
             return dirs.dir_end_only_untrimmed_stream == args[0]
 
-        with unittest.mock.patch("clip_generator.editter.trimmer.find_limits_for_trim",
-                                 side_effect=mock_find_limits_for_trim):
+        with unittest.mock.patch("clip_generator.editter.trimmer.get_timestamps_for",
+                                 side_effect=mock_get_timestamps_for):
             with unittest.mock.patch("clip_generator.editter.chopper.chop", side_effect=mock_chop):
                 with unittest.mock.patch("os.path.exists", side_effect=mock_exist):
                     # Call the function with the given inputs
@@ -50,7 +50,7 @@ class TestGetCorrelationTrimmer(unittest.TestCase):
         def mock_set_audio_infos_trim_end(*args):
             return
 
-        def mock_find_limits_for_trim(*args):
+        def mock_get_timestamps_for(*args):
             return 0, 10
 
         def mock_chop(*args):
@@ -60,7 +60,7 @@ class TestGetCorrelationTrimmer(unittest.TestCase):
             return False
 
         with unittest.mock.patch("clip_generator.editter.trimmer.check_correlation_for_trim", side_effect=mock_check_correlation_for_trim):
-            with unittest.mock.patch("clip_generator.editter.trimmer.find_limits_for_trim", side_effect=mock_find_limits_for_trim):
+            with unittest.mock.patch("clip_generator.editter.trimmer.get_timestamps_for", side_effect=mock_get_timestamps_for):
                 with unittest.mock.patch("clip_generator.editter.chopper.chop", side_effect=mock_chop):
                     with unittest.mock.patch("clip_generator.editter.audio_info.set_audio_infos_trim_start", side_effect=mock_set_audio_infos_trim_start):
                         with unittest.mock.patch("clip_generator.editter.audio_info.set_audio_infos_trim_end", side_effect=mock_set_audio_infos_trim_end):
