@@ -26,17 +26,17 @@ class TestCorrelationForTrim(unittest.TestCase):
         dirs.update_phase(0)
         trimmer.current_stream = dirs.dir_stream
 
-        from_second, to_second = trimmer.find_limits_for_trim("only_start")
+        from_second, to_second = trimmer.get_timestamps_for("only_start")
         self.assertEqual(from_second, 10.548, msg="From second in only start type aren't equal to expected")
         self.assertEqual(to_second, 10.548 + dirs.get_second(),
                          msg="To second in only start type aren't equal to expected")
 
-        from_second, to_second = trimmer.find_limits_for_trim("only_end")
+        from_second, to_second = trimmer.get_timestamps_for("only_end")
         self.assertEqual(from_second, 112.72033333333333 - dirs.get_second(),
                          msg="From second in only end type aren't equal to expected")
         self.assertEqual(to_second, 112.72033333333333, msg="To second in only end type aren't equal to expected")
 
-        from_second, to_second = trimmer.find_limits_for_trim("full")
+        from_second, to_second = trimmer.get_timestamps_for("full")
         self.assertEqual(from_second, 10.048, msg="From second in full type aren't equal to expected")
         self.assertEqual(to_second, 113.72033333333333, msg="To second in full type aren't equal to expected")
 
@@ -67,7 +67,7 @@ class TestCorrelationForTrim(unittest.TestCase):
         trimmer.current_stream = dirs.dir_stream
 
         get_alignment_info_mock.return_value = [[[], {'pad': 10.048, 'pad_post': 7.302666666666667}]]
-        _, _, start_corr, end_corr = trimmer.find_timestamps_for_trim(True)
+        _, _, start_corr, end_corr = trimmer.set_timestamps_for_trim(True)
         self.assertAlmostEqual(start_corr, 0.859, 2,
                                msg="Start correlation is not equal to expected " + str(start_corr))
         self.assertAlmostEqual(end_corr, 0.859, 2,
@@ -95,7 +95,7 @@ class TestCorrelationForTrim(unittest.TestCase):
         correlate_mock.return_value = 0.2
         get_last_seconds_for_ffmpeg_argument_to_mock.return_value = 60
 
-        TestCase.assertRaises(self, Exception, trimmer.find_timestamps_for_trim, True, 10)
+        TestCase.assertRaises(self, Exception, trimmer.set_timestamps_for_trim, True, 10)
 
         dirs.dir_audio_clip = dirs.dir_temp_files + "clip_audio.mp4"
 

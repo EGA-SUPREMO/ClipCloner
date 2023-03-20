@@ -17,19 +17,27 @@ def trim_to_clip(is_stream_a_video=False, offset_credits=0, phase=0):
 
     dirs.update_phase(phase)
 
+    set_current_stream(is_stream_a_video)
+    set_start_and_end_clip(offset_credits)
+    set_timestamps_for_trim(is_stream_a_video, offset_credits)
+
+    return get_timestamps_for("full")
+
+
+# TODO needs tests
+def set_current_stream(is_stream_a_video: bool):
+    global current_stream
     current_stream = dirs.dir_worstaudio_stream
     if is_stream_a_video:
         current_stream = dirs.dir_stream
         chopper.remove_video(dirs.dir_stream, dirs.dir_audio_stream)
 
+
+# TODO needs tests
+def set_start_and_end_clip(offset_credits: int):
     chopper.cut_audio(dirs.dir_audio_clip, dirs.dir_current_start_clip, 0.5, dirs.get_second())
-    chopper.cutLastSecondsAudio(dirs.get_second(), int(offset_credits))
+    chopper.cutLastSecondsAudio(dirs.get_second(), offset_credits)
     chopper.fixAudioParts()
-
-    find_timestamps_for_trim(is_stream_a_video, int(offset_credits))
-
-    #common_functions.removeAll(dirs.dir_temp_files)
-    return find_limits_for_trim("full")
 
 
 def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_output, dir_clip):
@@ -49,7 +57,7 @@ def check_correlation_at(from_second, to_second, dir_stream_input, dir_stream_ou
     return correl
 
 
-def find_limits_for_trim(limit_type: str):
+def get_timestamps_for(limit_type: str):
     match limit_type:
         case "only_start":
             from_second = audio_info.infosTrim[0][0][1]['pad']
@@ -72,12 +80,12 @@ def find_limits_for_trim(limit_type: str):
 
 
 def check_correlation_for_trim(limit_type: str, dir_input_stream: str, dir_output_stream: str, dir_clip: str):
-    from_second, to_second = find_limits_for_trim(limit_type)
+    from_second, to_second = get_timestamps_for(limit_type)
 
     return check_correlation_at(from_second, to_second, dir_input_stream, dir_output_stream, dir_clip)
 
 
-def find_timestamps_for_trim(contains_video=False, offset_credits=0):
+def set_timestamps_for_trim(contains_video=False, offset_credits=0):
     clip_duration = common_functions.getDuration(dirs.dir_audio_clip) - 5 - offset_credits
     start_correlation = 0
     end_correlation = 0
@@ -91,7 +99,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
         audio_info.misalignment = audio_info.misalignment + 2000
         audio_info.sample_rate += 4000
 
-        from_second, to_second = find_limits_for_trim("full")
+        from_second, to_second = get_timestamps_for("full")
         stream_duration = to_second - from_second
 
         if audio_info.misalignment > 8000:
@@ -103,7 +111,7 @@ def find_timestamps_for_trim(contains_video=False, offset_credits=0):
 
         if (correct_trim and stream_duration >= clip_duration) or audio_info.misalignment > 8000:
             audio_info.misalignment = 6000
-            from_second, to_second = find_limits_for_trim("full")
+            from_second, to_second = get_timestamps_for("full")
             if not contains_video:
                 clip_generator.editter.info_processor.write_infos_trim(from_second, to_second)
                 clip_generator.editter.info_processor.write_correlation(start_correlation, end_correlation)
@@ -126,7 +134,7 @@ def get_correlation(end_correlation, input_stream, start_correlation):
         start_correlation = check_correlation_for_trim("only_start", current_stream, dirs.dir_current_start_stream,
                                                        dirs.dir_current_start_clip)
     if start_correlation > 0.8 and not os.path.exists(dirs.dir_start_only_untrimmed_stream):
-        from_second, __ = find_limits_for_trim("only_start")
+        from_second, __ = get_timestamps_for("only_start")
         chopper.chop(current_stream, dirs.dir_start_only_untrimmed_stream, from_second, "999999999")
         input_stream = dirs.dir_start_only_untrimmed_stream
 
@@ -135,7 +143,7 @@ def get_correlation(end_correlation, input_stream, start_correlation):
         end_correlation = check_correlation_for_trim("only_end", current_stream, dirs.dir_current_end_stream,
                                                      dirs.dir_current_end_clip)
     if end_correlation > 0.8 and not os.path.exists(dirs.dir_end_only_untrimmed_stream):
-        __, to_second = find_limits_for_trim("only_end")
+        __, to_second = get_timestamps_for("only_end")
         chopper.chop(current_stream, dirs.dir_end_only_untrimmed_stream, "0", to_second)
         input_stream = dirs.dir_end_only_untrimmed_stream
 
