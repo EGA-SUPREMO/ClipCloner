@@ -1,5 +1,6 @@
 import sys
 
+import clip_generator.editter.auto_editter
 import clip_generator.editter.dirs as dirs
 import clip_generator.descript.maini as maini
 import clip_generator.downloader as downloader
@@ -16,4 +17,4 @@ if __name__ == '__main__':
     from_second, to_second = trimmer.trim_to_clip(False)
     downloader.download_stream(maini.stream_links[0], from_second, to_second)
 
-    trimmer.auto_edit()
+    clip_generator.editter.auto_editter.auto_edit()

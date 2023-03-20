@@ -1,3 +1,4 @@
+import clip_generator.editter.auto_editter
 import clip_generator.editter.trimmer as trimmer
 import sys
 
@@ -9,4 +10,4 @@ if __name__ == '__main__':
     except IndexError:
         print("error. Not enough arguments")
 
-    trimmer.auto_edit()
+    clip_generator.editter.auto_editter.auto_edit()
