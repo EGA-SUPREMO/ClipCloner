@@ -96,18 +96,13 @@ def set_timestamps_for_trim(contains_video=False, offset_credits=0):
         start_correlation, end_correlation, input_stream = get_correlation(end_correlation, input_stream,
                                                                            start_correlation)
 
-        audio_info.misalignment = audio_info.misalignment + 2000
-        audio_info.sample_rate += 4000
+        audio_info.increase_accuracy()
 
-        from_second, to_second = get_timestamps_for("full")
-        stream_duration = to_second - from_second
+        stream_duration = get_stream_duration()
 
-        if audio_info.misalignment > 8000:
-            print("Error, wrong files perhaps?")
-
-            if stream_duration <= clip_duration:
-                print("Wrong match, stream duration is smaller than clip duration")
-                raise Exception("Clip duration is significantly bigger than stream duration")
+        if audio_info.misalignment > 8000 and stream_duration <= clip_duration:
+            print("Wrong match, stream duration is smaller than clip duration")
+            raise Exception("Clip duration is significantly bigger than stream duration")
 
         if (correct_trim and stream_duration >= clip_duration) or audio_info.misalignment > 8000:
             audio_info.misalignment = 6000
@@ -117,6 +112,13 @@ def set_timestamps_for_trim(contains_video=False, offset_credits=0):
                 clip_generator.editter.info_processor.write_correlation(start_correlation, end_correlation)
 
             return from_second, to_second, start_correlation, end_correlation
+
+
+# TODO NO TESTS
+def get_stream_duration() -> float:
+    from_second, to_second = get_timestamps_for("full")
+    stream_duration = to_second - from_second
+    return stream_duration
 
 
 # TODO NO TESTS USED
@@ -148,28 +150,3 @@ def get_correlation(end_correlation, input_stream, start_correlation):
         input_stream = dirs.dir_end_only_untrimmed_stream
 
     return start_correlation, end_correlation, input_stream
-
-
-def remove_credits_offsets(start_offset: str, end_offset: str):
-    common_functions.removeAll(dirs.dir_temp_files)
-
-    dirs.offset_clip_start = int(start_offset)
-    dirs.offset_clip_end = int(end_offset)
-    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)
-
-    if dirs.offset_clip_start == 0 and dirs.offset_clip_end == 0:
-        chopper.remove_video(dirs.dir_clip, dirs.dir_audio_clip)
-        return
-
-    new_clip_dir = dirs.dir_temp_files + "clip_with_offsets.mkv"
-    new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
-
-
-    chopper.chop(dirs.dir_clip, new_clip_dir, str(dirs.offset_clip_start),
-                 str(dirs.current_duration_clip - dirs.offset_clip_end))
-    chopper.remove_video(new_clip_dir, new_audio_clip_dir)
-
-    dirs.dir_clip = new_clip_dir
-    dirs.dir_audio_clip = new_audio_clip_dir
-
-    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)

@@ -115,3 +115,8 @@ def get_last_seconds_for_ffmpeg_argument_to(file, seconds: int):
     return float(getDuration(file)) - seconds
 
 
+# todo needs tests
+def increase_accuracy():
+    global misalignment, sample_rate
+    misalignment = misalignment + 2000
+    sample_rate += 4000

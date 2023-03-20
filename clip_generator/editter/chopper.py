@@ -3,9 +3,10 @@ import os
 import subprocess
 
 import clip_generator.editter.dirs as dirs
-from clip_generator import common_functions
+from clip_generator import common_functions, common_functions as common_functions
 from clip_generator.common_functions import remove_file_extension
 from clip_generator.common_functions import getDuration
+from clip_generator.editter import dirs as dirs
 
 
 def remove_video(dir_input: str, dir_output: str):
@@ -152,3 +153,26 @@ def cut_video_into_separate_files_with_increased_speed(input_video: str, cut_tim
         cut_video(input_video, output_video, start_time, duration, ["-filter_complex",
                                                                     "[0:v]setpts=0.9*PTS[v];[0:a]atempo=1.1[a]",
                                                                     "-map", '[v]', "-map", '[a]'])
+
+
+def remove_credits_offsets(start_offset: str, end_offset: str):
+    common_functions.removeAll(dirs.dir_temp_files)
+
+    dirs.offset_clip_start = int(start_offset)
+    dirs.offset_clip_end = int(end_offset)
+    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)
+
+    if dirs.offset_clip_start == 0 and dirs.offset_clip_end == 0:
+        remove_video(dirs.dir_clip, dirs.dir_audio_clip)
+        return
+
+    new_clip_dir = dirs.dir_temp_files + "clip_with_offsets.mkv"
+    new_audio_clip_dir = dirs.dir_temp_files + "clip_audio_with_offsets.mp4"
+
+    chop(dirs.dir_clip, new_clip_dir, str(dirs.offset_clip_start), str(dirs.current_duration_clip - dirs.offset_clip_end))
+    remove_video(new_clip_dir, new_audio_clip_dir)
+
+    dirs.dir_clip = new_clip_dir
+    dirs.dir_audio_clip = new_audio_clip_dir
+
+    dirs.current_duration_clip = common_functions.getDuration(dirs.dir_clip)

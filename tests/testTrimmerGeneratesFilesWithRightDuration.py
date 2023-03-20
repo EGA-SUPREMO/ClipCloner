@@ -2,6 +2,7 @@ import unittest
 
 from pathlib import Path
 
+import clip_generator.editter.chopper
 import clip_generator.editter.trimmer as trimmer
 import clip_generator.editter.dirs as dirs
 
@@ -20,7 +21,7 @@ class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
         dirs.dir_stream = configs.example_test_folder + "stream.mkv"
         dirs.dir_audio_clip = dirs.dir_temp_files + "audio_clip.mp4"
 
-        trimmer.remove_credits_offsets("0", "0")
+        clip_generator.editter.chopper.remove_credits_offsets("0", "0")
         start, end = trimmer.trim_to_clip(True)
 
         duration = end - start
@@ -32,7 +33,7 @@ class TestTrimmerGeneratesFilesWithRightDuration(unittest.TestCase):
         dirs.dir_worstaudio_stream = configs.example_test_folder + "worstaudio_stream.mkv"
         dirs.dir_audio_clip = dirs.dir_temp_files + "audio_clip.mp4"
 
-        trimmer.remove_credits_offsets("0", "0")
+        clip_generator.editter.chopper.remove_credits_offsets("0", "0")
         from_second, to_second = trimmer.trim_to_clip(False, 0, 1)
         self.assertAlmostEqual(2853.94, from_second, delta=0.1, msg="REAL Trimmed stream from worstaudio doesnt match duration")
         self.assertAlmostEqual(3092.89, to_second, delta=0.1, msg="REAL Trimmed stream from worstaudio doesnt match duration")

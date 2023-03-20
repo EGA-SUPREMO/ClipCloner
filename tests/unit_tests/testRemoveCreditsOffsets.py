@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
-import clip_generator.editter.trimmer as trimmer
+
+import clip_generator.editter.chopper
 from tests.configs import setUpModule
 
 
@@ -18,7 +19,7 @@ class TestRemoveCreditsOffsets(unittest.TestCase):
         end_offset = '20'
 
         # Call the function
-        trimmer.remove_credits_offsets(start_offset, end_offset)
+        clip_generator.editter.chopper.remove_credits_offsets(start_offset, end_offset)
 
         # Check that chopper.chop() was called with the expected arguments
         expected_chop_args = ('tests/Examples/clip.mkv', 'tests/Clips/temp/clip_with_offsets.mkv', '10', '90')
@@ -38,7 +39,7 @@ class TestRemoveCreditsOffsets(unittest.TestCase):
         end_offset = '0'
 
         # Call the function
-        trimmer.remove_credits_offsets(start_offset, end_offset)
+        clip_generator.editter.chopper.remove_credits_offsets(start_offset, end_offset)
 
         # Check that chopper.remove_video() was called with the expected arguments
         expected_remove_video_args = ('tests/Examples/clip.mkv', 'tests/Clips/temp/clip_audio.mp4')
