@@ -231,3 +231,16 @@ def append_json(value):
     with open(filepath, 'w') as f:
         json.dump(dic, f)
         f.close()
+
+
+def remove_close_numbers_by_abs_diff(nums):
+    if not nums:
+        return []
+
+    output = [nums[0]]  # add first number to output list
+
+    for num in nums[1:]:
+        if all(abs(num - prev) > 0.5 for prev in output):
+            output.append(num)
+
+    return output
