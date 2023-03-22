@@ -32,7 +32,6 @@ def curate_results(offsets):
 
     offsets = duplicate_tuples_to_be_merged(offsets, merged_tuple_range)
     offsets = remove_wrong_matches(offsets, merged_tuple_range)
-    print(offsets)
     offsets = deduce_timestamps_start(offsets)
     offsets = deduce_timestamps_end(offsets)
 
