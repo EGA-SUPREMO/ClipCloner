@@ -1,25 +1,22 @@
 YouTube Video Copy Script
 This Python script is designed to process YouTube clips, allowing for various functionalities such as downloading the specified clip, then the stream, and performing the same video edits on the stream as the original.
 
-Prerequisites
-Python 3.x
-Additional Python packages used within the script (dependencies):
-maini
-downloader
-chopper
-clip_generator
-trimmer
-Usage
+## Prerequisites
+* Python 3.x
+* ffmpeg
+### Additional Python packages used within the script (dependencies):
+* yt-dlp
+* [audalign](https://github.com/benfmiller/audalign)
+
+## Usage
 Ensure you have the necessary prerequisites installed.
 
 Run the script using the following command:
 
-bash
-Copy code
 python script.py <clip_id> <arg2> <arg3>
 Replace <clip_id> with the ID of the YouTube video you want to process.
 <arg2> and <arg3> are optional arguments that may be required based on the specific functionality of the script.
-The script will execute the following actions in order:
+#### The script will execute the following actions in order:
 
 Run the main process on the specified clip.
 Download the specified clip and related stream copies.
