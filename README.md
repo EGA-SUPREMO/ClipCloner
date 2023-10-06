@@ -24,6 +24,5 @@ Replace <youtube.com> with the ID of the YouTube video you want to process.
 * Trim the video based on specific criteria.
 * Cut if necessary the trimmed stream to match as closely as possible the original clip.
 
-
-
-
+License
+This script is licensed under [the GNU General Public License (GPL) version 3.](https://www.gnu.org/licenses/gpl-3.0.html)
