@@ -23,7 +23,7 @@ python3 -m clip_generator.main 'https://www.youtube.com/watch?v=' 0 0
 ```
 
 Replace <youtube.com> with the ID of the YouTube video you want to process.
-<arg2> and <arg3> are required arguments that means the seconds offset, in case the clip has an intro or outro, if in doubt, use 0.
+<arg2> and <arg3> are required arguments that means the seconds offset, in case the clip has an intro or outro, in doubt, use 0.
 #### The script will execute the following actions in order:
 
 * Run the main process on the specified clip.
@@ -39,6 +39,14 @@ python3 -m tests.runner ""
 ```
 
 This command will execute the test runner for the script.
+
+### Use Case
+This script was made the intention of translating as effortless as possible Hololive clips by:
+
+* Creating a description file that complies the [Hololive's clippers guidelines](https://hololivepro.com/en/terms/)
+* Finding the timestamps from which moment the clip was extracted
+* Automatically cutting the raw stream into diferent files for easy editing
+* And finally downloading the thumbnail to serve as a template for the translated clip
 
 ## License
 This script is licensed under [the GNU General Public License (GPL) version 3.](https://www.gnu.org/licenses/gpl-3.0.html)
