@@ -40,13 +40,15 @@ python3 -m tests.runner ""
 
 This command will execute the test runner for the script.
 
-### Use Case
-This script was made the intention of translating as effortless as possible Hololive clips by:
+## Use Case
+This script was developed with the aim of simplifying the translation process for Hololive clips by:
 
-* Creating a description file that complies the [Hololive's clippers guidelines](https://hololivepro.com/en/terms/)
-* Finding the timestamps from which moment the clip was extracted
-* Automatically cutting the raw stream into diferent files for easy editing
-* And finally downloading the thumbnail to serve as a template for the translated clip
+* Generating a description file that aligns with [Hololive's clippers guidelines](https://hololivepro.com/en/terms/)
+* Identifying the specific timestamps from which the clip was extracted.
+* Automatically segmenting the raw stream into distinct files to facilitate simple editing
+* Downloading the thumbnail to serve as a template for the translated clip.
+
+However, please be aware that utilizing this script may carry a risk of YouTube demonetization due to reused content.
 
 ## License
 This script is licensed under [the GNU General Public License (GPL) version 3.](https://www.gnu.org/licenses/gpl-3.0.html)
