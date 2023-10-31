@@ -50,5 +50,9 @@ This script was developed with the aim of simplifying the translation process fo
 
 **However, please be aware that utilizing this script may carry a risk of YouTube demonetization due to reused content.**
 
+### Youtube Channels that used this script
+* [UsaKen Translations](https://www.youtube.com/@UsaKenTranslations) (For some videos)
+* [ElNo Studió](https://www.youtube.com/@elnostudio8994) (All of them)
+
 ## License
 This script is licensed under [the GNU General Public License (GPL) version 3.](https://www.gnu.org/licenses/gpl-3.0.html)
