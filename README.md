@@ -2,7 +2,7 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 # ClipCloner
 ![screenshot](https://github.com/EGA-SUPREMO/ClipCloner/blob/master/Screenshot%202024-04-21%2018%3A56%3A16.webp)
-* <sub><sup>Note: it does not burn subs or translates them</sub></sup>
+* <sub><sup>Note: it does not burn or translates subtitles</sub></sup>
 
 This Python script is designed to process YouTube clips, allowing for various functionalities such as downloading the specified clip, then the stream, and performing the same video edits on the stream as the original.
 
