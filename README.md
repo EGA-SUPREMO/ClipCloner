@@ -2,6 +2,8 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 # ClipCloner
 ![screenshot](https://github.com/EGA-SUPREMO/ClipCloner/blob/master/Screenshot%202024-04-21%2018%3A56%3A16.webp)
+* <sub><sup>Note: it does not burn subs or translates them</sub></sup>
+
 This Python script is designed to process YouTube clips, allowing for various functionalities such as downloading the specified clip, then the stream, and performing the same video edits on the stream as the original.
 
 This script is primarily designed to copy clips from Hololive streams in mind. However, it can be adapted for use with other streamers as well. To achieve this, you will need to modify the relevant files located within the 'descript' folder.
@@ -12,8 +14,9 @@ For instance, it assumes that the first YouTube link in the clip description cor
 * Python 3.x
 * ffmpeg
 ### Additional Python packages used within the script (dependencies):
-* yt-dlp
+* [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 * [audalign](https://github.com/benfmiller/audalign)
+* [align-videos-by-sound](https://github.com/align-videos-by-sound/align-videos-by-sound)
 
 ## Usage
 Ensure you have the necessary prerequisites installed.
