@@ -4,6 +4,8 @@
 ![screenshot](https://github.com/EGA-SUPREMO/ClipCloner/blob/master/Screenshot%202024-04-21%2018%3A56%3A16.webp)
 * <sub><sup>Note: it does not burn or translates subtitles</sub></sup>
 
+**Please be aware that utilizing this script may carry a risk of YouTube demonetization due to reused content, EVEN FOR THE ORIGINAL CLIPPER.**
+
 This Python script is designed to process YouTube clips, allowing for various functionalities such as downloading the specified clip, then the stream, and performing the same video edits on the stream as the original.
 
 This script is primarily designed to copy clips from Hololive streams in mind. However, it can be adapted for use with other streamers as well. To achieve this, you will need to modify the relevant files located within the 'descript' folder.
@@ -53,11 +55,11 @@ This script was developed with the aim of simplifying the translation process fo
 * Automatically segmenting the raw stream into distinct files to facilitate simple editing
 * Downloading the thumbnail to serve as a template for the translated clip.
 
-**However, please be aware that utilizing this script may carry a risk of YouTube demonetization due to reused content.**
+**However, please be aware that utilizing this script may carry a risk of YouTube demonetization due to reused content, FOR THE ORIGINAL CLIPPER and for the channel that reuploads the clips.**
 
 ### Youtube Channels that used this script
 * [UsaKen Translations](https://www.youtube.com/@UsaKenTranslations) (For some videos)
-* [ElNo Studió](https://www.youtube.com/@elnostudio8994) (All of them)
+* [ElNo Studió](https://www.youtube.com/@elnostudio8994) (All of them, but only using for automatic description)
 
 ## License
 This script is licensed under [the GNU General Public License (GPL) version 3.](https://www.gnu.org/licenses/gpl-3.0.html)
