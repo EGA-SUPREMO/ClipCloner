@@ -8,9 +8,9 @@
 
 This Python script is designed to process YouTube clips, allowing for various functionalities such as downloading the specified clip, then the stream, and performing the same video edits on the stream as the original.
 
-This script is primarily designed to copy clips from Hololive streams in mind. However, it can be adapted for use with other streamers as well. To achieve this, you will need to modify the relevant files located within the 'descript' folder.
+This script is primarily designed to copy clips from Hololive streams in mind. However, it can be adapted for use with other streamers as well. To achieve this, you will need to modify the relevant files located within the 'descript' folder. For instance, it assumes that the first YouTube link in the clip description corresponds to the source stream. This assumption aligns with the [Hololive's clippers guidelines](https://hololivepro.com/en/terms/). If customization is needed, feel free to reach out—I'd be delighted to assist.
 
-For instance, it assumes that the first YouTube link in the clip description corresponds to the source stream. This assumption aligns with the [Hololive's clippers guidelines](https://hololivepro.com/en/terms/). If customization is needed, feel free to reach out—I'd be delighted to assist.
+**Also this works like shit, 1/4 does a good job the rest of the time either crashes or doesnt auto-edit it right**
 
 ## Prerequisites
 * Python 3.x
